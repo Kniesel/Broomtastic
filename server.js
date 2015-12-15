@@ -1,9 +1,6 @@
 var express = require('express');
 var app = express();
 
-var Auth0Strategy = require('passport-auth0');
-var passport = require('passport');
-
 
 
 var server = app.listen(3000, function () {
@@ -26,31 +23,5 @@ var server = app.listen(3000, function () {
 
 
 
-var strategy = new Auth0Strategy({
-   domain:       'your-domain.auth0.com',
-   clientID:     'your-client-id',
-   clientSecret: 'your-client-secret',
-   callbackURL:  '/callback'
-  },
-  function(accessToken, refreshToken, extraParams, profile, done) {
-    // accessToken is the token to call Auth0 API (not needed in the most cases)
-    // extraParams.id_token has the JSON Web Token
-    // profile has all the information from the user
-    return done(null, profile);
-  }
-);
-
-passport.use(strategy);
-
-	// passport.use(new BasicStrategy(
-	//   function(userid, password, done) {
-	//     User.findOne({ username: userid }, function (err, user) {
-	//       if (err) { return done(err); }
-	//       if (!user) { return done(null, false); }
-	//       if (!user.verifyPassword(password)) { return done(null, false); }
-	//       return done(null, user);
-	//     });
-	//   }
-	// ));
 
 });
