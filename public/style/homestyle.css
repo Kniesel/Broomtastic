@@ -2,7 +2,7 @@
              src: url('../fonts/HarryP.ttf') format('truetype'); }
 
 body {	
-	background-image: url('../images/backgroundpic.jpg');
+	background-image: url('../img/backgroundpic.jpg');
 	}
 
 #wrapper {
