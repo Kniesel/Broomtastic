@@ -1,5 +1,34 @@
-TODO
-requirements (if any, e.g. db) 
-and how to start up the web-app
-(and how to test, if the app works: curl?)
-name of the author
+**************************
+** Names of the authors **
+**************************
+
+Johanna Kirchmaier
+Anja Bergmann
+
+
+
+******************
+** requirements **
+******************
+
+npm install
+
+	to install following node modules:
+		express
+		passport-http
+
+
+
+***************************
+** How to start the app? **
+***************************
+
+node server.js
+
+
+
+**********************************
+** How to test if it is working **
+**********************************
+
+After server.js is running, the address and port are printed to the command terminal. To test the server, try to access it by using a browser of your choice (but please not the internet explorer ...). 
