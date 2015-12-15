@@ -1,11 +1,12 @@
 var express = require('express');
 var app = express();
+var config = require('./config.js')
 
 
 
-var server = app.listen(3000, function () {
-	var host = server.address().address;
-	var port = server.address().port;
+var server = app.listen(config.port, function () {
+	var host = config.server;
+	var port = config.port;
 
 	console.log('Broomtastic is listening on http://%s:%s', host, port);
 	app.use(express.static('public'));
