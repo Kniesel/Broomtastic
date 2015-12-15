@@ -1,0 +1,5 @@
+TODO
+requirements (if any, e.g. db) 
+and how to start up the web-app
+(and how to test, if the app works: curl?)
+name of the author

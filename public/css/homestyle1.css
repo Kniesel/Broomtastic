@@ -1,0 +1,201 @@
+@font-face { font-family: 'DevilBreezeMedium';
+             src: url('../fonts/DevilBreezeMedium.ttf') format('truetype'); }
+
+@media only screen and (min-width:541px) and (max-width:773px){
+
+body {	
+	background-image: url('../images/backgroundpic.jpg');
+	}
+
+#wrapper {
+		max-width: 920px; 
+		width:90%;
+		margin: 0 auto;
+		background-size: 100%;
+		background-color: #9ba4c1;
+		color: #000000;
+		font-family: Play, Calibri, Arial;
+		}
+
+header { 
+		height: 3.5em;
+		background-color: #0d0c11; 
+		background-image: url('../images/headerpic.jpg');
+		background-size: 100%;
+		background-repeat: no-repeat;
+		font-size: 8vw;
+		max-height: 300px;
+		background-position: center;
+		}		
+		
+nav {	
+	overflow: hidden;
+	background-color: #0d0c11;
+	padding:1.63043478260%;
+	}
+
+ul#navi {
+		position: relative;
+		float: left;
+		left: 50%;
+		margin: 0 auto;
+		padding: 0;
+		}		
+		
+ul#navi li {
+		position: relative;
+		float: left;
+		right: 50%;
+		font-size: 1.1em;
+		font-family: DevilBreezeMedium, Play, Arial;
+		padding: 0.1em 1.0em;
+		display: inline;
+		}		
+		
+a.Navigation:link {
+					color: #FFFFFF;
+					text-decoration: none;
+					}		
+a.Navigation:visited{
+					color: #FFFFFF;
+					text-decoration: none;
+					}
+a.Navigation:hover{
+					color: #000000;
+					text-shadow: #FFFFFF 0 0 1em;
+					text-decoration: none;
+					}
+a.Navigation:active{
+					color: #FFFFFF;
+					text-decoration: none;
+					}
+
+
+aside {
+		display: none;
+		}
+
+section {	
+		float:left;
+		width: 100%;
+		font-weight: lighter;
+		}
+		
+section p {
+		line-height: 120%;
+		margin: 1em;
+		}
+		
+table {	
+		margin: 2em;
+		padding: 0.5em;
+		background-color: #b3bbd5;
+		
+	}
+
+td.tablepic { 
+			vertical-align: middle;
+			padding: 0.5em;
+			}
+			
+td.tabletext { 
+			padding: 0.5em;
+			float: left;
+			}
+			
+div#smartmenu { 
+	display: none;
+	}
+		
+footer {	
+		background-color: #18243a;
+		clear:both;
+		text-align: center;
+		color: #AAAAAA;
+		font-size: 0.6em;
+		padding: 1em 0em;
+		}
+		
+a.navfooter:link{	
+					color: #aaaaaa;
+					}		
+a.navfooter:visited{
+					color: #aaaaaa;
+					text-decoration: none;
+					}
+a.navfooter:hover{
+					color: #FFFFFF;
+					text-decoration: none;
+					}
+a.navfooter:active{
+					color: #aaaaaa;
+					text-decoration: none;
+					}
+
+h3 {	
+	font-size: 1.5em;
+	text-align: center;
+	margin: 1em;
+	}
+
+img#bandpic {	
+		width: 67.2%;
+ 		height: auto;
+		margin: 0em 6em;
+ 		}
+
+p#bandpictext {
+		font-size: 0.8em;
+		text-align: center;
+		margin: 0.2em 1em 2em;}
+		
+ul.liststyle {
+    list-style-image: url('../images/bluestar.png');
+	margin: 1em 3em 2em;
+}
+
+p.titles {
+	font-weight: bold;
+	font-size: 1em;
+	margin: 1em 3em 0em;
+}
+
+p.textweight {
+	font-style: italic;
+	font-weight: bold;
+}
+
+a.navdestination:link{	
+					color: #000000;
+					}		
+a.navdestination:visited{
+					color: #000000;
+					text-decoration: none;
+					}
+a.navdestination:hover{
+					color: #FFFFFF;
+					text-decoration: none;
+					}
+a.navdestination:active{
+					color: #000000;
+					text-decoration: none;
+					}
+
+.elastic-video {
+    position: relative;
+	padding-bottom: 55%;
+    padding-top: 15px;
+	height: 0;
+    overflow: hidden;
+	margin: 1em 2em;
+	}
+	
+.elastic-video iframe {
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+	height: 100%;
+	}
+					
+}

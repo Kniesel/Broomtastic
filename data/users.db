@@ -1,0 +1,13 @@
+{
+"1" :	{	"id":"1",
+			"username":"Sheld0r",
+			"email":"sheldon.cooper@flash.com",
+			"password":"alligator3"
+		},
+
+"2" :	{	"id":"2",
+			"username":"Dalek",
+			"email":"dalek@manhattan.net",
+			"password":"exterminate"
+		}
+}

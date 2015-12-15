@@ -1,0 +1,96 @@
+@font-face { font-family: 'HarryP';
+             src: url('../fonts/HarryP.ttf') format('truetype'); }
+
+body {	
+	background-image: url('../images/backgroundpic.jpg');
+	}
+
+#wrapper {
+		max-width: 1000px; 
+		width:90%;
+		margin: 0 auto;
+		background-size: 100%;
+		background-color: #9ba4c1;
+		color: #000000;
+		font-family: Calibri, Arial;
+		}
+
+header { 
+		height:100px;
+		background-image: url('../img/broomtastic_logo.jpg');
+		background-repeat: no-repeat;
+		background-position: left;
+		}
+
+
+nav {
+	height:100px;
+	width:722px;
+	background-color: #999999;
+	float:right;
+	}
+
+.navbar{
+	display: inline;
+}
+
+.navelement{
+
+
+}
+
+.authentication {
+	position: absolute;
+	display: none;
+}
+
+.authentication :hover {
+	display:block;
+}
+
+
+img#owl {
+		position: right;
+		}
+
+aside {
+		float: left;
+		width: 278px;
+		font-weight: normal;
+		margin-top: 3em;
+		}
+
+
+section {
+		float:right;
+		width: 722px;
+		font-weight: lighter;
+		background-color:#b3bbd5;
+		}
+
+		
+footer {	
+		background-color: #18243a;
+		clear:both;
+		text-align: center;
+		color: #AAAAAA;
+		font-size: 0.6em;
+		padding: 1em 0em;
+		}
+
+
+h1 {	
+	font-size: 3em;
+	text-align: center;
+	margin: 1em;
+	font-weight: normal;
+	font-family: HarryP;
+	}
+
+.titles{
+	font-size: 1em;
+	text-align: center;
+	margin: 1em;
+	font-weight: normal;
+	font-family: Arial;
+}
