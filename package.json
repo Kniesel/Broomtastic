@@ -1,15 +1,23 @@
 {
-  "name": "express",
+  "name": "broomtastic",
   "version": "1.0.0",
-  "description": "broomtastic project",
+  "description": "quidditch web shop",
   "main": "server.js",
   "scripts": {
-    "test": "testing",
-    "start": "node server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "AnjaBergmann_JohannaKirchmaier",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NewtScamander/Broomtastic.git"
+  },
+  "author": "anja bergmann & johanna kirchmaier",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NewtScamander/Broomtastic/issues"
+  },
+  "homepage": "https://github.com/NewtScamander/Broomtastic#readme",
   "dependencies": {
-    "passport-auth0": "^0.5.0"
+    "express": "^4.13.3",
+    "passport-http": "^0.3.0"
   }
 }
