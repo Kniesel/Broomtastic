@@ -24,3 +24,4 @@ The aim of our web-app is very simple: We provide an online webshop for Quidditc
 - Registration / Login
 - modify/beautify html --> make it responsive
 - data / database
+- test
