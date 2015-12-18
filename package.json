@@ -18,6 +18,7 @@
   "homepage": "https://github.com/NewtScamander/Broomtastic#readme",
   "dependencies": {
     "express": "^4.13.3",
+    "node-crud": "^2.0.10",
     "passport-http": "^0.3.0"
   }
 }
