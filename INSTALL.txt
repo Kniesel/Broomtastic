@@ -15,8 +15,10 @@ npm install
 
 	to install following node modules:
 		express
-		passport-http
 		node-crud
+		redis
+
+redis database
 
 
 
@@ -24,6 +26,9 @@ npm install
 ** How to start the app? **
 ***************************
 
+
+npm install
+start redis database
 node server.js
 
 

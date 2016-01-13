@@ -1,13 +1,12 @@
 {
-"1" :	{	"id":"1",
-			"username":"Sheld0r",
-			"email":"sheldon.cooper@flash.com",
-			"password":"alligator3"
+"doctor" :	{	
+			"username":"doctor",
+			"email":"anja.bergmann@edu.fh-joanneum.at",
+			"password":"1133"
 		},
 
-"2" :	{	"id":"2",
-			"username":"Dalek",
+"dalek" :	{	"username":"dalek",
 			"email":"dalek@manhattan.net",
-			"password":"exterminate"
+			"password":"1133"
 		}
 }
