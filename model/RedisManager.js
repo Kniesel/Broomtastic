@@ -1,12 +1,16 @@
-exports.init = function(redis) {
-	
-	RedisManager = exports.RedisManager = function() {
-		this.client = redis.createClient();
-		this.client.on('error', function (err) {
-			console.log('redis error – ' + client.host + ':' + client.port + ' – ' + err);
-		});
-		var usersfile = require('../data/users.db');
-		var fs = require("fs");
+var redis = require("redis")
+var fs = require("fs");
+var usersfile = require('../data/users.db');
+//var config einfügen später für port und server
+var port = 6379;
+var client = redis.createClient(port, "127.0.0.1")
+
+var RedisManager = function(res){
+	this.res = res
+}
+
+
+
 
 
 // check if the database is empty -> if empty -> fill initial obj from file
@@ -57,16 +61,16 @@ RedisManager.prototype.set = function(key, username, obj, callback) {
 }
 
 
-RedisManager.prototype.get = function(key, username, callback) {
+RedisManager.prototype.get = function(username) {
 //if(typeof(key) == 'string' && typeof(username) == 'string') {
-	this.client.hget("users", obj.username, function(err, obj) {
+	client.hget("users", username, function(err, obj) {
 		if(err) {
 			callback(err);
 		} else {
 			if(obj == null) {
 				callback(null)
 			} else {
-				callback(obj);
+				return obj;
 			}
 		}
 	});
@@ -112,7 +116,4 @@ RedisManager.prototype.get = function(key, username, callback) {
 // callback();
 // });
 // }
-console.log(redis);
-return new RedisManager();
-}
-}
+module.exports = RedisManager;

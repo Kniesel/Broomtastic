@@ -1,8 +1,4 @@
-var redis = require("redis")
-var RedisModule = require('../model/RedisManager.js');
-var RedisManager = RedisModule.init(redis);
-var port = 6379;
-var client = redis.createClient(port, "127.0.0.1")
+var RedisManager = require('../model/RedisManager.js');
 var Mailer = require('../helper/mailfordummies.js');
 var crypto = require('crypto');
 
@@ -13,6 +9,8 @@ var register = false;
 
 var UserController = function(username, userpassword, email){
 	
+	this.redisManager = new RedisManager(res);
+
 	if (email){
 		register = true;
 		console.log("Usercontroller: Register");
@@ -52,6 +50,7 @@ var UserController = function(username, userpassword, email){
 }
 
 UserController.prototype.get = function(){
+	var redisManager = this.redisManager;
 	try {
 		RedisManager.get("1", "username", function(result) {
 			if(result instanceof Error) {
