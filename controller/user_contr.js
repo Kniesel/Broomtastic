@@ -5,14 +5,26 @@ var port = 6379;
 var client = redis.createClient(port, "127.0.0.1")
 var mailer = require('../helper/mailfordummies.js');
 
-var user = 'user';
-var id = '123';
+var username = "";
+var password = "";
+var email = "";
 
 var UserController = function(username, userpassword){
-	console.log("Usercontroller")
-	this.username = username
-	this.userpassword = userpassword
-	alert("Usercontroller\n Req: " + req + "\nRes: " + res)
+	console.log("Usercontroller: Login");
+	this.username = username;
+	this.userpassword = userpassword;
+	console.log(username);
+	console.log(userpassword);
+}
+
+var UserController = function(username, userpassword, email){
+	console.log("Usercontroller: Register");
+	this.username = username;
+	this.userpassword = userpassword;
+	this.email = email;
+	console.log(username);
+	console.log(userpassword);
+	console.log(email);
 }
 
 UserController.prototype.get = function(){
@@ -30,4 +42,4 @@ UserController.prototype.get = function(){
 	}
 }
 
-module.exports.Usercontroller = UserController
+module.exports.UserController = UserController
