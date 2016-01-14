@@ -14,17 +14,28 @@
 			<header>
 				<nav>
 					<div class="dropdown">
+						
+
+
 						<button class="dropbutton">Sign in</button>
 						<div class="dropdown-content">
-							<form method="post" id="loginform" onsubmit="login()">
+							<form action="/login" method="post" id="loginform">
+
 								<p>Username</p>
-								<input class="inputforms" type="text" name="pk_username"><br>
+								<input class="inputforms" type="text" name="username"><br>
+
 								<p>Password</p>
 								<input class="inputforms" type="password" name="password">
+
 								<input class="inputforms" type="submit" value="Login">
+
 								<a class="inputforms" href="./register.html">Register</a>
+
 							</form>
 						</div>
+
+
+
 					</div>
 					<img id="owl" src="./img/owl.jpg" alt="Shopping Owl"/>
 				</nav>

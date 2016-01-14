@@ -9,16 +9,13 @@ var username = "";
 var password = "";
 var email = "";
 
-var UserController = function(username, userpassword){
-	console.log("Usercontroller: Login");
-	this.username = username;
-	this.userpassword = userpassword;
-	console.log(username);
-	console.log(userpassword);
-}
-
 var UserController = function(username, userpassword, email){
+	
+	if (email){
 	console.log("Usercontroller: Register");
+	} else {
+		console.log ("Usercontroller: Login");
+	}
 	this.username = username;
 	this.userpassword = userpassword;
 	this.email = email;

@@ -19,12 +19,26 @@ startup = function(){
 
 	app.use(bodyParser())
 
+	//User Registration
 	app.post('/register', function(req, res){
 		console.log("posting form")
 		var username = req.body.username;
 		var password = req.body.password;
+		var password2 = req.body.password2;
 		var email = req.body.email;
-		handlerController = new UserController.UserController(username, password, email);
+		if (password === password2){
+			handlerController = new UserController.UserController(username, password, email);
+		} else {
+			res.send("Registration error: Your entered passwords don't match.");
+		}
+	})
+
+	//User Login
+	app.post('/login', function(req, res){
+		console.log("posting form")
+		var username = req.body.username;
+		var password = req.body.password;
+		handlerController = new UserController.UserController(username, password);
 	})
 
 	//404-Error-Page
