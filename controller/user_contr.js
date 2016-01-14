@@ -53,12 +53,12 @@ var UserController = function(username, userpassword, email){
 
 UserController.prototype.get = function(){
 	try {
-		RedisManager.get(user, id, function(result) {
+		RedisManager.get("1", "username", function(result) {
 			if(result instanceof Error) {
 				var error = result;
 				throw error;
 			} else {
-				console.log(id) 
+				console.log("username") 
 			}
 		});
 	} catch (error) {

@@ -1,0 +1,2 @@
+Link von RedisManager:
+http://jordizle.com/lab/142/node-js-helper-class-for-node_redis
