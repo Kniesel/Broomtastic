@@ -13,15 +13,16 @@ var Mailer = function(){
 	);
 }
 
-Mailer.prototype.sendMail = function(){
+Mailer.prototype.sendMail = function(email, token){
 	//send mail
 	this.transporter.sendMail(
 		{
 			from: 'doctor@tardis.gallifrey',
-			to: 'anja.bergmann@edu.fh-joanneum.at',
+			to: email,
+			//to: 'anja.bergmann@edu.fh-joanneum.at',
 			//to: 'johannaelisabeth.kirchmaier@edu.fh-joanneum.at',
 			subject: 'Broomtastic Registration',
-			text: 'To confirm your e-mail address click on the following link: TO BE CONTINUED ...'
+			text: 'To confirm your e-mail address click on the following link: TO BE CONTINUED ... ' + token
 		}, function (err, info){
 			if (!err) {
 				console.log("[INFO] Message id: ", info.messageId)
