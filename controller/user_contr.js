@@ -21,7 +21,7 @@ var UserController = function(username, userpassword, email){
 	}
 
 	this.username = username;
-	this.userpassword = userpassword;
+	this.password = userpassword;
 
 	if (register){
 
@@ -40,7 +40,7 @@ var UserController = function(username, userpassword, email){
 		//TODO
 		//Prüfen, ob Username schon in der Datenbank ist
 		//Wenn Username vergeben --> Fehler
-		//Wenn Username frei --> in die DB schreiben, Token generieren
+		//Wenn Username frei --> in die DB schreiben, Token in die DB schreiben
 	} else {
 		//TODO
 		//Prüfen, ob Username in der Datenbank
