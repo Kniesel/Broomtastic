@@ -4,7 +4,8 @@ var config = require('../config')
 var registration = require ('../public/js/myscript.js')
 var express = require('express');
 var app = express();
-var registrationController = require ('./registrationController.js')
+var UserController = require ('./user_contr.js')
+var bodyParser = require ('body-parser')
 
 startup = function(){
 	console.log("Starting server ...")
@@ -18,16 +19,26 @@ startup = function(){
 
 	//404-Error-Page
 	app.use(function(req, res, next){
-		res.status(404).send('Sorry cannot find');
+		res.status(404).send('404 - Sorry cannot find page ' + req.url);
+		next();
 	});
 
 	//Error-Handler
 	app.use(function(err, req, res, next){
 		console.error(err.stack);
 		res.status(500).send('Suddenly a wild error appears');
+		next();
 	});
 
-	//registrationController
+	app.use(bodyParser)
+
+	app.all('/register', function(req, res){
+		res.end('JUHU')
+		Console.log("posting form")
+		var username = req.body.registername;
+		var password = req.body.loginpassword;
+		UserController = new UserController(username, password);
+	})
 
 })
 }

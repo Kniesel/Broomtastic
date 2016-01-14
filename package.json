@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/NewtScamander/Broomtastic#readme",
   "dependencies": {
+    "body-parser": "^1.14.2",
     "express": "^4.13.3",
     "node-crud": "^2.0.10",
     "nodemailer": "^2.0.0",
