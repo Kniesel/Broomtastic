@@ -1,23 +1,19 @@
 var http = require('http');
 var fs = require('fs');
-var config = require('../config')
-var registration = require ('../public/js/myscript.js')
+var config = require('../config');
+var registration = require ('../public/js/myscript.js');
 var express = require('express');
 var app = express();
-var UserController = require ('./user_contr.js')
-var bodyParser = require ('body-parser')
+var UserController = require ('./user_contr.js');
+var bodyParser = require ('body-parser');
 
 startup = function(){
 	console.log("Starting server ...")
 
-	var server = app.listen(config.port, function () {
-	var host = config.server;
-	var port = config.port;
-
-	console.log('Broomtastic is listening on http://%s:%s', host, port);
 	app.use(express.static('public'));
 
-	app.use(bodyParser())
+	app.use(bodyParser());
+	
 
 	//User Registration
 	app.post('/register', function(req, res){
@@ -54,7 +50,13 @@ startup = function(){
 		res.status(500).send('Suddenly a wild error appears');
 	});
 
-})
+	var server = app.listen(config.port, function () {
+		var host = config.server;
+		var port = config.port;
+
+		console.log('Broomtastic is listening on http://%s:%s', host, port);
+	})
+
 }
 
 

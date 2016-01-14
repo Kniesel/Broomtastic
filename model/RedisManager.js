@@ -15,37 +15,37 @@ var RedisManager = function(res){
 
 // check if the database is empty -> if empty -> fill initial obj from file
 
-		RedisManager.prototype.fillinData = function(){
-			db.hlen("users", function(err, obj){
-				if (err) {
-					console.log(err)
-				} else {
-					if (obj == 0) {
-						fs.readFile(usersfile, function(error, users){
-							if (error) {
-								console.log(error)
-							} else {
-								var users = JSON.parse(users)
-								var length = Object.keys(users).length
+// RedisManager.prototype.fillinData = function(){
+// 	db.hlen("users", function(err, obj){
+// 		if (err) {
+// 			console.log(err)
+// 		} else {
+// 			if (obj == 0) {
+// 				fs.readFile(usersfile, function(error, users){
+// 					if (error) {
+// 						console.log(error)
+// 					} else {
+// 						var users = JSON.parse(users)
+// 						var length = Object.keys(users).length
 
-								// loop which inserts obj into database
-								for(var i = 1; i <= length; i++) {
-									var tmpUser = users[i]
-									console.log(tmpUser)
+// 								// loop which inserts obj into database
+// 								for(var i = 1; i <= length; i++) {
+// 									var tmpUser = users[i]
+// 									console.log(tmpUser)
 
-									// store users into hash "users"
-									db.hset("users", tmpUser.username, JSON.stringify(tmpUser), function(errorSet, answer){
-										if (errorSet) {
-											console.log(errorSet)
-										}
-									})
-								}
-							}
-						})
-					}
-				}
-			})
-		}
+// 									// store users into hash "users"
+// 									db.hset("users", tmpUser.username, JSON.stringify(tmpUser), function(errorSet, answer){
+// 										if (errorSet) {
+// 											console.log(errorSet)
+// 										}
+// 									})
+// 								}
+// 							}
+// 						})
+// 			}
+// 		}
+// 	})
+// }
 
 
 RedisManager.prototype.set = function(key, username, obj, callback) {

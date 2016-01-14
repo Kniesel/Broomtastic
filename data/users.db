@@ -1,12 +1,12 @@
 {
 "1" :	{	
 			"username":"doctor",
-			"password":"1133"
+			"password":"1133",
 			"email":"anja.bergmann@edu.fh-joanneum.at"
 		},
 
 "2" :	{	"username":"dalek",
-			"password":"1133"
+			"password":"1133",
 			"email":"dalek@manhattan.net"
 		}
 }
