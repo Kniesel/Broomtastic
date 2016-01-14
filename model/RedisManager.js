@@ -11,43 +11,44 @@ var RedisManager = function(res){
 
 
 
+// fill data in database if it is empty
+RedisManager.prototype.fillinData = function(){
 
+	db.hlen("users", function(err, obj){
 
-// check if the database is empty -> if empty -> fill initial obj from file
+		if (err) {
+			console.log(err)
+		} else {
+			if (obj == 0) {
+				fs.readFile(usersfile, function(error, users){
+					if (error) {
+						console.log(error)
+					} else {
 
-// RedisManager.prototype.fillinData = function(){
-// 	db.hlen("users", function(err, obj){
-// 		if (err) {
-// 			console.log(err)
-// 		} else {
-// 			if (obj == 0) {
-// 				fs.readFile(usersfile, function(error, users){
-// 					if (error) {
-// 						console.log(error)
-// 					} else {
-// 						var users = JSON.parse(users)
-// 						var length = Object.keys(users).length
+						var users = JSON.parse(users)
+						var length = Object.keys(users).length
 
-// 								// loop which inserts obj into database
-// 								for(var i = 1; i <= length; i++) {
-// 									var tmpUser = users[i]
-// 									console.log(tmpUser)
+								// insert into database
+								for(var i = 1; i <= length; i++) {
+									var tmpUser = users[i]
+									console.log(tmpUser)
 
-// 									// store users into hash "users"
-// 									db.hset("users", tmpUser.username, JSON.stringify(tmpUser), function(errorSet, answer){
-// 										if (errorSet) {
-// 											console.log(errorSet)
-// 										}
-// 									})
-// 								}
-// 							}
-// 						})
-// 			}
-// 		}
-// 	})
-// }
+									// store users into hashset "users"
+									db.hset("users", tmpUser.username, JSON.stringify(tmpUser), function(errorSet, answer){
+										
+										if (errorSet) {
+											console.log(errorSet)
+										}
+									})
+								}
+							}
+						})
+			}
+		}
+	})
+}
 
-
+// create a new user in database
 RedisManager.prototype.set = function(key, username, obj, callback) {
 	//if(typeof(key) == 'string' && typeof(username) == 'string' && typeof(obj) == 'object') {
 		this.client.hset("users", obj.username, JSON.stringify(obj), function(err, obj) {
@@ -60,7 +61,7 @@ RedisManager.prototype.set = function(key, username, obj, callback) {
 	//}
 }
 
-
+// get a user by its username
 RedisManager.prototype.get = function(username) {
 //if(typeof(key) == 'string' && typeof(username) == 'string') {
 	client.hget("users", username, function(err, obj) {
@@ -78,42 +79,43 @@ RedisManager.prototype.get = function(username) {
 }
 
 
-// RedisManager.prototype.exists = function(key, username) {
-// if(typeof(key) == 'string' && typeof(username) == 'string') {
-// this.client.exists(key + ' ' + username, function(err, obj) {
-// if(err) {
-// callback(err);
-// } else {
-// if(obj == 1) {
-// return true;
-// } else {
-// return false;
-// }
-// }
-// });
-// }
-// }
-// RedisManager.prototype.delete = function(key, username, callback) {
-// if(typeof(key) == 'string' && typeof(username) == 'string') {
-// this.client.del(key + ' ' + username, function(err, obj) {
-// if(err){
-// callback(err);
-// } else {
-// callback();
-// }
-// });
-// }
-// }
-// RedisManager.prototype.deleteByKey = function(key, callback) {
-// var self = this;
-// this.client.keys(key + ' *', function (err, replies) {
-// console.log(replies.length + " replies:");
-// replies.forEach(function (reply, i) {
-// self.client.del(reply, function(err, o) {
-// if(err) throw err;
-// });
-// })
-// callback();
-// });
-// }
+/*RedisManager.prototype.exists = function(key, username) {
+	if(typeof(key) == 'string' && typeof(username) == 'string') {
+		this.client.exists(key + ' ' + username, function(err, obj) {
+			if(err) {
+				callback(err);
+			} else {
+				if(obj == 1) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		});
+	}
+}
+RedisManager.prototype.delete = function(key, username, callback) {
+	if(typeof(key) == 'string' && typeof(username) == 'string') {
+		this.client.del(key + ' ' + username, function(err, obj) {
+			if(err){
+				callback(err);
+			} else {
+				callback();
+			}
+		});
+	}
+}
+RedisManager.prototype.deleteByKey = function(key, callback) {
+	var self = this;
+	this.client.keys(key + ' *', function (err, replies) {
+		console.log(replies.length + " replies:");
+		replies.forEach(function (reply, i) {
+			self.client.del(reply, function(err, o) {
+				if(err) throw err;
+			});
+		})
+		callback();
+	});
+}*/
+
 module.exports = RedisManager;
