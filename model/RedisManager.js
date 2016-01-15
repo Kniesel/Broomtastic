@@ -11,7 +11,7 @@ var RedisManager = function(res){
 
 
 
-// fill data in database if it is empty
+/*// fill data in database if it is empty
 RedisManager.prototype.fillinData = function(){
 
 	db.hlen("users", function(err, obj){
@@ -47,11 +47,11 @@ RedisManager.prototype.fillinData = function(){
 		}
 	})
 }
-
+*/
 // create a new user in database
-RedisManager.prototype.set = function(key, username, obj, callback) {
+RedisManager.prototype.set = function(username, password, email, token, obj, callback) {
 	//if(typeof(key) == 'string' && typeof(username) == 'string' && typeof(obj) == 'object') {
-		this.client.hset("users", obj.username, JSON.stringify(obj), function(err, obj) {
+		client.hset("users", username, JSON.stringify(obj), function(err, obj) {
 			if(err) {
 				callback(err);
 			} else {
@@ -61,22 +61,23 @@ RedisManager.prototype.set = function(key, username, obj, callback) {
 	//}
 }
 
-// get a user by its username
-RedisManager.prototype.get = function(username) {
-//if(typeof(key) == 'string' && typeof(username) == 'string') {
-	client.hget("users", username, function(err, obj) {
-		if(err) {
-			callback(err);
-		} else {
-			if(obj == null) {
-				callback(null)
-			} else {
-				return obj;
-			}
-		}
-	});
-//}
-}
+
+// // get a user by its username
+// RedisManager.prototype.get = function(username) {
+// //if(typeof(key) == 'string' && typeof(username) == 'string') {
+// 	client.hget("users", username, function(err, obj) {
+// 		if(err) {
+// 			callback(err);
+// 		} else {
+// 			if(obj == null) {
+// 				callback(null)
+// 			} else {
+// 				return obj;
+// 			}
+// 		}
+// 	});
+// //}
+// }
 
 
 /*RedisManager.prototype.exists = function(key, username) {
