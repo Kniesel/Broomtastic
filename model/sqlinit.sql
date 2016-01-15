@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS products;
 
 CREATE TABLE users (
 	pk_username VARCHAR(20) PRIMARY KEY,
-	password INT NOT NULL,
+	password VARCHAR(200) NOT NULL,
 	email VARCHAR(100) NOT NULL,
 	token VARCHAR (32)
 );

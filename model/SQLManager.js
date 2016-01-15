@@ -24,16 +24,39 @@ SQLManager.prototype.getAll = function() {
 	});
 };
 
-SQLManager.prototype.getUser = function(username) {
-	var username = username;
+//check if username is already taken (for registration)
+SQLManager.prototype.getUsername = function(username) {
 	var queryString = 'SELECT * FROM users WHERE pk_username = ?';
 	connection.query(queryString, [username], function(err, rows, fields) {
 		if (!err){
 			//Check if user exists
-			if (rows == 0){
-				console.log('No user with username ' + username + ' in database.')
+			var user = false;
+			if (rows != 0){
+				user = true;
+				console.log('REGISTRATION Username already taken: ', rows);
 			} else {
-				console.log('The solution is: ', rows);
+				console.log('REGISTRATION No user with username ' + username + ' in database.')
+			}
+		}else{
+			console.log('Error while performing Query.');
+		}
+	});
+};
+
+
+//check username and password combination for login
+SQLManager.prototype.getUser = function(username, password) {
+	var queryString = 'SELECT * FROM users WHERE pk_username = ?';
+	connection.query(queryString, [username], function(err, rows, fields) {
+		if (!err){
+			//Check if user exists
+			var user = false;
+			if (rows == 0){
+				console.log('LOGIN No user with username ' + username + ' in database.')
+			} else {
+				user = true;
+				console.log('LOGIN The solution is: ', rows);
+				return rows;
 			}
 		}else{
 			console.log('Error while performing Query.');
@@ -43,18 +66,10 @@ SQLManager.prototype.getUser = function(username) {
 
 
 SQLManager.prototype.setUser = function(username, password, email, token) {
-	var username = username;
 	var queryString = 'INSERT INTO users (pk_username, password, email, token) VALUES (?, ?, ?, ?)';
 	connection.query(queryString, [username, password, email, token], function(err, rows, fields) {
 		if (!err){
-			//Check if user exists
-			var user = false;
-			if (rows == 0){ //No user with username in db
-				console.log('No user with username ' + username + ' in database.');
-			} else {
-				console.log('Username vergeben!');
-				user = true;
-			}
+			console.log('Entered user into db.')
 		}else{
 			console.log('Error while performing Query.');
 		}
