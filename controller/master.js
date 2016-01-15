@@ -59,7 +59,7 @@ startup = function(){
 
 
 	var server = app.listen(config.port, function () {
-		var host = config.server;
+		var host = config.host;
 		var port = config.port;
 
 		console.log('Broomtastic is listening on http://%s:%s', host, port);

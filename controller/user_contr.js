@@ -30,6 +30,7 @@ UserController.prototype.register = function(username, password, email) {
 			return buf.toString('hex');
 		}
 
+		// STRENGGENOMMEN müsste ma jetzt überprüfen, ob des Token schon jemand anderer hat, aber ... :X
 		var token = createToken();
 
 		//write user into database
