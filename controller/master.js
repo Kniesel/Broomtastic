@@ -36,6 +36,7 @@ startup = function(){
 		console.log("posting form")
 		var password = req.body.password;
 		var username = req.body.username;
+		res.redirect("/");
 		handlerController = new UserController.UserController();
 		handlerController.login(username, password);
 		

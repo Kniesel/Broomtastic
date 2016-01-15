@@ -57,13 +57,17 @@ UserController.prototype.login = function(username, password) {
 		if (err){
 			console.log("ERROR: ", error);
 		} else {
-			console.log("Result from db: ", data);
-			if (passwordHash.verify(password, data)){
-				console.log("Password is correct.");
+			if (!data){
+				console.log("No user with this username in db.");
+			} else {
+				console.log("Result from db: ", data);
+				if (passwordHash.verify(password, data)){
+					console.log("Password is correct.");
 				//TODO
 				//Cookie / Session
-			} else {
-				console.log("Password is incorrect. :(");
+				} else {
+					console.log("Password is incorrect. :(");
+				}
 			}
 		}
 	})
