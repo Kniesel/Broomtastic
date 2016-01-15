@@ -12,8 +12,9 @@ The aim of our web-app is very simple: We provide an online webshop for Quidditc
 2. npm install
 3. start sql database
 	configuration file for database: /model/dbconfig.js
+4. run /model/sqlinit.sql (initscript for database)
+5. node server.js
 	configuration file for starting node server: /config.js
-4. node server.js
 
 
 #Authors

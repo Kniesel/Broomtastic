@@ -6,7 +6,7 @@ var express = require('express');
 var app = express();
 var UserController = require ('./user_contr.js');
 var bodyParser = require ('body-parser');
-var handlebars = require('express-handlebars');
+var handlebars = require('handlebars');
 
 startup = function(){
 	console.log("Starting server ...")
@@ -24,7 +24,8 @@ startup = function(){
 		var email = req.body.email;
 		if (password === password2){
 			res.redirect("/");
-			handlerController = new UserController.UserController(username, password, email);
+			handlerController = new UserController.UserController();
+			handlerController.register(username, password, email);
 		} else {
 			res.send("Registration error: Your entered passwords don't match.");
 		}
@@ -35,7 +36,8 @@ startup = function(){
 		console.log("posting form")
 		var password = req.body.password;
 		var username = req.body.username;
-		handlerController = new UserController.UserController(username, password);
+		handlerController = new UserController.UserController();
+		handlerController.login(username, password);
 		
 	})
 
@@ -50,9 +52,9 @@ startup = function(){
 		res.status(500).send('Suddenly a wild error appears');
 	});
 
-	//handlebars 
-	app.engine('.hbs', handlebars({extname: '.hbs'}));
-	app.set('view engine', '.hbs');
+	// //handlebars 
+	// app.engine('.hbs', handlebars({extname: '.hbs'}));
+	// app.set('view engine', '.hbs');
 
 
 	var server = app.listen(config.port, function () {

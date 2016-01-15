@@ -6,65 +6,83 @@ var passwordHash = require('password-hash');
 var username = "";
 var password = "";
 var email = "";
-var register = false;
+var hashedPassword = passwordHash.generate(password);
+var database = new SQLManager.SQLManager();
 
-var UserController = function(username, userpassword, email){
+var UserController = function(){
 
-
-	if (email){
-		register = true;
-	}
-
-	var database = new SQLManager.SQLManager();
-	this.username = username;
-	this.password = userpassword;
-	//Hash password
-	var hashedPassword = passwordHash.generate(password); 
-
-
-//------------------------------------------------------------
-// REGISTRATION 
-//------------------------------------------------------------
-
-	if (register){
-
-
-		if (database.getUsername(username)){	//username taken
-			console.log("Username vergeben");
-		} else {								//username free
-			
-			// create random token
-			createToken = function(callback) {
-				const buf = crypto.randomBytes(32);
-				return buf.toString('hex');
-			}
-			
-			var token = createToken();
-
-			//write user into database
-			database.setUser(username, hashedPassword, email, token);
-			
-			//Send registration email
-			this.email = email;
-			mailer = new Mailer();
-			mailer.sendMail(email, token);
-		}
-	}
-
-//------------------------------------------------------------
-// LOGIN 
-//------------------------------------------------------------
-	else {
-		var tuple = database.getUser(username, hashedPassword);
-
-		console.log("Returned tuple: ", tuple); //undefined --> ASYNCHRON
-		//--> Auf tuple warten und dann pw prüfen! 
-		//TODO
-		//Prüfen ob PW richtig
-		//Wenn falsch --> Fehler
-		//Wenn richtig --> Cookie generieren
-	}
 }
+
+
+//____________________________________________________________
+//
+// REGISTRATION 
+//____________________________________________________________
+
+UserController.prototype.register = function(username, password, email) {
+
+	//set variables
+	this.username = username;
+	this.password = password;
+	console.log(password);
+	this.email = email;
+	//hash password
+	this.hashedPassword = passwordHash.generate(password);
+	console.log(hashedPassword);
+
+
+	//check if username is taken or free
+	if (database.getUsername(username)){
+		console.log("Username already taken.");
+	} else {
+		// create random token
+		createToken = function() {
+			const buf = crypto.randomBytes(32);
+			return buf.toString('hex');
+		}
+
+		var token = createToken();
+
+		//write user into database
+		database.setUser(username, hashedPassword, email, token);
+
+		//Send registration email
+		this.email = email;
+		mailer = new Mailer();
+		mailer.sendMail(email, token);
+	}
+
+
+};
+
+//____________________________________________________________
+//
+// LOGIN 
+//____________________________________________________________
+
+UserController.prototype.login = function(username, password) {
+
+	//set variables
+	this.username = username;
+	this.password = password;
+	this.hashedPassword = passwordHash.generate(this.password);
+
+
+	database.getUser(username, function(err, data){
+		if (err){
+			console.log("ERROR: ", error);
+		} else {
+			console.log("Result from db: ", data);
+			if (passwordHash.verify(this.password, this.hashedPassword)){
+				console.log("Password is correct.");
+				//TODO
+				//Cookie / Session
+			} else {
+				console.log("Password is incorrect. :(");
+			}
+		}
+	})
+};
 
 
 module.exports.UserController = UserController

@@ -43,31 +43,30 @@ SQLManager.prototype.getUsername = function(username) {
 	});
 };
 
-
-//check username and password combination for login
-SQLManager.prototype.getUser = function(username, password) {
+SQLManager.prototype.getUser = function(username, callback) {
 	var queryString = 'SELECT * FROM users WHERE pk_username = ?';
-	connection.query(queryString, [username], function(err, rows, fields) {
+	connection.query(queryString, [username], function(err, result) {
 		if (!err){
 			//Check if user exists
 			var user = false;
-			if (rows == 0){
+			if (!result){
 				console.log('LOGIN No user with username ' + username + ' in database.')
+				callback(null, null);
 			} else {
 				user = true;
-				console.log('LOGIN The solution is: ', rows);
-				return rows;
+				console.log('LOGIN The solution is: ', result);
+				callback(null, result[0].password);
 			}
 		}else{
-			console.log('Error while performing Query.');
+			console.log('Error while performing Query.', err);
+			callback(err, null);
 		}
 	});
 };
 
-
 SQLManager.prototype.setUser = function(username, password, email, token) {
 	var queryString = 'INSERT INTO users (pk_username, password, email, token) VALUES (?, ?, ?, ?)';
-	connection.query(queryString, [username, password, email, token], function(err, rows, fields) {
+	connection.query(queryString, [username, password, email, token], function(err, result) {
 		if (!err){
 			console.log('Entered user into db.')
 		}else{
