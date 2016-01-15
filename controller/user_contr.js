@@ -2,15 +2,10 @@ var SQLManager = require('../model/SQLManager.js')
 var Mailer = require('../helper/mailfordummies.js');
 var crypto = require('crypto');
 var passwordHash = require('password-hash');
-
-var username = "";
-var password = "";
-var email = "";
-var hashedPassword = passwordHash.generate(password);
-var database = new SQLManager.SQLManager();
+var database;
 
 var UserController = function(){
-
+	database = new SQLManager.SQLManager();
 }
 
 
@@ -21,15 +16,9 @@ var UserController = function(){
 
 UserController.prototype.register = function(username, password, email) {
 
-	//set variables
-	this.username = username;
-	this.password = password;
-	console.log(password);
-	this.email = email;
 	//hash password
-	this.hashedPassword = passwordHash.generate(password);
+	var hashedPassword = passwordHash.generate(password);
 	console.log(hashedPassword);
-
 
 	//check if username is taken or free
 	if (database.getUsername(username)){
@@ -62,18 +51,14 @@ UserController.prototype.register = function(username, password, email) {
 
 UserController.prototype.login = function(username, password) {
 
-	//set variables
-	this.username = username;
-	this.password = password;
-	this.hashedPassword = passwordHash.generate(this.password);
-
+	console.log("Password: ", passwordHash.generate(password));
 
 	database.getUser(username, function(err, data){
 		if (err){
 			console.log("ERROR: ", error);
 		} else {
 			console.log("Result from db: ", data);
-			if (passwordHash.verify(this.password, this.hashedPassword)){
+			if (passwordHash.verify(password, data)){
 				console.log("Password is correct.");
 				//TODO
 				//Cookie / Session
