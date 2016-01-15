@@ -1,4 +1,4 @@
-//var RedisManager = require('../model/RedisManager.js');
+var SQLManager = require('../model/SQLManager.js')
 var Mailer = require('../helper/mailfordummies.js');
 var crypto = require('crypto');
 
@@ -8,8 +8,8 @@ var email = "";
 var register = false;
 
 var UserController = function(username, userpassword, email){
-	
-	// this.redisManager = new RedisManager(res);
+
+	var database = new SQLManager.SQLManager();
 
 	if (email){
 		register = true;
@@ -28,18 +28,27 @@ var UserController = function(username, userpassword, email){
 			const buf = crypto.randomBytes(32);
 			return buf.toString('hex');
 		}
-		var token = createToken()
+		var token = createToken();
+
+		if (database.getUser(username)){
+			console.log("Username vergeben");
+		} else {
+			database.setUser(username, password, email, token);
+		}
+
 
 		this.email = email;
 		mailer = new Mailer();
 		mailer.sendMail(email, token);
-
 
 		//TODO
 		//Prüfen, ob Username schon in der Datenbank ist
 		//Wenn Username vergeben --> Fehler
 		//Wenn Username frei --> in die DB schreiben, Token in die DB schreiben
 	} else {
+
+		database.getUser(username);
+
 		//TODO
 		//Prüfen, ob Username in der Datenbank
 		//Wenn nicht --> Fehler

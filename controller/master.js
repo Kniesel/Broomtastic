@@ -13,7 +13,6 @@ startup = function(){
 	app.use(express.static('public'));
 
 	app.use(bodyParser());
-	
 
 	//User Registration
 	app.post('/register', function(req, res){
