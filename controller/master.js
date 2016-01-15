@@ -6,6 +6,7 @@ var express = require('express');
 var app = express();
 var UserController = require ('./user_contr.js');
 var bodyParser = require ('body-parser');
+var handlebars = require('express-handlebars');
 
 startup = function(){
 	console.log("Starting server ...")
@@ -49,12 +50,18 @@ startup = function(){
 		res.status(500).send('Suddenly a wild error appears');
 	});
 
+	//handlebars 
+	app.engine('.hbs', handlebars({extname: '.hbs'}));
+	app.set('view engine', '.hbs');
+
+
 	var server = app.listen(config.port, function () {
 		var host = config.server;
 		var port = config.port;
 
 		console.log('Broomtastic is listening on http://%s:%s', host, port);
 	})
+
 
 }
 

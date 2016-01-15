@@ -1,0 +1,87 @@
+<!DOCTYPE html> 
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Broomtastic</title>
+		<link rel="stylesheet" type="text/css" href="./style/reset.css" >
+		<link rel="stylesheet" type="text/css" href="./style/desktopstyle.css">
+	</head>
+	
+	<body>
+		<script src="./js/myscript.js"></script>
+		<div id="wrapper">	
+			<header>
+				<nav>
+					<div class="dropdown">
+						
+
+
+						<button class="dropbutton">Sign in</button>
+						<div class="dropdown-content">
+							<form action="/login" method="post" id="loginform">
+
+								<p>Username</p>
+								<input class="inputforms" type="text" name="username"><br>
+
+								<p>Password</p>
+								<input class="inputforms" type="password" name="password">
+
+								<input class="inputforms" type="submit" value="Login">
+
+								<a class="inputforms" href="./register.html">Register</a>
+
+							</form>
+						</div>
+
+
+
+					</div>
+					<img id="owl" src="./img/owl.jpg" alt="Shopping Owl"/>
+				</nav>
+			</header>
+	
+			<aside>
+				<p class="title1">FILTER BY</p>
+					<p class="title1 title2">Category</p>
+					<form method="post" class="filtercontent" name="tabledata"> 
+						<select name="category">
+							<option>Show all categories</option> 
+							<option>Balls</option> 
+							<option>Books</option> 
+							<option>Brooms</option> 
+							<option>Clothing</option> 
+						</select>
+						<button type="button" class="filtercontent" onclick="testfunction()">OK</button>
+					</form> 
+
+					<p id="notworking"> </p>
+			</aside>
+			
+			<section>
+				<h1 id="test">Welcome to the Broomtastic-Webshop!</h1>
+				<br>
+				<p>
+					If you would like to see our products, check the Categories-Box left and click on "OK".
+					<br>
+					For registration, please use the drop-down-menu "Sign in". But you can also just use it to show how many users have already registered.
+				</p>
+				<br>
+				<br>
+				<p class="boldtext">Be aware that your username can only be chosen once!</p>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+			</section>
+
+			<footer>
+				Ideas belong to Joanne K. Rowling. This website serves no commercial use.<br>
+				Copyright Anja Bergmann and Johanna Kirchmaier, ITM14
+			</footer>
+
+		</div>
+
+	</body>
+</html>
