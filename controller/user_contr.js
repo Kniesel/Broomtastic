@@ -1,4 +1,4 @@
-//var RedisManager = require('../model/RedisManager.js');
+var RedisManager = require('../model/RedisManager.js');
 var Mailer = require('../helper/mailfordummies.js');
 var crypto = require('crypto');
 
@@ -64,5 +64,8 @@ var UserController = function(username, userpassword, email){
 // 		console.log(error); // handle the error 
 // 	}
 // }
+
+
+
 
 module.exports.UserController = UserController

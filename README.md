@@ -10,7 +10,10 @@ The aim of our web-app is very simple: We provide an online webshop for Quidditc
 
 1. clone repo
 2. npm install
-3. node server.js
+3. start sql database
+	configuration file for database: /model/dbconfig.js
+	configuration file for starting node server: /config.js
+4. node server.js
 
 
 #Authors
