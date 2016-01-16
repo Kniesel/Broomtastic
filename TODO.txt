@@ -1,3 +1,8 @@
+> Registration: Check if token is already taken
+> Registration: Link for registratoin should delete token from db
+
+
+
 Improve the given sources in several ways
 
 
