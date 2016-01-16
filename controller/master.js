@@ -3,11 +3,13 @@ var fs = require('fs');
 var config = require('../config');
 var registration = require ('../public/js/myscript.js');
 var express = require('express');
+var session = require('express-session');
 var app = express();
 var UserController = require ('./user_contr.js');
 var bodyParser = require ('body-parser');
 var handlebars = require('handlebars');
 var cookieParser = require('cookie-parser');
+var sess;
 
 startup = function(){
 	console.log("Starting server ...")
@@ -16,32 +18,40 @@ startup = function(){
 
 	app.use(bodyParser());
 	app.use(cookieParser());
+	app.use(session({secret: 'keyboard cat'}));
 
 	//User Registration
 	app.post('/register', function(req, res){
-		console.log("posting form")
 		console.log("Cookies: ", req.cookies);
 		var username = req.body.username;
 		var password = req.body.password;
 		var password2 = req.body.password2;
 		var email = req.body.email;
+
 		if (password === password2){
 			res.redirect("/");
 			handlerController = new UserController.UserController();
 			handlerController.register(username, password, email);
 		} else {
-			res.send("Registration error: Your entered passwords don't match.");
+			res.send("[INFO] Registration: Your entered passwords don't match.");
 		}
 	})
 
 	//User Login
 	app.post('/login', function(req, res){
-		console.log("posting form")
 		var password = req.body.password;
 		var username = req.body.username;
+
 		res.redirect("/");
 		handlerController = new UserController.UserController();
-		handlerController.login(username, password);
+		handlerController.login(username, password, function(loggedin){
+			if (loggedin){
+				//create session if user is logged in
+				sess = req.session;
+				console.log("[INFO] Session: ", sess);
+			}
+		});
+
 		
 	})
 

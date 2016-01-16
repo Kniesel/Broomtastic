@@ -26,7 +26,7 @@ Mailer.prototype.sendMail = function(email, token){
 			if (!err) {
 				console.log("[INFO] Message id: ", info.messageId)
 			} else {
-				console.log(err)
+				console.log("[ERROR] Couldn't send email: ", err)
 			}
 		}
 	);

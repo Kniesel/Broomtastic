@@ -24,7 +24,7 @@ UserController.prototype.register = function(username, password, email) {
 
 	//check if username is taken or free
 	if (database.getUsername(username)){
-		console.log("Username already taken.");
+		console.log("[INFO] Username already taken.");
 	} else {
 		// create random token
 		createToken = function() {
@@ -36,7 +36,13 @@ UserController.prototype.register = function(username, password, email) {
 		var token = createToken();
 
 		//write user into database
-		database.setUser(username, hashedPassword, email, token);
+		database.setUser(username, hashedPassword, email, token, function(err, data){
+			if (err){
+				console.log("[ERROR] Couldn't write user into db.");
+			} else {
+				console.log("[INFO] Entered user into db.");
+			}
+		});
 
 		//Send registration email
 		this.email = email;
@@ -52,28 +58,25 @@ UserController.prototype.register = function(username, password, email) {
 // LOGIN 
 //____________________________________________________________
 
-UserController.prototype.login = function(username, password) {
-
-	console.log("Password: ", passwordHash.generate(password));
+UserController.prototype.login = function(username, password, callback) {
 
 	database.getUser(username, function(err, data){
+		loggedin = false;
 		if (err){
-			console.log("ERROR: ", error);
+			console.log("[ERROR] ", error);
 		} else {
 			if (!data){
-				console.log("No user with this username in db.");
+				console.log("[INFO] No user with this username in db.");
 			} else {
-				console.log("Result from db: ", data);
 				if (passwordHash.verify(password, data)){
-					console.log("Password is correct.");
-				//TODO
-				//Cookie / Session
-
+					console.log("[INFO] Password is correct.");
+					loggedin = true;
 			} else {
-				console.log("Password is incorrect. :(");
+				console.log("[INFO] Password is incorrect. :(");
 				}
 			}
 		}
+		callback(loggedin);
 	})
 };
 
