@@ -6,7 +6,7 @@ CREATE TABLE users (
 	pk_username VARCHAR(20) PRIMARY KEY,
 	password VARCHAR(200) NOT NULL,
 	email VARCHAR(100) NOT NULL,
-	token VARCHAR (32)
+	token VARCHAR (32) UNIQUE
 );
 
 CREATE TABLE products (
@@ -19,9 +19,9 @@ CREATE TABLE products (
 
 
 
-INSERT INTO users (pk_username, password, email) VALUES ("Doctor", 1331, "anja.bergmann@edu.fh-joanneum.at");
-INSERT INTO users (pk_username, password, email) VALUES ("Neville", 1331, "anja.bergmann@edu.fh-joanneum.at");
-INSERT INTO users (pk_username, password, email) VALUES ("Sheld0r", 1331, "anja.bergmann@edu.fh-joanneum.at");
+INSERT INTO users (pk_username, password, email) VALUES ("Doctor", "sha1$79bbc02a$1$2d906b452703267bf88c1d1dbdd6c4473270a5db", "anja.bergmann@edu.fh-joanneum.at");
+INSERT INTO users (pk_username, password, email) VALUES ("Neville", "sha1$42ef4224$1$2029d5dddffcae92827e323825a048e1d0c03bc5", "anja.bergmann@edu.fh-joanneum.at");
+INSERT INTO users (pk_username, password, email) VALUES ("Sheld0r", "sha1$da8573a6$1$5fd9187eb0127164f2b21e27f383571e8e914a9a", "anja.bergmann@edu.fh-joanneum.at");
 
 
 

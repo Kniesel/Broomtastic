@@ -27,7 +27,7 @@ SQLManager.prototype.getAll = function() {
 //check if username is already taken (for registration)
 SQLManager.prototype.getUsername = function(username) {
 	var queryString = 'SELECT * FROM users WHERE pk_username = ?';
-	connection.query(queryString, [username], function(err, rows, fields) {
+	connection.query(queryString, [username], function (err, rows, fields) {
 		if (!err){
 			//Check if user exists
 			var user = false;
@@ -43,22 +43,23 @@ SQLManager.prototype.getUsername = function(username) {
 	});
 };
 
+
 SQLManager.prototype.getUser = function(username, callback) {
 	var queryString = 'SELECT * FROM users WHERE pk_username = ?';
-	connection.query(queryString, [username], function(err, result) {
+	connection.query(queryString, [username], function (err, result) {
 		if (!err){
+			console.log("Result: ", result);
+			console.log("Result[0]: ", result[0]);
 			//Check if user exists
-			var user = false;
-			if (!result){
+			if (!result[0]){
 				console.log('LOGIN No user with username ' + username + ' in database.')
 				callback(null, null);
 			} else {
-				user = true;
-				console.log('LOGIN The solution is: ', result);
+				console.log('LOGIN The db entry is: ', result);
 				callback(null, result[0].password);
 			}
 		}else{
-			console.log('Error while performing Query.', err);
+			console.log('Error while performing Query.');
 			callback(err, null);
 		}
 	});
@@ -66,7 +67,7 @@ SQLManager.prototype.getUser = function(username, callback) {
 
 SQLManager.prototype.setUser = function(username, password, email, token) {
 	var queryString = 'INSERT INTO users (pk_username, password, email, token) VALUES (?, ?, ?, ?)';
-	connection.query(queryString, [username, password, email, token], function(err, result) {
+	connection.query(queryString, [username, password, email, token], function (err, result) {
 		if (!err){
 			console.log('Entered user into db.')
 		}else{

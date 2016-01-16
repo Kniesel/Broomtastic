@@ -7,6 +7,7 @@ var app = express();
 var UserController = require ('./user_contr.js');
 var bodyParser = require ('body-parser');
 var handlebars = require('handlebars');
+var cookieParser = require('cookie-parser');
 
 startup = function(){
 	console.log("Starting server ...")
@@ -14,10 +15,12 @@ startup = function(){
 	app.use(express.static('public'));
 
 	app.use(bodyParser());
+	app.use(cookieParser());
 
 	//User Registration
 	app.post('/register', function(req, res){
 		console.log("posting form")
+		console.log("Cookies: ", req.cookies);
 		var username = req.body.username;
 		var password = req.body.password;
 		var password2 = req.body.password2;

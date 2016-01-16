@@ -1,0 +1,3 @@
+Curl Command for testing cookie:
+
+$ curl --data "username=asdf&password=asdf&password2=asdf&email=email" http://127.0.0.1:8888/register --cookie "keks=schoko"

@@ -1,6 +1,5 @@
 var nodemailer = require('nodemailer');
-
-console.log("We configre FH Joanneum (smtp) mail:")
+var config = require('../config.js')
 
 //configuration
 var Mailer = function(){
@@ -22,7 +21,7 @@ Mailer.prototype.sendMail = function(email, token){
 			//to: 'anja.bergmann@edu.fh-joanneum.at',
 			//to: 'johannaelisabeth.kirchmaier@edu.fh-joanneum.at',
 			subject: 'Broomtastic Registration',
-			text: 'To confirm your e-mail address click on the following link: TO BE CONTINUED ... ' + token
+			text: 'To confirm your e-mail address click on the following link: http://' + config.host + ':' + config.port + '/?register=' + token		
 		}, function (err, info){
 			if (!err) {
 				console.log("[INFO] Message id: ", info.messageId)
