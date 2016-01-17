@@ -20,7 +20,8 @@ SQLManager.prototype.getAll = function() {
 		if (!err){
 			console.log('[INFO] The solution is: ', rows);
 		} else {
-			console.log('[ERROR] Error while performing Query.', err);
+			console.log('[ERROR] Error while performing Query.', err
+				);
 		}
 	});
 };
@@ -71,6 +72,18 @@ SQLManager.prototype.setUser = function(username, password, email, token, callba
 			callback(err, null);
 		}
 	});
+};
+
+
+SQLManager.prototype.confirmEmail = function(token, callback) {
+	var queryString = 'UPDATE users SET token = NULL where token = ?'
+	connection.query(queryString, [token], function(err, result){
+		if (!err){
+			callback (null, true);
+		} else {
+			callback(err, false);
+		}
+	})
 };
 
 

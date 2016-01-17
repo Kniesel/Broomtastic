@@ -51,8 +51,14 @@ startup = function(){
 				console.log("[INFO] Session: ", sess);
 			}
 		});
+	})
 
-		
+	app.get('/confirm-e-mail', function(req, res){
+		var token = req.query.token;
+		console.log("[INFO] Token: ", token);
+		res.redirect('/');
+		handlerController = new UserController.UserController();
+		handlerController.confirmEmail(token);
 	})
 
 	//404-Error-Page

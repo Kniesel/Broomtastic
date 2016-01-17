@@ -28,9 +28,8 @@ UserController.prototype.register = function(username, password, email) {
 	} else {
 		// create random token
 		createToken = function() {
-			//const buf = crypto.randomBytes(32);
-			//return buf.toString('hex');
-			return 1;
+			const buf = crypto.randomBytes(32);
+			return buf.toString('hex');
 		}
 
 		var token = createToken();
@@ -93,5 +92,16 @@ UserController.prototype.login = function(username, password, callback) {
 };
 
 
+
+UserController.prototype.confirmEmail = function(token) {
+	database.confirmEmail(token, function(err, data){
+		if (err){
+			console.log("[ERROR] Couldn't delete token. ", err);
+		} else {
+			console.log("[INFO] Deleted token from db.");
+		}
+	});
+	//Delete token from db
+};
 
 module.exports.UserController = UserController

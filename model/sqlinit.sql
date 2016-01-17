@@ -6,7 +6,7 @@ CREATE TABLE users (
 	pk_username VARCHAR(20) PRIMARY KEY,
 	password VARCHAR(200) NOT NULL,
 	email VARCHAR(100) NOT NULL,
-	token VARCHAR (32) UNIQUE
+	token VARCHAR (64) UNIQUE
 );
 
 CREATE TABLE products (
