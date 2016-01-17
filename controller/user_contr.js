@@ -18,9 +18,9 @@ var UserController = function(){
 
 UserController.prototype.register = function(username, password, email) {
 
+
 	//hash password
 	var hashedPassword = passwordHash.generate(password);
-	console.log(hashedPassword);
 
 	//check if username is taken or free
 	if (database.getUsername(username)){
@@ -28,27 +28,39 @@ UserController.prototype.register = function(username, password, email) {
 	} else {
 		// create random token
 		createToken = function() {
-			const buf = crypto.randomBytes(32);
-			return buf.toString('hex');
+			//const buf = crypto.randomBytes(32);
+			//return buf.toString('hex');
+			return 1;
 		}
 
-		// STRENGGENOMMEN müsste ma jetzt überprüfen, ob des Token schon jemand anderer hat, aber ... :X
 		var token = createToken();
 
 		//write user into database
 		database.setUser(username, hashedPassword, email, token, function(err, data){
 			if (err){
-				console.log("[ERROR] Couldn't write user into db.");
+				console.log("[ERROR] Couldn't write user into db. ", err);
+				var tokenerror = 'ER_DUP_ENTRY: Duplicate entry \'' + token + '\' for key \'token\''
+				if (err.message.slice(0, tokenerror.length) == tokenerror){
+					console.log("[ERROR] Doppeltes Token!");
+					//Jetzt müsste man ein neues Token generieren 
+					//und das ganze Zeug nochmal in die DB schreiben
+					//Und falls es immer noch doppelt sien sollte, 
+					//nochmal ein neues generieren
+					//Funktioniert aber nicht mit while-Schleife,
+					//weil die DB-Aufrufe asynchron sind
+					//--> Bis auf weiteres ignorieren. 
+				}
 			} else {
 				console.log("[INFO] Entered user into db.");
+
+				//Send registration email
+				this.email = email;
+				mailer = new Mailer();
+				mailer.sendMail(email, token);
 			}
 		});
 
-		//Send registration email
-		this.email = email;
-		mailer = new Mailer();
-		mailer.sendMail(email, token);
-	}
+}
 
 
 };
@@ -71,14 +83,15 @@ UserController.prototype.login = function(username, password, callback) {
 				if (passwordHash.verify(password, data)){
 					console.log("[INFO] Password is correct.");
 					loggedin = true;
-			} else {
-				console.log("[INFO] Password is incorrect. :(");
+				} else {
+					console.log("[INFO] Password is incorrect. :(");
 				}
 			}
 		}
 		callback(loggedin);
 	})
 };
+
 
 
 module.exports.UserController = UserController

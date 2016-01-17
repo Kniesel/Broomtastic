@@ -20,7 +20,7 @@ SQLManager.prototype.getAll = function() {
 		if (!err){
 			console.log('[INFO] The solution is: ', rows);
 		} else {
-			console.log('[ERROR] Error while performing Query.');
+			console.log('[ERROR] Error while performing Query.', err);
 		}
 	});
 };
@@ -39,7 +39,7 @@ SQLManager.prototype.getUsername = function(username) {
 				console.log('[INFO] No user with username ' + username + ' in database.')
 			}
 		}else{
-			console.log('Error while performing Query.');
+			console.log('Error while performing Query.', err);
 		}
 	});
 };
@@ -56,7 +56,7 @@ SQLManager.prototype.getUser = function(username, callback) {
 				callback(null, result[0].password);
 			}
 		}else{
-			console.log('[ERROR] Error while performing Query.');
+			console.log('[ERROR] Error while performing Query.', err);
 			callback(err, null);
 		}
 	});
