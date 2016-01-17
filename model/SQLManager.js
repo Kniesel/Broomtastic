@@ -54,7 +54,7 @@ SQLManager.prototype.getUser = function(username, callback) {
 			if (!result[0]){
 				callback(null, null);
 			} else {
-				callback(null, result[0].password);
+				callback(null, result[0]);
 			}
 		}else{
 			console.log('[ERROR] Error while performing Query.', err);

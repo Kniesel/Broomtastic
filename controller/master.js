@@ -56,9 +56,17 @@ startup = function(){
 	app.get('/confirm-e-mail', function(req, res){
 		var token = req.query.token;
 		console.log("[INFO] Token: ", token);
-		res.redirect('/');
+		res.redirect('/confirmed.html');
 		handlerController = new UserController.UserController();
 		handlerController.confirmEmail(token);
+	})
+
+	app.post('/awesome', function(req, res){
+		if (sess){
+			res.redirect('/awesome.html');
+		} else {
+			res.redirect('/notloggedin.html');
+		}
 	})
 
 	//404-Error-Page

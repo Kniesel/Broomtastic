@@ -79,9 +79,13 @@ UserController.prototype.login = function(username, password, callback) {
 			if (!data){
 				console.log("[INFO] No user with this username in db.");
 			} else {
-				if (passwordHash.verify(password, data)){
+				if (passwordHash.verify(password, data.password)){
 					console.log("[INFO] Password is correct.");
-					loggedin = true;
+					if (data.token){
+						console.log("[INFO] Email not confirmed.");
+					} else {
+						loggedin = true;
+					}
 				} else {
 					console.log("[INFO] Password is incorrect. :(");
 				}
