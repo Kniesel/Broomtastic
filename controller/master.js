@@ -8,7 +8,6 @@ var app = express();
 var UserController = require ('./user_contr.js');
 var bodyParser = require ('body-parser');
 var handlebars = require('handlebars');
-var cookieParser = require('cookie-parser');
 var sess;
 
 startup = function(){
@@ -17,7 +16,6 @@ startup = function(){
 	app.use(express.static('public'));
 
 	app.use(bodyParser());
-	app.use(cookieParser());
 	app.use(session({secret: 'keyboard cat'}));
 
 	//User Registration
