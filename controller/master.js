@@ -8,7 +8,6 @@ var app = express();
 var UserController = require ('./user_contr.js');
 var bodyParser = require ('body-parser');
 var handlebars = require('handlebars');
-var cookieParser = require('cookie-parser');
 var sess;
 
 startup = function(){
@@ -17,7 +16,6 @@ startup = function(){
 	app.use(express.static('public'));
 
 	app.use(bodyParser());
-	app.use(cookieParser());
 	app.use(session({secret: 'keyboard cat'}));
 
 	//User Registration
@@ -52,6 +50,13 @@ startup = function(){
 			}
 		});
 	})
+
+	//User logout
+	app.post('/logout', function(req, res){
+		console.log("[INFO] User logged out.");
+		sess = null;
+		res.redirect("/");
+	});
 
 	app.get('/confirm-e-mail', function(req, res){
 		var token = req.query.token;
