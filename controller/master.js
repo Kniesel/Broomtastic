@@ -7,7 +7,7 @@ var session = require('express-session');
 var app = express();
 var UserController = require ('./user_contr.js');
 var bodyParser = require ('body-parser');
-var handlebars = require('handlebars');
+var handlebars = require('express-handlebars');
 var sess;
 
 startup = function(){
@@ -17,6 +17,14 @@ startup = function(){
 
 	app.use(bodyParser());
 	app.use(session({secret: 'keyboard cat'}));
+
+	//handlebars 
+	app.engine('.hbs', handlebars({extname: '.hbs'}));
+	app.set('view engine', '.hbs');
+
+	app.get('/content', loggedIn, function(req, res){
+		res.render('index', {layout: false});
+	})
 
 	//User Registration
 	app.post('/register', function(req, res){
@@ -51,6 +59,14 @@ startup = function(){
 		});
 	})
 
+	function loggedIn(req, res, next){
+		if (sess){
+			return next();
+		}
+		res.redirect('/');
+	}
+
+
 	//User logout
 	app.post('/logout', function(req, res){
 		console.log("[INFO] User logged out.");
@@ -84,10 +100,6 @@ startup = function(){
 		console.error(err.stack);
 		res.status(500).send('Suddenly a wild error appears');
 	});
-
-	// //handlebars 
-	// app.engine('.hbs', handlebars({extname: '.hbs'}));
-	// app.set('view engine', '.hbs');
 
 
 	var server = app.listen(config.port, function () {
