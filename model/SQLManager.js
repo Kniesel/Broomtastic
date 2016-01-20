@@ -14,6 +14,9 @@ var SQLManager = function(){
 	connection.connect();
 }
 
+SQLManager.prototype.endConnection = function() {
+	connection.end();
+};
 
 SQLManager.prototype.getAll = function() {
 	connection.query('SELECT * FROM users', function(err, rows, fields) {

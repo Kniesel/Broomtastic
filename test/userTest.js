@@ -28,6 +28,7 @@ module.exports = {
 				test.ok(false);
 			}
 			test.done();
+			database.endConnection();
 		});
 	},
 
@@ -41,6 +42,7 @@ module.exports = {
 				test.ok(false);
 			}
 			test.done();
+			database.endConnection();
 		});
 
 	}
