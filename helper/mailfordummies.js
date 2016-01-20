@@ -12,7 +12,7 @@ var Mailer = function(){
 	);
 }
 
-Mailer.prototype.sendMail = function(email, token){
+Mailer.prototype.sendMail = function(email, token, username){
 	//send mail
 	this.transporter.sendMail(
 		{
@@ -21,7 +21,7 @@ Mailer.prototype.sendMail = function(email, token){
 			//to: 'anja.bergmann@edu.fh-joanneum.at',
 			//to: 'johannaelisabeth.kirchmaier@edu.fh-joanneum.at',
 			subject: 'Broomtastic Registration',
-			text: 'To confirm your e-mail address click on the following link: http://' + config.host + ':' + config.port + '/confirm-e-mail?token=' + token		
+			text: 'To confirm your e-mail address click on the following link: http://' + config.host + ':' + config.port + '/confirm-e-mail?token=' + token + '&user=' + username		
 		}, function (err, info){
 			if (!err) {
 				console.log("[INFO] Message id: ", info.messageId)

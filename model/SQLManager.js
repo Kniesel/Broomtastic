@@ -10,9 +10,11 @@ var SQLManager = function(){
 		password: dbconfig.password,
 		database: dbconfig.database
 	});
-
-	connection.connect();
 }
+
+SQLManager.prototype.connect = function() {
+	connection.connect();
+};
 
 SQLManager.prototype.endConnection = function() {
 	connection.end();
@@ -90,9 +92,9 @@ SQLManager.prototype.deleteUser = function(username, callback) {
 };
 
 
-SQLManager.prototype.confirmEmail = function(token, callback) {
-	var queryString = 'UPDATE users SET token = NULL where token = ?'
-	connection.query(queryString, [token], function(err, result){
+SQLManager.prototype.confirmEmail = function(token, username, callback) {
+	var queryString = 'UPDATE users SET token = NULL where token = ? AND pk_username = ?'
+	connection.query(queryString, [token, username], function(err, result){
 		if (!err){
 			callback (null, true);
 		} else {

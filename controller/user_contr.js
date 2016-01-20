@@ -18,6 +18,7 @@ var UserController = function(){
 
 UserController.prototype.register = function(username, password, email) {
 
+	database.connect();
 
 	//hash password
 	var hashedPassword = passwordHash.generate(password);
@@ -38,29 +39,15 @@ UserController.prototype.register = function(username, password, email) {
 		database.setUser(username, hashedPassword, email, token, function(err, data){
 			if (err){
 				console.log("[ERROR] Couldn't write user into db. ", err);
-				var tokenerror = 'ER_DUP_ENTRY: Duplicate entry \'' + token + '\' for key \'token\''
-				if (err.message.slice(0, tokenerror.length) == tokenerror){
-					console.log("[ERROR] Doppeltes Token!");
-					//Jetzt müsste man ein neues Token generieren 
-					//und das ganze Zeug nochmal in die DB schreiben
-					//Und falls es immer noch doppelt sien sollte, 
-					//nochmal ein neues generieren
-					//Funktioniert aber nicht mit while-Schleife,
-					//weil die DB-Aufrufe asynchron sind
-					//--> Bis auf weiteres ignorieren. 
-					//
-					//LÖSUNG ((c)Heli):
-					//In der DB unique-constraint auf Token weg
-					//Beim confirmen Kombination aus Token und Username || Token und Email überprüfen
-				}
 			} else {
 				console.log("[INFO] Entered user into db.");
 
 				//Send registration email
 				this.email = email;
 				mailer = new Mailer();
-				mailer.sendMail(email, token);
+				mailer.sendMail(email, token, username);
 			}
+		database.endConnection();
 		});
 
 }
@@ -74,6 +61,8 @@ UserController.prototype.register = function(username, password, email) {
 //____________________________________________________________
 
 UserController.prototype.login = function(username, password, callback) {
+
+	database.connect();
 
 	database.getUser(username, function(err, data){
 		loggedin = false;
@@ -96,6 +85,7 @@ UserController.prototype.login = function(username, password, callback) {
 			}
 		}
 		callback(loggedin);
+		database.endConnection();
 	})
 };
 
@@ -106,15 +96,16 @@ UserController.prototype.login = function(username, password, callback) {
 //____________________________________________________________
 
 
-UserController.prototype.confirmEmail = function(token) {
-	database.confirmEmail(token, function(err, data){
+UserController.prototype.confirmEmail = function(token, username) {
+	database.connect();
+	database.confirmEmail(token, username, function(err, data){
 		if (err){
 			console.log("[ERROR] Couldn't delete token. ", err);
 		} else {
 			console.log("[INFO] Deleted token from db.");
 		}
+		database.endConnection();
 	});
-	//Delete token from db
 };
 
 
@@ -126,7 +117,7 @@ UserController.prototype.confirmEmail = function(token) {
 
 
 UserController.prototype.delete = function(username, password) {
-
+	database.connect();
 	database.getUser(username, function(err, data){
 		if (err){
 			console.log("[ERROR] Error performing query: ", err);
@@ -150,6 +141,7 @@ UserController.prototype.delete = function(username, password) {
 				console.log("[INFO] Password is incorrect. :(");
 			}
 		}
+		database.endConnection();
 	})
 
 };

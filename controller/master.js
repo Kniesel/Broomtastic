@@ -76,10 +76,12 @@ startup = function(){
 
 	app.get('/confirm-e-mail', function(req, res){
 		var token = req.query.token;
+		var username = req.query.user;
 		console.log("[INFO] Token: ", token);
+		console.log("[INFO] Username: ", username);
 		res.redirect('/confirmed.html');
 		handlerController = new UserController.UserController();
-		handlerController.confirmEmail(token);
+		handlerController.confirmEmail(token, username);
 	})
 
 	app.post('/awesome', function(req, res){
