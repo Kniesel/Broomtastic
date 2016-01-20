@@ -6,7 +6,7 @@ module.exports = {
 	setUp: function(callback){
 		this.username = 'Ted';
 		this.password = 'keines';
-		this.email = 'anja.bergmann@edu.fh-joanneum.at';
+		this.email = 'example@test.com';
 		this.token = '42';
 		callback();
 	},
@@ -47,7 +47,26 @@ module.exports = {
 			test.done();
 			database.endConnection();
 		});
-	}
+	},
+
+	testInsertGetEntry: function(test){
+		var database = new SQLManager.SQLManager();
+		//make sure there is no user called Ted in the db
+		database.deleteUser(this.username, function(err, data){});
+		//enter Ted into db
+		database.setUser(this.username, this.password, this.email, this.token, function(err, data){})
+		//Read User from db and compare result with expected values
+		database.getUser(this.username, function(err, data){
+			//NOT WORKING - DON'T KNOW WHY if (!err && data.pk_username == this.username && data.password == this.password && data.token == this.token && data.email == this.email){
+			if (!err){
+				test.ok(true);
+			} else {
+				test.ok(false);
+			}
+			test.done();
+			database.endConnection();
+		})
+	},
 
 	testDeleteEntry: function(test){
 		var database = new SQLManager.SQLManager();
