@@ -90,6 +90,15 @@ startup = function(){
 		}
 	})
 
+
+	//Delete user
+	app.post('/deleteUser', function(req, res){
+		var username = req.body.username;
+		var password = req.body.password;
+		handlerController = new UserController.UserController();
+		handlerController.deleteUser(username, password);
+	})
+
 	//404-Error-Page
 	app.use(function(req, res, next){
 		res.status(404).send('404 - Sorry cannot find page ' + req.url);

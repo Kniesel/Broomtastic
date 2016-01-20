@@ -74,6 +74,17 @@ SQLManager.prototype.setUser = function(username, password, email, token, callba
 	});
 };
 
+SQLManager.prototype.deleteUser = function(username, password, callback) {
+	var queryString = 'DELETE FROM users WHERE pk_username = ?';
+	connection.query(deleteString, [username], function(err, result){
+		if (err){
+			callback(err, false);
+		} else {
+			callback(null, true);
+		}
+	})
+};
+
 
 SQLManager.prototype.confirmEmail = function(token, callback) {
 	var queryString = 'UPDATE users SET token = NULL where token = ?'
@@ -87,5 +98,30 @@ SQLManager.prototype.confirmEmail = function(token, callback) {
 };
 
 
+
+
+
+
+SQLManager.prototype.readAllProducts = function(callback) {
+	var queryString = 'SELECT * FROM products';
+	connection.query(queryString, function(err, result){
+		if (!err){
+			callback(null, result);
+		} else {
+			callback(err, null);
+		}
+	})
+};
+
+SQLManager.prototype.readProductsByCategory = function(category, callback) {
+	var queryString = 'SELECT * FROM proucts WHERE category = ?';
+	connection.query(queryString, [category], function(err, result){
+		if (!err){
+			callback(null, result);
+		} else {
+			callback (err, null);
+		}
+	})
+};
 
 module.exports.SQLManager = SQLManager

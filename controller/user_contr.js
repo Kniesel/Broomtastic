@@ -96,6 +96,11 @@ UserController.prototype.login = function(username, password, callback) {
 };
 
 
+//____________________________________________________________
+//
+// CONFIRM EMAIL 
+//____________________________________________________________
+
 
 UserController.prototype.confirmEmail = function(token) {
 	database.confirmEmail(token, function(err, data){
@@ -107,5 +112,39 @@ UserController.prototype.confirmEmail = function(token) {
 	});
 	//Delete token from db
 };
+
+
+
+//____________________________________________________________
+//
+// DELETE USER 
+//____________________________________________________________
+
+
+UserController.prototype.delete = function(username, password) {
+	//Check password
+	//If password is correct --> Delete user
+
+	database.getUser(username, function(err, data){
+		if (err){
+			console.log("[ERROR] Error performing query: ", err);
+		} else {
+			if (passwordHash.verify(password, data.password)){
+					console.log("[INFO] Password is correct.");
+					database.deleteUser(username, function(err, data){
+						if (err){
+							console.log("[ERROR] Error deleting user: ", err);
+						} else {
+							console.log("User deleted");
+						}
+					});
+				} else {
+					console.log("[INFO] Password is incorrect. :(");
+				}
+		}
+	})
+
+};
+
 
 module.exports.UserController = UserController
