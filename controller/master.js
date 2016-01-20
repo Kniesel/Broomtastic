@@ -97,6 +97,7 @@ startup = function(){
 		var password = req.body.password;
 		handlerController = new UserController.UserController();
 		handlerController.delete(username, password);
+		res.redirect('/');
 	})
 
 	//404-Error-Page
