@@ -54,6 +54,7 @@ SQLManager.prototype.getUser = function(username, callback) {
 			if (!result[0]){
 				callback(null, null);
 			} else {
+				console.log("[DEBUG] Result[0]: ", result[0]);
 				callback(null, result[0]);
 			}
 		}else{
@@ -74,13 +75,13 @@ SQLManager.prototype.setUser = function(username, password, email, token, callba
 	});
 };
 
-SQLManager.prototype.deleteUser = function(username, password, callback) {
+SQLManager.prototype.deleteUser = function(username, callback) {
 	var queryString = 'DELETE FROM users WHERE pk_username = ?';
-	connection.query(deleteString, [username], function(err, result){
+	connection.query(queryString, [username], function(err, result){
 		if (err){
 			callback(err, false);
 		} else {
-			callback(null, true);
+			callback(null, result);
 		}
 	})
 };
