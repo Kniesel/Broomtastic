@@ -47,7 +47,7 @@ module.exports = {
 			test.done();
 			database.endConnection();
 		});
-	}
+	},
 
 	testDeleteEntry: function(test){
 		var database = new SQLManager.SQLManager();
