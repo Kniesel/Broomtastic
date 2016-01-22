@@ -1,5 +1,7 @@
 > Userinputvalidation
-	-- Username 20 Zeichen, nicht Leerzeichen
+	-- Username 20 Zeichen
+	-- Username mindestens 4 Zeichen
+	-- Passwort mindestens 4 Zeichen
 	--> Rückmeldung (erfolgreich ... oder nicht)
 > Ajax
 > Restful Routing
