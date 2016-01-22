@@ -8,7 +8,9 @@ var app = express();
 var UserController = require ('./user_contr.js');
 var bodyParser = require ('body-parser');
 var handlebars = require('express-handlebars');
+var htmltags = require('../helper/htmltags.js');
 var sess;
+var user; //username
 
 startup = function(){
 	console.log("Starting server ...")
@@ -22,9 +24,14 @@ startup = function(){
 	app.engine('.hbs', handlebars({extname: '.hbs'}));
 	app.set('view engine', '.hbs');
 
-	app.get('/content', loggedIn, function(req, res){
-		res.render('index', {layout: false});
-	})
+	// Get-Request
+	// app.get('/content', function(req, res){
+	// 	if (user){
+	// 		res.render('index', {layout: false, user: user, test:htmltags.loggedintag});
+	// 	} else {
+	// 		res.render('index', {layout: false, user: "Sign in", test:htmltags.signintag});
+	// 	}
+	// })
 
 	//User Registration
 	app.post('/register', function(req, res){
@@ -48,15 +55,28 @@ startup = function(){
 		var password = req.body.password;
 		var username = req.body.username;
 
-		res.redirect("/");
+		//res.redirect("/");
 		handlerController = new UserController.UserController();
 		handlerController.login(username, password, function(loggedin){
 			if (loggedin){
 				//create session if user is logged in
 				sess = req.session;
+				user = username;
 				console.log("[INFO] Session: ", sess);
+
+				//if user is logged in, username is written on dropdownmenu 
+				//and dropdownmenu contains only logout button
+				if (user){
+					res.render('index', {layout: false, user: user, test:htmltags.loggedintag});
+				//if user is not logged in, "Sign in" is written on dropdownmenu
+				//and dropdownmenu contains login form and register button
+				} else {
+					res.render('index', {layout: false, user: "Sign in", test:htmltags.signintag});
+				}
 			}
 		});
+
+
 	})
 
 	function loggedIn(req, res, next){
@@ -71,6 +91,7 @@ startup = function(){
 	app.post('/logout', function(req, res){
 		console.log("[INFO] User logged out.");
 		sess = null;
+		user = null;
 		res.redirect("/");
 	});
 
