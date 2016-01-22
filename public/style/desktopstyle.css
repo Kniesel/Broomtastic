@@ -24,7 +24,7 @@ header {
 
 nav {
 	height:100px;
-	width:722px;
+	width: 100%;
 	background-color: #0c1429;
 	float:right;
 	display: inline;
@@ -104,7 +104,7 @@ img#owl {
 /*styles section content on the right side*/
 section {
 		float:right;
-		width: 722px;
+		width: 100%;
 		font-weight: lighter;
 		background-color:#b3bbd5;
 		}
