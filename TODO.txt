@@ -1,3 +1,18 @@
+> Userinputvalidation
+	-- Username 20 Zeichen
+	--> Rückmeldung (erfolgreich ... oder nicht)
+> Ajax
+> Restful Routing
+	-- post get delete update /destination/id.html bzw .json .txt oder whatever
+	
+
+
+
+
+
+
+
+
 Improve the given sources in several ways
 
 
