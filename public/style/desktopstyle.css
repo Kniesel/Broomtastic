@@ -17,7 +17,6 @@ body {
 
 header {
 		height:100px;
-		background-image: url('../img/broomtastic_logo.jpg');
 		background-repeat: no-repeat;
 		background-position: left;
 		}
@@ -88,12 +87,12 @@ img#owl {
 
 
 /*styles aside content on the left side*/
-aside {
+/*aside {
 		float: left;
 		width: 278px;
 		font-weight: normal;
 		margin-top: 3em;
-		}
+		}*/
 
 /*styles content of category-selects*/
 .filtercontent{
