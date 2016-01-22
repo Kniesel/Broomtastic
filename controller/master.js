@@ -51,7 +51,7 @@ startup = function(){
 	})
 
 	app.get('/home', function(req, res){
-		res.render('index', {layout: false});
+		res.render('index', {layout: false, user: "Sign in", test:htmltags.signintag});
 	})
 
 	//User Login
