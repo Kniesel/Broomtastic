@@ -51,7 +51,7 @@ startup = function(){
 	})
 
 	app.get('/home', function(req, res){
-		res.render('index', {layout: false, user: "Sign in", test:htmltags.signintag});
+		res.render('index', {layout: false, user: "Sign in", dropdowncontent:htmltags.signintag});
 	})
 
 	//User Login
@@ -71,11 +71,11 @@ startup = function(){
 				//if user is logged in, username is written on dropdownmenu 
 				//and dropdownmenu contains only logout button
 				if (user){
-					res.render('index', {layout: false, user: user, test:htmltags.loggedintag});
+					res.render('index', {layout: false, user: user, dropdowncontent:htmltags.loggedintag});
 				//if user is not logged in, "Sign in" is written on dropdownmenu
 				//and dropdownmenu contains login form and register button
 				} else {
-					res.render('index', {layout: false, user: "Sign in", test:htmltags.signintag});
+					res.render('index', {layout: false, user: "Sign in", dropdowncontent:htmltags.signintag});
 				}
 			}
 		});
