@@ -50,6 +50,10 @@ startup = function(){
 		}
 	})
 
+	app.get('/home', function(req, res){
+		res.render('index', {layout: false});
+	})
+
 	//User Login
 	app.post('/login', function(req, res){
 		var password = req.body.password;
