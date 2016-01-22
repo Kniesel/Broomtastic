@@ -18,7 +18,6 @@ var UserController = function(){
 
 UserController.prototype.register = function(username, password, email) {
 
-	database.connect();
 
 	//hash password
 	var hashedPassword = passwordHash.generate(password);
@@ -47,7 +46,6 @@ UserController.prototype.register = function(username, password, email) {
 				mailer = new Mailer();
 				mailer.sendMail(email, token, username);
 			}
-		database.endConnection();
 		});
 
 }
@@ -62,7 +60,6 @@ UserController.prototype.register = function(username, password, email) {
 
 UserController.prototype.login = function(username, password, callback) {
 
-	database.connect();
 
 	database.getUser(username, function(err, data){
 		loggedin = false;
@@ -71,21 +68,23 @@ UserController.prototype.login = function(username, password, callback) {
 		} else {
 			if (!data){
 				console.log("[INFO] No user with this username in db.");
+				err = "No user with username " + username + " in db.";
 			} else {
 				if (passwordHash.verify(password, data.password)){
 					console.log("[INFO] Password is correct.");
 					if (data.token){
 						console.log("[INFO] Email not confirmed.");
+						err = "Email address not yet confirmed.";
 					} else {
 						loggedin = true;
 					}
 				} else {
 					console.log("[INFO] Password is incorrect. :(");
+						err = "Password is incorrect.";
 				}
 			}
 		}
-		callback(loggedin);
-		database.endConnection();
+		callback(err, loggedin);
 	})
 };
 
@@ -97,14 +96,12 @@ UserController.prototype.login = function(username, password, callback) {
 
 
 UserController.prototype.confirmEmail = function(token, username) {
-	database.connect();
 	database.confirmEmail(token, username, function(err, data){
 		if (err){
 			console.log("[ERROR] Couldn't delete token. ", err);
 		} else {
 			console.log("[INFO] Deleted token from db.");
 		}
-		database.endConnection();
 	});
 };
 
@@ -117,7 +114,6 @@ UserController.prototype.confirmEmail = function(token, username) {
 
 
 UserController.prototype.delete = function(username, password) {
-	database.connect();
 	database.getUser(username, function(err, data){
 		if (err){
 			console.log("[ERROR] Error performing query: ", err);
@@ -141,7 +137,6 @@ UserController.prototype.delete = function(username, password) {
 				console.log("[INFO] Password is incorrect. :(");
 			}
 		}
-		database.endConnection();
 	})
 
 };

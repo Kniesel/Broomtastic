@@ -1,10 +1,12 @@
 > Userinputvalidation
-	-- Username 20 Zeichen
+	-- Username 20 Zeichen, nicht Leerzeichen
 	--> Rückmeldung (erfolgreich ... oder nicht)
 > Ajax
 > Restful Routing
 	-- post get delete update /destination/id.html bzw .json .txt oder whatever
-	
+> E-Mail:
+	- User nicht in db schreiben, wenn E-Mail nicht gesendet werden konnte.
+	- E-Mail-erneut-senden-Möglichkeit einbauen
 
 
 

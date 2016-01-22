@@ -8,9 +8,9 @@ var app = express();
 var UserController = require ('./user_contr.js');
 var bodyParser = require ('body-parser');
 var handlebars = require('express-handlebars');
-var htmltags = require('../helper/htmltags.js');
-var sess;
-var user; //username
+var htmltags = require('../helper/htmltags.js'); //contain some htmltags with text that are included in the pages
+var sess; //session; is set when user successfully logged in and is set to NULL if user loggs out
+var user; //username; is set when user successfully logged in and is set to NULL if user loggs out
 
 startup = function(){
 	console.log("Starting server ...")
@@ -20,18 +20,10 @@ startup = function(){
 	app.use(bodyParser());
 	app.use(session({secret: 'keyboard cat'}));
 
-	//handlebars 
+	//handlebars for using templates
 	app.engine('.hbs', handlebars({extname: '.hbs'}));
 	app.set('view engine', '.hbs');
 
-	// Get-Request
-	// app.get('/content', function(req, res){
-	// 	if (user){
-	// 		res.render('index', {layout: false, user: user, test:htmltags.loggedintag});
-	// 	} else {
-	// 		res.render('index', {layout: false, user: "Sign in", test:htmltags.signintag});
-	// 	}
-	// })
 
 	//User Registration
 	app.post('/register', function(req, res){
@@ -50,6 +42,7 @@ startup = function(){
 		}
 	})
 
+	//index page
 	app.get('/home', function(req, res){
 		res.render('index', {layout: false, user: "Sign in", dropdowncontent:htmltags.signintag});
 	})
@@ -59,30 +52,29 @@ startup = function(){
 		var password = req.body.password;
 		var username = req.body.username;
 
-		//res.redirect("/");
 		handlerController = new UserController.UserController();
-		handlerController.login(username, password, function(loggedin){
+		handlerController.login(username, password, function(err, loggedin){
 			if (loggedin){
-				//create session if user is logged in
-				sess = req.session;
-				user = username;
+				sess = req.session; //stores session if user is logged in
+				user = username; //stores username if user is logged in
 				console.log("[INFO] Session: ", sess);
 
 				//if user is logged in, username is written on dropdownmenu 
 				//and dropdownmenu contains only logout button
-				if (user){
-					res.render('index', {layout: false, user: user, dropdowncontent:htmltags.loggedintag});
-				//if user is not logged in, "Sign in" is written on dropdownmenu
-				//and dropdownmenu contains login form and register button
-				} else {
-					res.render('index', {layout: false, user: "Sign in", dropdowncontent:htmltags.signintag});
-				}
+				res.render('index', {layout: false, user: user, dropdowncontent:htmltags.loggedintag, feedback:"Login successful."});
+				
+			//if user is not logged in, "Sign in" is written on dropdownmenu
+			//and dropdownmenu contains login form and register button
+			} else {
+				console.log("[DEBUG] Error: ", err);
+				res.render('index', {layout: false, user: "Sign in", dropdowncontent:htmltags.signintag, feedback:"Error: " + err})
 			}
 		});
 
 
 	})
 
+	//checks if user is logged in
 	function loggedIn(req, res, next){
 		if (sess){
 			return next();
