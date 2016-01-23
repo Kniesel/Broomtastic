@@ -96,6 +96,7 @@ startup = function(){
 		}
 	});
 
+
 	//User Login
 	app.post('/login', function(req, res){
 		var password = req.body.password;
@@ -128,12 +129,21 @@ startup = function(){
 					dropdowncontent:htmltags.signintag, 
 					feedback:"Error: " + err,
 					headline: "Error: " + err
-				})
+				});
 			}
 		});
+	});
 
 
+	//Get products
+	app.post('/products', function(req, res){
+		//TODO:
+		//var category = req.body.category
+		
+		handlerController = new ProductController.ProductController();
+		handlerController.
 	})
+
 
 	//checks if user is logged in
 	function loggedIn(req, res, next){

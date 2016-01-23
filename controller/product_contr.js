@@ -15,7 +15,7 @@ var ProductController = function(){
 // READ ALL PRODUCTS
 //____________________________________________________________
 
-ProductController.prototype.readProducts = function(){
+ProductController.prototype.readProducts = function(callback){
 
 	database.readAllProducts(function(err, data){
 		if (err){
@@ -37,7 +37,7 @@ ProductController.prototype.readProducts = function(){
 // READ PRODUCTS BY CATEGORY 
 //____________________________________________________________
 
-ProductController.prototype.readProductsCategory = function(){
+ProductController.prototype.readProductsCategory = function(category, callback){
 
 };
 
