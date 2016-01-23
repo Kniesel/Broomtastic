@@ -53,7 +53,7 @@ startup = function(){
 					dropdowncontent:htmltags.signintag, 
 					feedback:"",
 					headline: "You are registered now.",
-					content1: "We sent you a registration email. Please confirm your email address by clicking on the link in the email to log in."
+					content1: "<p>We sent you a registration email. Please confirm your email address by clicking on the link in the email to log in.</p>"
 		});
 				}
 			});
