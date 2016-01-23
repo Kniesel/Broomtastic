@@ -42,15 +42,39 @@ startup = function(){
 		}
 	})
 
+	app.get('/register.html', function(req, res){
+		res.render('index', {
+					layout: false, 
+					user: "Sign in", 
+					dropdowncontent:htmltags.signintag, 
+					feedback:"",
+					headline: "Give us all your information to join us!",
+					content1: htmltags.registerform
+		});
+	});
+
 	//index page
 	app.get('/home', function(req, res){
-		res.render('index', {
-			layout: false, 
-			user: "Sign in", 
-			dropdowncontent:htmltags.signintag,
-			headline: "Welcome to the Broomtastic Webshop!"
-		});
-	})
+		//if user is logged in
+		if (user){
+			res.render('index', {
+				layout: false, 
+				user: user, 
+				dropdowncontent:htmltags.loggedintag,
+				headline: "Welcome to the Broomtastic Webshop!",
+				content1: htmltags.productfilter,
+				content2: htmltags.notworking
+			});
+		} else {
+			res.render('index',{
+				layout: false,
+				user: "Sign in",
+				dropdowncontent:htmltags.signintag,
+				headline: "Welcome to the Broomtastic Webshop!",
+				content1: "<p>Please sign in to see our products.</p>"
+			});
+		}
+	});
 
 	//User Login
 	app.post('/login', function(req, res){
@@ -115,12 +139,12 @@ startup = function(){
 		console.log("[INFO] Username: ", username);
 		handlerController = new UserController.UserController();
 		handlerController.confirmEmail(token, username, function(err){
-			res.render('confirmemail', {
+			res.render('index', {
 					layout: false, 
 					user: "Sign in", 
 					dropdowncontent:htmltags.signintag, 
 					feedback:"Error: " + err,
-					headline: "Thank you for confirming your email address. You may now log in."
+					headline: "Thank you for confirming your email address. You may now log in.",
 			})
 		});
 	})
