@@ -3,12 +3,20 @@
 	-- Username mindestens 4 Zeichen
 	-- Passwort mindestens 4 Zeichen
 	--> Rückmeldung (erfolgreich ... oder nicht)
-> Ajax
+> Ajax --> Vielleicht während Eingabe des Usernamens überprüfen, ob verfügbar ...? 
 > Restful Routing
 	-- post get delete update /destination/id.html bzw .json .txt oder whatever
 > E-Mail:
 	- User nicht in db schreiben, wenn E-Mail nicht gesendet werden konnte.
 	- E-Mail-erneut-senden-Möglichkeit einbauen
+> Profilseite für User einbauen, um
+	- Informationen zu ändern
+	- Account zu löschen
+> Warenkorb (nur, wenn noch Zeit ist)
+	- Tabelle mit fk auf user, fk auf product, menge
+	- Link von Shoppingeule auf Warenkorb
+	- Bei den Producten: zum-Warenkorb-hinzufügen-Button
+	- Im Warenkorb: Product-aus-Warenkorb-entfernen-Button
 
 
 
