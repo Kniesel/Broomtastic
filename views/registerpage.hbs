@@ -1,0 +1,75 @@
+<!DOCTYPE html> 
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		
+		<title>Broomtastic</title>
+		
+		<link rel="shortcut icon" href="favicon.ico">
+		<link rel="stylesheet" type="text/css" href="./style/reset.css" >
+		<link rel="stylesheet" type="text/css" href="./style/desktopstyle.css">
+		<link rel="stylesheet" type="text/css" href="./style/little.css" media="(max-width: 570px) and (min-width: 521px)"/>
+		<link rel="stylesheet" type="text/css" href="./style/tiny.css" media="(max-width: 520px)"/>
+	</head>
+
+	<body>
+		<script src="./js/myscript.js"></script>
+		<div id="wrapper">	
+			<header>
+				<nav>
+					<a href="/"><img id="broomtastic" src="./img/broomtastic_logo.jpg" alt="Broomtastic" /></a>
+					<div class="dropdown">
+
+						<button class="dropbutton">{{user}}</button>
+						{{{dropdowncontent}}}
+
+					</div>
+					<img id="owl" src="./img/owl.jpg" alt="Shopping Owl"/>
+				</nav>
+			</header>
+			
+			<section>
+				<p class="feedback">{{feedback}} </p>
+				<br>
+				<h1>{{headline}}</h1>
+
+				<form action="/register" method="post" id="registerform">
+					
+					<p class="title1">Username</p>
+					<input class="registerinput" type="text" name="username">
+					<br>
+					<p class="title1">Password</p>
+					<input class="registerinput" type="password" name="password">
+					<br>
+					<p class="title1">Enter password again</p>
+					<input class="registerinput" type="password" name="password2">
+					<br>
+					<p class="title1">E-Mail-Address (don't cheat, we will send you a registration e-mail!)</p>
+					<input class="registerinput" type="text" name="email">
+					<br>
+					<input class="registerinput" type="submit" value="Register">
+				</form>
+
+				<br>
+				<br>
+				<p class="boldtext">Be aware that your username can only be chosen once!</p>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+			</section>
+
+
+			<footer>
+				Ideas belong to Joanne K. Rowling. This website serves no commercial use.<br>
+				Copyright Anja Bergmann and Johanna Kirchmaier, ITM14
+			</footer>
+
+		</div>
+
+	</body>
+</html>

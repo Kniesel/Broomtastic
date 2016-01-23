@@ -20,6 +20,12 @@ SQLManager.prototype.endConnection = function() {
 	connection.end();
 };
 
+
+//____________________________________________________________
+//
+// USERS - SQLMANAGER
+//____________________________________________________________
+
 SQLManager.prototype.getAll = function() {
 	connection.query('SELECT * FROM users', function(err, rows, fields) {
 		if (!err){
@@ -106,7 +112,10 @@ SQLManager.prototype.confirmEmail = function(token, username, callback) {
 
 
 
-
+//____________________________________________________________
+//
+// PRODUCTS - SQLMANAGER
+//____________________________________________________________
 
 SQLManager.prototype.readAllProducts = function(callback) {
 	var queryString = 'SELECT * FROM products';
