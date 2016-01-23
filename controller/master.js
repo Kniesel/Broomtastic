@@ -125,6 +125,16 @@ startup = function(){
 		});
 	})
 
+	//registerpage
+	app.get('/register', function(req, res){
+		res.render('registerpage', {
+			layout: false, 
+			user: "Sign in", 
+			dropdowncontent:htmltags.signintag,
+			headline: "Give us all your information to join us!"
+		});
+	})
+
 	app.post('/awesome', function(req, res){
 		if (sess){
 			res.redirect('/awesome.html');

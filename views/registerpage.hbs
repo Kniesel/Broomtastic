@@ -32,42 +32,37 @@
 			
 			<section>
 				<p class="feedback">{{feedback}} </p>
-
+				<br>
 				<h1>{{headline}}</h1>
 
-				<br>
-				<br>
-				<br>
-
-					<p class="title1">FILTER BY</p>
+				<form action="/register" method="post" id="registerform">
+					
+					<p class="title1">Username</p>
+					<input class="registerinput" type="text" name="username">
 					<br>
-					<p class="title1 title2">Category</p>
-					<form method="post" class="filtercontent" name="tabledata"> 
-						<select name="category">
-							<option>Show all categories</option> 
-							<option>Balls</option> 
-							<option>Books</option> 
-							<option>Brooms</option> 
-							<option>Clothing</option> 
-						</select>
-						<br>
-						<button type="button" class="registerinput" onclick="testfunction()">OK</button>
-					</form> 
-
-					<p id="notworking"> </p>
-
-
-				<p>
-					<br> <br> <br>
-					If you would like to see our products, check the Categories-Box and click on "OK".
+					<p class="title1">Password</p>
+					<input class="registerinput" type="password" name="password">
 					<br>
-				</p>
+					<p class="title1">Enter password again</p>
+					<input class="registerinput" type="password" name="password2">
+					<br>
+					<p class="title1">E-Mail-Address (don't cheat, we will send you a registration e-mail!)</p>
+					<input class="registerinput" type="text" name="email">
+					<br>
+					<input class="registerinput" type="submit" value="Register">
+				</form>
+
+				<br>
+				<br>
+				<p class="boldtext">Be aware that your username can only be chosen once!</p>
+				<br>
 				<br>
 				<br>
 				<br>
 				<br>
 				<br>
 			</section>
+
 
 			<footer>
 				Ideas belong to Joanne K. Rowling. This website serves no commercial use.<br>

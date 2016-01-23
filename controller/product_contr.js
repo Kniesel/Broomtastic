@@ -15,11 +15,30 @@ var ProductController = function(){
 // READ ALL PRODUCTS
 //____________________________________________________________
 
+ProductController.prototype.readProducts = function(){
 
+	database.readAllProducts(function(err, data){
+		if (err){
+			console.log("[ERROR] ", error);
+		} else {
+			if (!data){
+				console.log("[INFO] Sorry, something went wrong with the data.")
+			} else {
+				console.log("[INFO] Read all Products.")
+			}
+		}
+	})
 
+};
 
 
 //____________________________________________________________
 //
 // READ PRODUCTS BY CATEGORY 
 //____________________________________________________________
+
+ProductController.prototype.readProductsCategory = function(){
+
+};
+
+module.exports.ProductController = ProductController
