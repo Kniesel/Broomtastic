@@ -149,24 +149,6 @@ startup = function(){
 		});
 	})
 
-	//registerpage
-	app.get('/register', function(req, res){
-		res.render('registerpage', {
-			layout: false, 
-			user: "Sign in", 
-			dropdowncontent:htmltags.signintag,
-			headline: "Give us all your information to join us!"
-		});
-	})
-
-	app.post('/awesome', function(req, res){
-		if (sess){
-			res.redirect('/awesome.html');
-		} else {
-			res.redirect('/notloggedin.html');
-		}
-	})
-
 
 	//Delete user
 	app.post('/deleteUser', function(req, res){
@@ -179,7 +161,12 @@ startup = function(){
 
 	//404-Error-Page
 	app.use(function(req, res, next){
-		res.status(404).send('404 - Sorry cannot find page ' + req.url);
+		res.render('index', {
+					layout: false, 
+					user: "Sign in", 
+					dropdowncontent:htmltags.signintag, 
+					headline: "404 - Sorry, this page doesn't exist. :(",
+			})
 	});
 
 	//Error-Handler
