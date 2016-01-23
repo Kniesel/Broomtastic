@@ -3,9 +3,15 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		
 		<title>Broomtastic</title>
+		
+		<link rel="shortcut icon" href="favicon.ico">
 		<link rel="stylesheet" type="text/css" href="./style/reset.css" >
 		<link rel="stylesheet" type="text/css" href="./style/desktopstyle.css">
+		<link rel="stylesheet" type="text/css" href="./style/little.css" media="(max-width: 570px) and (min-width: 521px)"/>
+		<link rel="stylesheet" type="text/css" href="./style/tiny.css" media="(max-width: 520px)"/>
 	</head>
 
 	<body>
@@ -13,7 +19,7 @@
 		<div id="wrapper">	
 			<header>
 				<nav>
-					<img href="/index" id="broomtastic" src="./img/broomtastic_logo.jpg" alt="Shopping Owl"/>
+					<a href="/"><img id="broomtastic" src="./img/broomtastic_logo.jpg" alt="Broomtastic" /></a>
 					<div class="dropdown">
 
 						<button class="dropbutton">{{user}}</button>
