@@ -95,13 +95,14 @@ UserController.prototype.login = function(username, password, callback) {
 //____________________________________________________________
 
 
-UserController.prototype.confirmEmail = function(token, username) {
+UserController.prototype.confirmEmail = function(token, username, callback) {
 	database.confirmEmail(token, username, function(err, data){
 		if (err){
 			console.log("[ERROR] Couldn't delete token. ", err);
 		} else {
 			console.log("[INFO] Deleted token from db.");
 		}
+		callback(err);
 	});
 };
 

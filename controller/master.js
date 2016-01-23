@@ -44,7 +44,12 @@ startup = function(){
 
 	//index page
 	app.get('/home', function(req, res){
-		res.render('index', {layout: false, user: "Sign in", dropdowncontent:htmltags.signintag});
+		res.render('index', {
+			layout: false, 
+			user: "Sign in", 
+			dropdowncontent:htmltags.signintag,
+			headline: "Welcome to the Broomtastic Webshop!"
+		});
 	})
 
 	//User Login
@@ -61,13 +66,25 @@ startup = function(){
 
 				//if user is logged in, username is written on dropdownmenu 
 				//and dropdownmenu contains only logout button
-				res.render('index', {layout: false, user: user, dropdowncontent:htmltags.loggedintag, feedback:"Login successful."});
+				res.render('index', {
+					layout: false, 
+					user: user, 
+					dropdowncontent:htmltags.loggedintag, 
+					feedback:"Login successful.",
+					headline: "You are logged in as " + user + "."
+				});
 				
 			//if user is not logged in, "Sign in" is written on dropdownmenu
 			//and dropdownmenu contains login form and register button
 			} else {
 				console.log("[DEBUG] Error: ", err);
-				res.render('index', {layout: false, user: "Sign in", dropdowncontent:htmltags.signintag, feedback:"Error: " + err})
+				res.render('index', {
+					layout: false, 
+					user: "Sign in", 
+					dropdowncontent:htmltags.signintag, 
+					feedback:"Error: " + err,
+					headline: "Error: " + err
+				})
 			}
 		});
 
@@ -96,9 +113,16 @@ startup = function(){
 		var username = req.query.user;
 		console.log("[INFO] Token: ", token);
 		console.log("[INFO] Username: ", username);
-		res.redirect('/confirmed.html');
 		handlerController = new UserController.UserController();
-		handlerController.confirmEmail(token, username);
+		handlerController.confirmEmail(token, username, function(err){
+			res.render('confirmemail', {
+					layout: false, 
+					user: "Sign in", 
+					dropdowncontent:htmltags.signintag, 
+					feedback:"Error: " + err,
+					headline: "Thank you for confirming your email address. You may now log in."
+			})
+		});
 	})
 
 	app.post('/awesome', function(req, res){
