@@ -10,12 +10,16 @@ var SQLManager = function(){
 		password: dbconfig.password,
 		database: dbconfig.database
 	});
+
+	connection.connect();
 }
 
+//Connect to db (only needed for testing)
 SQLManager.prototype.connect = function() {
 	connection.connect();
 };
 
+//End connection to db (only needed for testing)
 SQLManager.prototype.endConnection = function() {
 	connection.end();
 };
@@ -23,89 +27,50 @@ SQLManager.prototype.endConnection = function() {
 
 //____________________________________________________________
 //
-// USERS - SQLMANAGER
+// USERS
 //____________________________________________________________
 
-SQLManager.prototype.getAll = function() {
-	connection.query('SELECT * FROM users', function(err, rows, fields) {
-		if (!err){
-			console.log('[INFO] The solution is: ', rows);
-		} else {
-			console.log('[ERROR] Error while performing Query.', err
-				);
-		}
-	});
-};
 
-//check if username is already taken (for registration)
-SQLManager.prototype.getUsername = function(username) {
-	var queryString = 'SELECT * FROM users WHERE pk_username = ?';
-	connection.query(queryString, [username], function (err, rows, fields) {
-		if (!err){
-			//Check if user exists
-			var user = false;
-			if (rows != 0){
-				user = true;
-				console.log('[INFO] Username already taken: ', rows);
-			} else {
-				console.log('[INFO] No user with username ' + username + ' in database.')
-			}
-		}else{
-			console.log('Error while performing Query.', err);
-		}
+//Get all users
+SQLManager.prototype.getAll = function(callback) {
+	connection.query('SELECT * FROM users', function (err, result) {
+		callback(err, result);
 	});
 };
 
 
+//Read user by username
 SQLManager.prototype.getUser = function(username, callback) {
 	var queryString = 'SELECT * FROM users WHERE pk_username = ?';
 	connection.query(queryString, [username], function (err, result) {
-		if (!err){
-			//Check if user exists
-			if (!result[0]){
-				callback(null, null);
-			} else {
-				console.log("[DEBUG] Result[0]: ", result[0]);
-				callback(null, result[0]);
-			}
-		}else{
-			console.log('[ERROR] Error while performing Query.', err);
-			callback(err, null);
-		}
+		callback(err, result[0]);
 	});
 };
 
+
+//Write user into db
 SQLManager.prototype.setUser = function(username, password, email, token, callback) {
 	var queryString = 'INSERT INTO users (pk_username, password, email, token) VALUES (?, ?, ?, ?)';
 	connection.query(queryString, [username, password, email, token], function (err, result) {
-		if (!err){
-			callback(null, true);
-		}else{
-			callback(err, null);
-		}
+		callback(err, result);
 	});
 };
 
+
+//Delete user from db
 SQLManager.prototype.deleteUser = function(username, callback) {
 	var queryString = 'DELETE FROM users WHERE pk_username = ?';
-	connection.query(queryString, [username], function(err, result){
-		if (err){
-			callback(err, false);
-		} else {
-			callback(null, result);
-		}
+	connection.query(queryString, [username], function (err, result){
+		callback(err, result);
 	})
 };
 
 
+//Delete token from db to confirm email address
 SQLManager.prototype.confirmEmail = function(token, username, callback) {
 	var queryString = 'UPDATE users SET token = NULL where token = ? AND pk_username = ?'
-	connection.query(queryString, [token, username], function(err, result){
-		if (!err){
-			callback (null, true);
-		} else {
-			callback(err, false);
-		}
+	connection.query(queryString, [token, username], function (err, result){
+		callback(err, result);
 	})
 };
 
@@ -114,29 +79,26 @@ SQLManager.prototype.confirmEmail = function(token, username, callback) {
 
 //____________________________________________________________
 //
-// PRODUCTS - SQLMANAGER
+// PRODUCTS
 //____________________________________________________________
 
-SQLManager.prototype.readAllProducts = function(callback) {
-	var queryString = 'SELECT * FROM products';
-	connection.query(queryString, function(err, result){
-		if (!err){
-			callback(null, result);
-		} else {
-			callback(err, null);
-		}
+
+//Get all products
+SQLManager.prototype.getAllProducts = function(callback) {
+	connection.query('SELECT * FROM products', function (err, result) {
+		callback(err, result);
+	});
+};
+
+
+//Get products from a certain category
+SQLManager.prototype.readProductsByCategory = function(category, callback) {
+	var queryString = 'SELECT * FROM proucts WHERE category = ?';
+	connection.query(queryString, [category], function (err, result){
+		callback(err, result);
 	})
 };
 
-SQLManager.prototype.readProductsByCategory = function(category, callback) {
-	var queryString = 'SELECT * FROM proucts WHERE category = ?';
-	connection.query(queryString, [category], function(err, result){
-		if (!err){
-			callback(null, result);
-		} else {
-			callback (err, null);
-		}
-	})
-};
+
 
 module.exports.SQLManager = SQLManager

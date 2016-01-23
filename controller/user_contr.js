@@ -16,42 +16,39 @@ var UserController = function(){
 // REGISTRATION 
 //____________________________________________________________
 
-UserController.prototype.register = function(username, password, email) {
+UserController.prototype.register = function(username, password, email, callback) {
 
 
 	//hash password
 	var hashedPassword = passwordHash.generate(password);
 
-	//check if username is taken or free
-	if (database.getUsername(username)){
-		console.log("[INFO] Username already taken.");
-	} else {
-		// create random token
-		createToken = function() {
-			const buf = crypto.randomBytes(32);
-			return buf.toString('hex');
-		}
+	// create random token
+	createToken = function() {
+		const buf = crypto.randomBytes(32);
+		return buf.toString('hex');
+	}
+	var token = createToken();
 
-		var token = createToken();
-
-		//write user into database
-		database.setUser(username, hashedPassword, email, token, function(err, data){
-			if (err){
-				console.log("[ERROR] Couldn't write user into db. ", err);
-			} else {
-				console.log("[INFO] Entered user into db.");
-
-				//Send registration email
-				this.email = email;
-				mailer = new Mailer();
-				mailer.sendMail(email, token, username);
+	//write user into database
+	database.setUser(username, hashedPassword, email, token, function(err, data){
+		if (err){
+			console.log("[ERROR] Couldn't write user into db. ", err);
+			if (err.message.substring(0, 12) === "ER_DUP_ENTRY"){
+				err = "This username is already taken.";
 			}
-		});
+		} else {
+			console.log("[INFO] Entered user into db.");
 
+			//Send registration email
+			this.email = email;
+			mailer = new Mailer();
+			mailer.sendMail(email, token, username);
+		}
+		callback(err);
+
+	});
 }
 
-
-};
 
 //____________________________________________________________
 //
@@ -66,9 +63,10 @@ UserController.prototype.login = function(username, password, callback) {
 		if (err){
 			console.log("[ERROR] ", error);
 		} else {
+			console.log("[DEBUG] Login - data: ", data);
 			if (!data){
 				console.log("[INFO] No user with this username in db.");
-				err = "No user with username " + username + " in db.";
+				err = "Sorry, but there is no user with username " + username + " in our database.";
 			} else {
 				if (passwordHash.verify(password, data.password)){
 					console.log("[INFO] Password is correct.");

@@ -34,15 +34,35 @@ startup = function(){
 		var email = req.body.email;
 
 		if (password === password2){
-			res.redirect("/");
 			handlerController = new UserController.UserController();
-			handlerController.register(username, password, email);
+			handlerController.register(username, password, email, function(err){
+				if (err){
+					console.log("[ERROR] ", err);
+					res.render('index', {
+					layout: false, 
+					user: "Sign in", 
+					dropdowncontent:htmltags.signintag, 
+					feedback:"",
+					headline: "Error: " + err,
+					content1: htmltags.registerform
+		});
+				} else {
+					res.render('index', {
+					layout: false, 
+					user: "Sign in", 
+					dropdowncontent:htmltags.signintag, 
+					feedback:"",
+					headline: "You are registered now.",
+					content1: "We sent you a registration email. Please confirm your email address by clicking on the link in the email to log in."
+		});
+				}
+			});
 		} else {
 			res.send("[INFO] Registration: Your entered passwords don't match.");
 		}
 	})
 
-	app.get('/register.html', function(req, res){
+	app.get('/register', function(req, res){
 		res.render('index', {
 					layout: false, 
 					user: "Sign in", 
