@@ -164,7 +164,7 @@ startup = function(){
 							+ data[i].category
 						+ "</td><td class=\"tablebody\">"
 							+ data[i].price
-						+ "</td></tr>";
+						+ "€</td></tr>";
 				}
 
 				productdata = productdata + "</table></p>"
@@ -174,7 +174,8 @@ startup = function(){
 					user: user, 
 					dropdowncontent:htmltags.loggedintag,
 					headline: "Products",
-					content1: productdata
+					content1: htmltags.productfilter,
+					content2: productdata
 				});
 
 			}
