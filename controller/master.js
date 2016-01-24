@@ -359,7 +359,6 @@ startup = function(){
 	app.post('/changePassword', function(req, res){
 		var password = req.body.password;
 		var newpassword = req.body.newpassword;
-		console.log("[DEBUG] Password: ", password);
 		handlerController = new UserController.UserController();
 		handlerController.changePassword(user, password, newpassword, function(err){
 			if (err){
@@ -377,6 +376,35 @@ startup = function(){
 					user: user, 
 					dropdowncontent:htmltags.loggedintag,
 					headline: "Password successfully changed!",
+				});
+			}
+		});
+	});
+
+
+	//change email address
+	app.post('/changeEmail', function(req, res){
+		var password = req.body.password;
+		var email = req.body.email;
+		handlerController = new UserController.UserController();
+		handlerController.changeEmail(user, password, email, function(err){
+			if (err){
+				console.log("[ERROR] ", err);
+				res.render('index', {
+					layout: false, 
+					user: user, 
+					dropdowncontent:htmltags.loggedintag,
+					headline: "ERROR: "+ err
+				});
+			} else {
+				console.log("[INFO] Successfully changed user information.");
+				user = null;
+				res.render('index', {
+					layout: false, 
+					user: "Sign in", 
+					dropdowncontent:htmltags.signintag,
+					headline: "Email address successfully changed!",
+					content1: "<p> You have to confirm your new email address before you can log in again.</p>"
 				});
 			}
 		});

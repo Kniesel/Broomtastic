@@ -144,10 +144,9 @@ UserController.prototype.changePassword = function(username, password, newpasswo
 		if (err){
 			console.log("[ERROR] ", err);
 		} else {
-			console.log("[DEBUG] data.password: ", data.password)
 			if (passwordHash.verify(password, data.password)){
 				console.log("[INFO] Password correct.");
-				//change uusername only if password is correct
+				//change password only if password is correct
 				//hash new password
 				var hashedPassword = passwordHash.generate(newpassword);
 				database.changePassword(username, hashedPassword, function (err, result){
@@ -166,6 +165,43 @@ UserController.prototype.changePassword = function(username, password, newpasswo
 };
 
 
+//Change email
+UserController.prototype.changeEmail = function(username, password, email, callback) {
+	//Read user from db to check if password is correct
+	database.getUser(username, function (err, data){
+		if (err){
+			console.log("[ERROR] ", err);
+		} else {
+			if (passwordHash.verify(password, data.password)){
+				console.log("[INFO] Password correct.");
+
+				// create random token
+				createToken = function() {
+					const buf = crypto.randomBytes(32);
+					return buf.toString('hex');
+				}
+				var token = createToken();
+
+				//Send registration email
+				this.email = email;
+				mailer = new Mailer();
+				mailer.sendMail(email, token, username);
+
+				//change email address only if password is correct
+				database.changeEmail(username, email, token, function (err, result){
+					if (err){
+						console.log("[ERROR] ", err);
+					}
+				});
+			} else {
+				console.log("[ERROR] Password is incorrect.");
+				err = "Password is incorrect.";
+			}
+		}
+		callback(err);
+	});
+
+};
 
 
 
