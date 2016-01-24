@@ -364,62 +364,73 @@ startup = function(){
 	app.post('/changeUsername', function(req, res){
 		var newusername = req.body.username;
 		var password = req.body.password;
-		if (newusername.length > 20){
+		//Input validation
+		if (!newusername || newusername.length < 4 || newusername.length > 20){
 			res.render('index', {
 				layout: false, 
 				user: user, 
 				dropdowncontent:htmltags.loggedintag,
-				headline: "ERROR: Username has to have 20 characters at most."
+				headline: "ERROR: Username has to have between 4 and 20 characters."
+			});
+		} else {
+			console.log("[DEBUG] Password: ", password);
+			handlerController = new UserController.UserController();
+			handlerController.changeUsername(user, newusername, password, function (err){
+				if (err){
+					console.log("[ERROR] ", err);
+					res.render('index', {
+						layout: false, 
+						user: user, 
+						dropdowncontent:htmltags.loggedintag,
+						headline: "ERROR: "+ err
+					});
+				} else {
+					console.log("[INFO] Successfully changed user information.");
+					user = newusername;
+					res.render('index', {
+						layout: false, 
+						user: user, 
+						dropdowncontent:htmltags.loggedintag,
+						headline: "Username successfully changed!",
+					});
+				}
 			});
 		}
-		console.log("[DEBUG] Password: ", password);
-		handlerController = new UserController.UserController();
-		handlerController.changeUsername(user, newusername, password, function (err){
-			if (err){
-				console.log("[ERROR] ", err);
-				res.render('index', {
-					layout: false, 
-					user: user, 
-					dropdowncontent:htmltags.loggedintag,
-					headline: "ERROR: "+ err
-				});
-			} else {
-				console.log("[INFO] Successfully changed user information.");
-				user = newusername;
-				res.render('index', {
-					layout: false, 
-					user: user, 
-					dropdowncontent:htmltags.loggedintag,
-					headline: "Username successfully changed!",
-				});
-			}
-		});
 	});
 
 	//change password
 	app.post('/changePassword', function(req, res){
 		var password = req.body.password;
 		var newpassword = req.body.newpassword;
-		handlerController = new UserController.UserController();
-		handlerController.changePassword(user, password, newpassword, function(err){
-			if (err){
-				console.log("[ERROR] ", err);
-				res.render('index', {
+		if (!newpassword || newpassword.length < 4){
+			res.render('index', {
 					layout: false, 
 					user: user, 
 					dropdowncontent:htmltags.loggedintag,
-					headline: "ERROR: "+ err
+					headline: "Your new password has to have at least 4 characters."
 				});
-			} else {
-				console.log("[INFO] Successfully changed user information.");
-				res.render('index', {
-					layout: false, 
-					user: user, 
-					dropdowncontent:htmltags.loggedintag,
-					headline: "Password successfully changed!",
-				});
-			}
-		});
+		} else {
+			handlerController = new UserController.UserController();
+			handlerController.changePassword(user, password, newpassword, function(err){
+				if (err){
+					console.log("[ERROR] ", err);
+					res.render('index', {
+						layout: false, 
+						user: user, 
+						dropdowncontent:htmltags.loggedintag,
+						headline: "ERROR: "+ err
+					});
+				} else {
+					console.log("[INFO] Successfully changed user information.");
+					res.render('index', {
+						layout: false, 
+						user: user, 
+						dropdowncontent:htmltags.loggedintag,
+						headline: "Password successfully changed!",
+					});
+				}
+			});
+		}
 	});
 
 
@@ -427,28 +438,37 @@ startup = function(){
 	app.post('/changeEmail', function(req, res){
 		var password = req.body.password;
 		var email = req.body.email;
-		handlerController = new UserController.UserController();
-		handlerController.changeEmail(user, password, email, function(err){
-			if (err){
-				console.log("[ERROR] ", err);
-				res.render('index', {
-					layout: false, 
-					user: user, 
-					dropdowncontent:htmltags.loggedintag,
-					headline: "ERROR: "+ err
-				});
-			} else {
-				console.log("[INFO] Successfully changed user information.");
-				user = null;
-				res.render('index', {
-					layout: false, 
-					user: "Sign in", 
-					dropdowncontent:htmltags.signintag,
-					headline: "Email address successfully changed!",
-					content1: "<p> You have to confirm your new email address before you can log in again.</p>"
-				});
-			}
-		});
+		if (!email || email.length < 3){
+			res.render('index', {
+				layout: false, 
+				user: user, 
+				dropdowncontent:htmltags.loggedintag,
+				headline: "Please enter a valid email address."
+			});
+		} else {
+			handlerController = new UserController.UserController();
+			handlerController.changeEmail(user, password, email, function(err){
+				if (err){
+					console.log("[ERROR] ", err);
+					res.render('index', {
+						layout: false, 
+						user: user, 
+						dropdowncontent:htmltags.loggedintag,
+						headline: "ERROR: "+ err
+					});
+				} else {
+					console.log("[INFO] Successfully changed user information.");
+					user = null;
+					res.render('index', {
+						layout: false, 
+						user: "Sign in", 
+						dropdowncontent:htmltags.signintag,
+						headline: "Email address successfully changed!",
+						content1: "<p> You have to confirm your new email address before you can log in again.</p>"
+					});
+				}
+			});
+		}
 	});
 
 
@@ -534,7 +554,7 @@ startup = function(){
 		var port = config.port;
 
 		console.log('Broomtastic is listening on http://%s:%s', host, port);
-	})
+	});
 
 
 }
