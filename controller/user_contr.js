@@ -112,16 +112,60 @@ UserController.prototype.confirmEmail = function(token, username, callback) {
 //____________________________________________________________
 
 
-UserController.prototype.change = function(username, newusername, password, email, token, callback) {
-	database.changeUser(username, newusername, password, email, token, function (err, data){
+//Change username
+UserController.prototype.changeUsername = function(username, newusername, password, callback) {
+	//Read user from db to check if password is correct
+	database.getUser(username, function (err, data){
 		if (err){
-			console.log("[ERROR] Error changing user information", err);
+			console.log("[ERROR] ", err);
 		} else {
-			console.log("[INFO] User information changed.");
+			if (passwordHash.verify(password, data.password)){
+				console.log("[INFO] Password correct.");
+				//change uusername only if password is correct
+				database.changeUsername(username, newusername, function (err, result){
+					if (err){
+						console.log("[ERROR] ", err);
+					}
+				});
+			} else {
+				console.log("[ERROR] Password is incorrect.");
+				err = "Password is incorrect.";
+			}
 		}
 		callback(err);
 	});
+
 };
+
+//Change password
+UserController.prototype.changePassword = function(username, password, newpassword, callback) {
+	//Read user from db to check if password is correct
+	database.getUser(username, function (err, data){
+		if (err){
+			console.log("[ERROR] ", err);
+		} else {
+			console.log("[DEBUG] data.password: ", data.password)
+			if (passwordHash.verify(password, data.password)){
+				console.log("[INFO] Password correct.");
+				//change uusername only if password is correct
+				//hash new password
+				var hashedPassword = passwordHash.generate(newpassword);
+				database.changePassword(username, hashedPassword, function (err, result){
+					if (err){
+						console.log("[ERROR] ", err);
+					}
+				});
+			} else {
+				console.log("[ERROR] Password is incorrect.");
+				err = "Password is incorrect.";
+			}
+		}
+		callback(err);
+	});
+
+};
+
+
 
 
 

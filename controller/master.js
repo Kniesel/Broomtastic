@@ -26,7 +26,57 @@ startup = function(){
 	app.set('view engine', '.hbs');
 
 
-	//User Registration
+
+//________________________________________________________
+//
+// Index page
+//________________________________________________________
+
+	app.get('/home', function(req, res){
+		//if user is logged in
+		if (user){
+			res.render('index', {
+				layout: false, 
+				user: user, 
+				dropdowncontent:htmltags.loggedintag,
+				headline: "Welcome to the Broomtastic Webshop!",
+				content1: htmltags.productfilter,
+				content2: htmltags.notworking
+			});
+		} else {
+			res.render('index',{
+				layout: false,
+				user: "Sign in",
+				dropdowncontent:htmltags.signintag,
+				headline: "Welcome to the Broomtastic Webshop!",
+				content1: "<p>Please sign in to see our products.</p>"
+			});
+		}
+	});
+
+
+
+//________________________________________________________
+//
+// User Registration
+//________________________________________________________
+
+
+	//Go to registration page
+	app.get('/register', function(req, res){
+		res.render('index', {
+					layout: false, 
+					user: "Sign in", 
+					dropdowncontent:htmltags.signintag, 
+					feedback:"",
+					headline: "Give us all your information to join us!",
+					content1: htmltags.registerform
+		});
+	});
+
+
+
+	//Submit of registration form
 	app.post('/register', function(req, res){
 		console.log("Cookies: ", req.cookies);
 		var username = req.body.username;
@@ -63,42 +113,13 @@ startup = function(){
 		}
 	})
 
-	app.get('/register', function(req, res){
-		res.render('index', {
-					layout: false, 
-					user: "Sign in", 
-					dropdowncontent:htmltags.signintag, 
-					feedback:"",
-					headline: "Give us all your information to join us!",
-					content1: htmltags.registerform
-		});
-	});
 
-	//index page
-	app.get('/home', function(req, res){
-		//if user is logged in
-		if (user){
-			res.render('index', {
-				layout: false, 
-				user: user, 
-				dropdowncontent:htmltags.loggedintag,
-				headline: "Welcome to the Broomtastic Webshop!",
-				content1: htmltags.productfilter,
-				content2: htmltags.notworking
-			});
-		} else {
-			res.render('index',{
-				layout: false,
-				user: "Sign in",
-				dropdowncontent:htmltags.signintag,
-				headline: "Welcome to the Broomtastic Webshop!",
-				content1: "<p>Please sign in to see our products.</p>"
-			});
-		}
-	});
+//________________________________________________________
+//
+// User Login
+//________________________________________________________
 
 
-	//User Login
 	app.post('/login', function(req, res){
 		var password = req.body.password;
 		var username = req.body.username;
@@ -134,6 +155,13 @@ startup = function(){
 			}
 		});
 	});
+
+
+
+//________________________________________________________
+//
+// Products
+//________________________________________________________
 
 
 	//Get products
@@ -223,13 +251,10 @@ startup = function(){
 
 
 
-	//checks if user is logged in
-	function loggedIn(req, res, next){
-		if (sess){
-			return next();
-		}
-		res.redirect('/');
-	}
+//________________________________________________________
+//
+// User Logout
+//________________________________________________________
 
 
 	//User logout
@@ -239,6 +264,13 @@ startup = function(){
 		user = null;
 		res.redirect("/");
 	});
+
+
+
+//________________________________________________________
+//
+// Email confirmation
+//________________________________________________________
 
 	app.get('/confirm-e-mail', function(req, res){
 		var token = req.query.token;
@@ -258,22 +290,104 @@ startup = function(){
 	})
 
 
-	app.post('/changeprofile', function(req, res){
-		//TODO: Check if email address changes - if so, create a new token, otherwise set the token to null 
+//________________________________________________________
+//
+// Profile page
+//________________________________________________________
+
+
+	app.post('/profile', function(req, res){
+		//If user is not logged in
+		if (!user){
+			console.log("[INFO] User not logged in.");
+			res.render('index', {
+					layout: false, 
+					user: "Sign in", 
+					dropdowncontent:htmltags.signintag,
+					headline: "You are not logged in."
+			})
+		//If user is logged in
+		} else {
+			console.log("[INFO] Profile of ", user);
+			res.render('index', {
+					layout: false, 
+					user: user, 
+					dropdowncontent:htmltags.loggedintag,
+					headline: "Your profile",
+					content1: htmltags.changeforms
+			})
+		}
+	});
+
+
+
+//________________________________________________________
+//
+// Change Account
+//________________________________________________________
+
+
+	//change username
+	app.post('/changeUsername', function(req, res){
 		var newusername = req.body.username;
 		var password = req.body.password;
-		var email = req.body.email;
-		var token = "1234";
+		console.log("[DEBUG] Password: ", password);
 		handlerController = new UserController.UserController();
-		handlerController.change(user, newusername, password, email, token, function(err){
+		handlerController.changeUsername(user, newusername, password, function(err){
 			if (err){
 				console.log("[ERROR] ", err);
+				res.render('index', {
+					layout: false, 
+					user: user, 
+					dropdowncontent:htmltags.loggedintag,
+					headline: "ERROR: "+ err
+				});
 			} else {
 				console.log("[INFO] Successfully changed user information.");
+				user = newusername;
+				res.render('index', {
+					layout: false, 
+					user: user, 
+					dropdowncontent:htmltags.loggedintag,
+					headline: "Username successfully changed!",
+				});
 			}
-		})
-		res.redirect('/');
-	})
+		});
+	});
+
+	//change password
+	app.post('/changePassword', function(req, res){
+		var password = req.body.password;
+		var newpassword = req.body.newpassword;
+		console.log("[DEBUG] Password: ", password);
+		handlerController = new UserController.UserController();
+		handlerController.changePassword(user, password, newpassword, function(err){
+			if (err){
+				console.log("[ERROR] ", err);
+				res.render('index', {
+					layout: false, 
+					user: user, 
+					dropdowncontent:htmltags.loggedintag,
+					headline: "ERROR: "+ err
+				});
+			} else {
+				console.log("[INFO] Successfully changed user information.");
+				res.render('index', {
+					layout: false, 
+					user: user, 
+					dropdowncontent:htmltags.loggedintag,
+					headline: "Password successfully changed!",
+				});
+			}
+		});
+	});
+
+
+//________________________________________________________
+//
+// Delete Account
+//________________________________________________________
+
 
 	//Delete user
 	app.post('/deleteUser', function(req, res){
@@ -283,6 +397,26 @@ startup = function(){
 		handlerController.delete(username, password);
 		res.redirect('/');
 	})
+
+
+
+
+
+	//Redirects to home if user is not logged in
+	function loggedIn(req, res, next){
+		if (user){
+			return next();
+		}
+		res.redirect('/');
+	}
+
+
+
+//________________________________________________________
+//
+// Errorhandling
+//________________________________________________________
+
 
 	//404-Error-Page
 	app.use(function(req, res, next){
@@ -299,6 +433,11 @@ startup = function(){
 		console.error(err.stack);
 		res.status(500).send('Suddenly a wild error appears');
 	});
+
+
+
+
+
 
 
 	var server = app.listen(config.port, function () {
