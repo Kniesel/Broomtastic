@@ -175,7 +175,7 @@ UserController.prototype.changePassword = function(username, password, newpasswo
 //____________________________________________________________
 
 
-UserController.prototype.delete = function(username, password) {
+UserController.prototype.delete = function(username, password, callback) {
 	database.getUser(username, function (err, data){
 		if (err){
 			console.log("[ERROR] Error performing query: ", err);
@@ -199,7 +199,8 @@ UserController.prototype.delete = function(username, password) {
 				console.log("[INFO] Password is incorrect. :(");
 			}
 		}
-	})
+		callback(err);
+	});
 
 };
 

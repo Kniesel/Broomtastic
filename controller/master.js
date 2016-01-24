@@ -391,12 +391,32 @@ startup = function(){
 
 	//Delete user
 	app.post('/deleteUser', function(req, res){
-		var username = req.body.username;
 		var password = req.body.password;
 		handlerController = new UserController.UserController();
-		handlerController.delete(username, password);
-		res.redirect('/');
+		handlerController.delete(user, password, function(err){
+			if (err){
+				res.render('index', {
+					layout: false, 
+					user: user, 
+					dropdowncontent:htmltags.loggedintag,
+					headline: "ERROR " + err,
+				});
+			} else {
+				user = null;
+				res.render('index', {
+					layout: false, 
+					user: "Sign in", 
+					dropdowncontent:htmltags.signintag,
+					headline: "Account successfully deleted.",
+				});
+			}
+		});
 	})
+
+
+
+
+
 
 
 
