@@ -15,9 +15,10 @@ var ProductController = function(){
 // READ ALL PRODUCTS
 //____________________________________________________________
 
-ProductController.prototype.readProducts = function(callback){
+ProductController.prototype.getAllProducts = function(callback){
 
-	database.readAllProducts(function(err, data){
+
+	database.getAllProducts(function(err, data){
 		if (err){
 			console.log("[ERROR] ", error);
 		} else {
@@ -27,7 +28,8 @@ ProductController.prototype.readProducts = function(callback){
 				console.log("[INFO] Read all Products.")
 			}
 		}
-	})
+		callback(err, data);
+	});
 
 };
 
@@ -37,7 +39,7 @@ ProductController.prototype.readProducts = function(callback){
 // READ PRODUCTS BY CATEGORY 
 //____________________________________________________________
 
-ProductController.prototype.readProductsCategory = function(category, callback){
+ProductController.prototype.getProductsByCategory = function(category, callback){
 
 };
 

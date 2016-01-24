@@ -6,6 +6,7 @@ var express = require('express');
 var session = require('express-session');
 var app = express();
 var UserController = require ('./user_contr.js');
+var ProductController = require ('./product_contr.js');
 var bodyParser = require ('body-parser');
 var handlebars = require('express-handlebars');
 var htmltags = require('../helper/htmltags.js'); //contain some htmltags with text that are included in the pages
@@ -141,8 +142,44 @@ startup = function(){
 		//var category = req.body.category
 		
 		handlerController = new ProductController.ProductController();
-		handlerController.
-	})
+		handlerController.getAllProducts(function(err, data){
+			if (err){
+				res.render('index', {
+					layout: false, 
+					user: user, 
+					dropdowncontent:htmltags.loggedintag, 
+					feedback:"Error: " + err,
+					headline: "Error: " + err
+				});
+			} else {
+
+				var productdata = "<p><table class=\"tablecontent\"><tr class=\"tablehead\"><th class=\"tablehead\">Product</td><th class=\"tablehead\">Category</td><th class=\"tablehead\">Price</td></tr>";
+
+				for (var i in data){
+					console.log("[DEBUG] Data: ", data[i]);
+					productdata = productdata 
+						+ "<tr class=\"tablebody\"><td class=\"tablebody\">" 
+							+ data[i].productname
+						+ "</td><td class=\"tablebody\">"
+							+ data[i].category
+						+ "</td><td class=\"tablebody\">"
+							+ data[i].price
+						+ "</td></tr>";
+				}
+
+				productdata = productdata + "</table></p>"
+
+				res.render('index', {
+					layout: false, 
+					user: user, 
+					dropdowncontent:htmltags.loggedintag,
+					headline: "Products",
+					content1: productdata
+				});
+
+			}
+		});
+	});
 
 
 	//checks if user is logged in
