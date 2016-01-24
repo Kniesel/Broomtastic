@@ -84,32 +84,65 @@ startup = function(){
 		var password2 = req.body.password2;
 		var email = req.body.email;
 
-		if (password === password2){
+		//Userinput validation
+		if(!username || username.length < 4 || username.length > 20){
+			res.render('index', {
+				layout: false, 
+				user: "Sign in", 
+				dropdowncontent:htmltags.signintag, 
+				headline: "Error: Your username has to have between 4 and 20 characters.",
+				content1: htmltags.registerform
+			});
+		//Userinput validation
+		} else if (!password || password.length < 4){
+			res.render('index', {
+				layout: false, 
+				user: "Sign in", 
+				dropdowncontent:htmltags.signintag, 
+				headline: "Error: Your password has to have at least 4 characters.",
+				content1: htmltags.registerform
+			});
+		//Userinput validation
+		} else if (!email){
+			res.render('index', {
+				layout: false, 
+				user: "Sign in", 
+				dropdowncontent:htmltags.signintag, 
+				headline: "Error: You have to enter a valid email address.",
+				content1: htmltags.registerform
+			});
+		} else if (password === password2){
 			handlerController = new UserController.UserController();
 			handlerController.register(username, password, email, function(err){
 				if (err){
 					console.log("[ERROR] ", err);
 					res.render('index', {
-					layout: false, 
-					user: "Sign in", 
-					dropdowncontent:htmltags.signintag, 
-					feedback:"",
-					headline: "Error: " + err,
-					content1: htmltags.registerform
-		});
+						layout: false, 
+						user: "Sign in", 
+						dropdowncontent:htmltags.signintag, 
+						feedback:"",
+						headline: "Error: " + err,
+						content1: htmltags.registerform
+					});
 				} else {
 					res.render('index', {
-					layout: false, 
-					user: "Sign in", 
-					dropdowncontent:htmltags.signintag, 
-					feedback:"",
-					headline: "You are registered now.",
-					content1: "<p>We sent you a registration email. Please confirm your email address by clicking on the link in the email to log in.</p>"
-		});
+						layout: false, 
+						user: "Sign in", 
+						dropdowncontent:htmltags.signintag, 
+						feedback:"",
+						headline: "You are registered now.",
+						content1: "<p>We sent you a registration email. Please confirm your email address by clicking on the link in the email to log in.</p>"
+					});
 				}
 			});
 		} else {
-			res.send("[INFO] Registration: Your entered passwords don't match.");
+			res.render('index', {
+				layout: false, 
+				user: "Sign in", 
+				dropdowncontent:htmltags.signintag, 
+				feedback:"",
+				headline: "Your entered passwords do not match."
+			});
 		}
 	})
 
@@ -331,9 +364,17 @@ startup = function(){
 	app.post('/changeUsername', function(req, res){
 		var newusername = req.body.username;
 		var password = req.body.password;
+		if (newusername.length > 20){
+			res.render('index', {
+				layout: false, 
+				user: user, 
+				dropdowncontent:htmltags.loggedintag,
+				headline: "ERROR: Username has to have 20 characters at most."
+			});
+		}
 		console.log("[DEBUG] Password: ", password);
 		handlerController = new UserController.UserController();
-		handlerController.changeUsername(user, newusername, password, function(err){
+		handlerController.changeUsername(user, newusername, password, function (err){
 			if (err){
 				console.log("[ERROR] ", err);
 				res.render('index', {
