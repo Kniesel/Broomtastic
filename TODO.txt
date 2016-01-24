@@ -1,3 +1,8 @@
+
+Sollte der Fehler "Error: listen EADDRINUSE :::8888" auftauchen
+--> sicherstellen, dass der Server nicht schon gestartet ist ... :X
+
+
 > Links zu den Produkten hinzufügen
 > Ajax --> Vielleicht während Eingabe des Usernamens überprüfen, ob verfügbar ...? 
 > Restful Routing
