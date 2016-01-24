@@ -18,7 +18,7 @@ var ProductController = function(){
 ProductController.prototype.getAllProducts = function(callback){
 
 
-	database.getAllProducts(function(err, data){
+	database.getAllProducts(function (err, data){
 		if (err){
 			console.log("[ERROR] ", error);
 		} else {
@@ -40,7 +40,7 @@ ProductController.prototype.getAllProducts = function(callback){
 //____________________________________________________________
 
 ProductController.prototype.getProductsByCategory = function(category, callback){
-	database.readProductsByCategory(category, function(err, data){
+	database.getProductsByCategory(category, function (err, data){
 		if (err){
 			console.log("[ERROR] ", error);
 		} else {

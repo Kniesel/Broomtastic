@@ -182,7 +182,7 @@ startup = function(){
 			});
 		//If a specific categroy is selected
 		} else {
-			handlerController.getProductsByCategory(function(err, data){
+			handlerController.getProductsByCategory(category, function (err, data){
 				if (err){
 					res.render('index', {
 						layout: false, 
