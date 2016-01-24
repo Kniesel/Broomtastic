@@ -30,7 +30,7 @@ UserController.prototype.register = function(username, password, email, callback
 	var token = createToken();
 
 	//write user into database
-	database.setUser(username, hashedPassword, email, token, function(err, data){
+	database.setUser(username, hashedPassword, email, token, function (err, data){
 		if (err){
 			console.log("[ERROR] Couldn't write user into db. ", err);
 			if (err.message.substring(0, 12) === "ER_DUP_ENTRY"){
@@ -58,7 +58,7 @@ UserController.prototype.register = function(username, password, email, callback
 UserController.prototype.login = function(username, password, callback) {
 
 
-	database.getUser(username, function(err, data){
+	database.getUser(username, function (err, data){
 		loggedin = false;
 		if (err){
 			console.log("[ERROR] ", error);
@@ -94,11 +94,30 @@ UserController.prototype.login = function(username, password, callback) {
 
 
 UserController.prototype.confirmEmail = function(token, username, callback) {
-	database.confirmEmail(token, username, function(err, data){
+	database.confirmEmail(token, username, function (err, data){
 		if (err){
 			console.log("[ERROR] Couldn't delete token. ", err);
 		} else {
 			console.log("[INFO] Deleted token from db.");
+		}
+		callback(err);
+	});
+};
+
+
+
+//____________________________________________________________
+//
+// CHANGE USER INFORMATION
+//____________________________________________________________
+
+
+UserController.prototype.change = function(username, newusername, password, email, token, callback) {
+	database.changeUser(username, newusername, password, email, token, function (err, data){
+		if (err){
+			console.log("[ERROR] Error changing user information", err);
+		} else {
+			console.log("[INFO] User information changed.");
 		}
 		callback(err);
 	});
@@ -113,7 +132,7 @@ UserController.prototype.confirmEmail = function(token, username, callback) {
 
 
 UserController.prototype.delete = function(username, password) {
-	database.getUser(username, function(err, data){
+	database.getUser(username, function (err, data){
 		if (err){
 			console.log("[ERROR] Error performing query: ", err);
 		} else {

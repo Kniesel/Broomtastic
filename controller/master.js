@@ -258,6 +258,23 @@ startup = function(){
 	})
 
 
+	app.post('/changeprofile', function(req, res){
+		//TODO: Check if email address changes - if so, create a new token, otherwise set the token to null 
+		var newusername = req.body.username;
+		var password = req.body.password;
+		var email = req.body.email;
+		var token = "1234";
+		handlerController = new UserController.UserController();
+		handlerController.change(user, newusername, password, email, token, function(err){
+			if (err){
+				console.log("[ERROR] ", err);
+			} else {
+				console.log("[INFO] Successfully changed user information.");
+			}
+		})
+		res.redirect('/');
+	})
+
 	//Delete user
 	app.post('/deleteUser', function(req, res){
 		var username = req.body.username;

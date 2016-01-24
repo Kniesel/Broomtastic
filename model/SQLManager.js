@@ -57,6 +57,16 @@ SQLManager.prototype.setUser = function(username, password, email, token, callba
 };
 
 
+
+//Change user information
+SQLManager.prototype.changeUser = function(username, newusername, password, email, token, callback) {
+	var queryString = 'UPDATE users SET pk_username = ?, password = ?, email = ?, token = ? WHERE pk_username = ?'
+	connection.query(queryString, [newusername, password, email, token, username], function (err, result){
+		callback(err, result);
+	});
+};
+
+
 //Delete user from db
 SQLManager.prototype.deleteUser = function(username, callback) {
 	var queryString = 'DELETE FROM users WHERE pk_username = ?';
