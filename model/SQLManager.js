@@ -93,10 +93,11 @@ SQLManager.prototype.getAllProducts = function(callback) {
 
 //Get products from a certain category
 SQLManager.prototype.readProductsByCategory = function(category, callback) {
-	var queryString = 'SELECT * FROM proucts WHERE category = ?';
-	connection.query(queryString, [category], function (err, result){
+	var queryString = 'SELECT * FROM products WHERE category = ?';
+	connection.query(queryString, [category], function (err, result) {
 		callback(err, result);
-	})
+	});
+
 };
 
 

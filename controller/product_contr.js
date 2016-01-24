@@ -23,15 +23,15 @@ ProductController.prototype.getAllProducts = function(callback){
 			console.log("[ERROR] ", error);
 		} else {
 			if (!data){
-				console.log("[INFO] Sorry, something went wrong with the data.")
+				console.log("[INFO] Sorry, something went wrong with the data.");
 			} else {
-				console.log("[INFO] Read all Products.")
+				console.log("[INFO] Read all Products.");
 			}
 		}
 		callback(err, data);
 	});
 
-};
+}
 
 
 //____________________________________________________________
@@ -40,7 +40,18 @@ ProductController.prototype.getAllProducts = function(callback){
 //____________________________________________________________
 
 ProductController.prototype.getProductsByCategory = function(category, callback){
-
-};
+	database.readProductsByCategory(category, function(err, data){
+		if (err){
+			console.log("[ERROR] ", error);
+		} else {
+			if (!data){
+				console.log("[INFO] Sorry, something went wrong with the data.");
+			} else {
+				console.log("[INFO] Read all Products.");
+			}
+		}
+		callback(err, data);
+	});
+}
 
 module.exports.ProductController = ProductController

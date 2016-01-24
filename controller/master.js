@@ -138,49 +138,89 @@ startup = function(){
 
 	//Get products
 	app.post('/products', function(req, res){
-		//TODO:
-		//var category = req.body.category
+		var category = req.body.category;
+		console.log("[INFO] Category: ", category);
 		
 		handlerController = new ProductController.ProductController();
-		handlerController.getAllProducts(function(err, data){
-			if (err){
-				res.render('index', {
-					layout: false, 
-					user: user, 
-					dropdowncontent:htmltags.loggedintag, 
-					feedback:"Error: " + err,
-					headline: "Error: " + err
-				});
-			} else {
 
-				var productdata = "<p><table class=\"tablecontent\"><tr class=\"tablehead\"><th class=\"tablehead\">Product</td><th class=\"tablehead\">Category</td><th class=\"tablehead\">Price</td></tr>";
+		if (category === "all"){
+			handlerController.getAllProducts(function(err, data){
+				if (err){
+					res.render('index', {
+						layout: false, 
+						user: user, 
+						dropdowncontent:htmltags.loggedintag, 
+						feedback:"Error: " + err,
+						headline: "Error: " + err
+					});
+				} else {
 
-				for (var i in data){
-					console.log("[DEBUG] Data: ", data[i]);
-					productdata = productdata 
-						+ "<tr class=\"tablebody\"><td class=\"tablebody\">" 
-							+ data[i].productname
-						+ "</td><td class=\"tablebody\">"
-							+ data[i].category
-						+ "</td><td class=\"tablebody\">"
-							+ data[i].price
-						+ "€</td></tr>";
+					var productdata = "<p><table class=\"tablecontent\"><tr class=\"tablehead\"><th class=\"tablehead\">Product</td><th class=\"tablehead\">Category</td><th class=\"tablehead\">Price</td></tr>";
+
+					for (var i in data){
+						productdata = productdata 
+							+ "<tr class=\"tablebody\"><td class=\"tablebody\">" 
+								+ data[i].productname
+							+ "</td><td class=\"tablebody\">"
+								+ data[i].category
+							+ "</td><td class=\"tablebody\">"
+								+ data[i].price
+							+ "€</td></tr>";
+					}
+
+					productdata = productdata + "</table></p>"
+
+					res.render('index', {
+						layout: false, 
+						user: user, 
+						dropdowncontent:htmltags.loggedintag,
+						headline: "Products",
+						content1: htmltags.productfilter,
+						content2: productdata
+					});
 				}
+			});
+		//If a specific categroy is selected
+		} else {
+			handlerController.getProductsByCategory(function(err, data){
+				if (err){
+					res.render('index', {
+						layout: false, 
+						user: user, 
+						dropdowncontent:htmltags.loggedintag, 
+						feedback:"Error: " + err,
+						headline: "Error: " + err
+					});
+				} else {
 
-				productdata = productdata + "</table></p>"
+					var productdata = "<p><table class=\"tablecontent\"><tr class=\"tablehead\"><th class=\"tablehead\">Product</td><th class=\"tablehead\">Category</td><th class=\"tablehead\">Price</td></tr>";
 
-				res.render('index', {
-					layout: false, 
-					user: user, 
-					dropdowncontent:htmltags.loggedintag,
-					headline: "Products",
-					content1: htmltags.productfilter,
-					content2: productdata
-				});
+					for (var i in data){
+						productdata = productdata 
+							+ "<tr class=\"tablebody\"><td class=\"tablebody\">" 
+								+ data[i].productname
+							+ "</td><td class=\"tablebody\">"
+								+ data[i].category
+							+ "</td><td class=\"tablebody\">"
+								+ data[i].price
+							+ "€</td></tr>";
+					}
 
-			}
-		});
+					productdata = productdata + "</table></p>"
+
+					res.render('index', {
+						layout: false, 
+						user: user, 
+						dropdowncontent:htmltags.loggedintag,
+						headline: "Products",
+						content1: htmltags.productfilter,
+						content2: productdata
+					});
+				}
+			});
+		}
 	});
+
 
 
 	//checks if user is logged in
