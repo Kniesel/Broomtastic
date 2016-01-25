@@ -499,15 +499,36 @@ startup = function(){
 				});
 			}
 		});
-	})
+	});
 
 
 
 
 
 
+//________________________________________________________
+//
+// Shopping owl
+//________________________________________________________
 
 
+	app.get('/shoppingowl', function(req, res){
+		if (user){
+			res.render('index', {
+				layout: false, 
+				user: user, 
+				dropdowncontent:htmltags.loggedintag,
+				headline: "Shopping Owl ",
+			});
+		} else {
+			res.render('index', {
+				layout: false, 
+				user: "Sign in", 
+				dropdowncontent:htmltags.signintag,
+				headline: "You are not logged in.",
+			});
+		}
+	});
 
 
 	//Redirects to home if user is not logged in

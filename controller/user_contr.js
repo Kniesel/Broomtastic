@@ -120,7 +120,7 @@ UserController.prototype.changeUsername = function(username, newusername, passwo
 		if (err){
 			console.log("[ERROR] ", err);
 		} else {
-			//If no user in db --> Should NOT happen!
+			//If no user with this username in db --> Should NOT happen!
 			if(!data){
 				err = "[ERR]User not found.";
 			}else if (passwordHash.verify(password, data.password)){
