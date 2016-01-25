@@ -21,6 +21,7 @@
 
 	<body>
 		<script src="./js/myscript.js"></script>
+		<script src="./js/userCRUD.js"></script>
 
 		<div id="wrapper">	
 			<header>
@@ -28,7 +29,7 @@
 					<a href="/"><img id="broomtastic" src="./img/broomtastic_logo.jpg" alt="Broomtastic" /></a>
 					<div class="dropdown">
 
-						<button class="dropbutton">{{user}}</button>
+						<button id="dropdownuser" class="dropbutton">{{user}}</button>
 						{{{dropdowncontent}}}
 
 					</div>
@@ -44,6 +45,42 @@
 				<p class="feedback">{{feedback}} </p>
 
 				<h1>{{headline}}</h1>
+
+
+<!-- 
+	<form action="/changeUsername" method="post" id="changeuserform">
+		<p class="title1">Change Username</p><br>
+		<input class="registerinput" type="text" name="username" placeholder="username" required><br>
+		<input class="registerinput" type="password" name="password" placeholder="password" required><br>
+		<input class="registerinput" type="submit" value="Submit"><br><br><br>
+	</form>
+
+
+	<form action="/changePassword" method="post" id="changepwform">
+		<p class="title1">Change Password</p><br>
+		<input class="registerinput" type="password" name="password" placeholder="Current password" required><br>
+		<input class="registerinput" type="password" name="newpassword" placeholder="New password" required><br>
+		<input class="registerinput" type="password" name="newpassword2" placeholder="Repeat new password" required><br>
+		<input class="registerinput" type="submit" value="Submit"><br><br><br>
+	</form>
+
+
+	<form action="/changeEmail" method="post" id="changeemailform">
+		<p class="title1">Change Email Address</p><br><p>To confirm your new email address you will get a confirmation email. You will have to click the link in the email to be able to log in again.</p><br>
+		<input class="registerinput" type="email" name="email" placeholder="New email address" required><br>
+		<input class="registerinput" type="password" name="password" placeholder="Password" required><br>
+		<input class="registerinput" type="submit" value="Submit"><br><br><br>
+	</form>
+ -->
+
+	<p class="title1">Delete Account</p><br>
+	<p id="deleteFeedback"></p>
+	<input id="deletePassword" class="registerinput" type="password" name="password" placeholder="Password" required><br>
+	<input class="registerinput" type="button" id="deleteButton" value="Submit" onclick=deleteUser()><br><br>
+
+
+
+
 
 				<br>
 				<br>

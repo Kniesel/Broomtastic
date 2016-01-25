@@ -150,6 +150,19 @@ startup = function(){
 
 //________________________________________________________
 //
+// TEST
+//________________________________________________________
+
+	app.delete('/users', function(req, res){
+		console.log("[DEBUG] DELETE USER");
+		console.log(req);
+		res.send("Blub");
+	})
+
+
+
+//________________________________________________________
+//
 // User Login
 //________________________________________________________
 
@@ -331,37 +344,20 @@ startup = function(){
 
 
 	app.post('/profile', function(req, res){
-		routes.profile(req, res, user);
+		if (user){
+			routes.profile(req, res, user);
+		} else {
+			routes.notloggedin(req, res);
+		}
 	});
 
 	app.get('/profile', function(req, res){
-		routes.profile(req, res, user);
+		if (user){
+			routes.profile(req, res, user);
+		} else {
+			routes.notloggedin(req, res);
+		}
 	});
-
-	// function profile(req, res){
-	// 	//If user is not logged in
-	// 	if (!user){
-	// 		console.log("[INFO] User not logged in.");
-	// 		res.render('index', {
-	// 				layout: false, 
-	// 				user: "Sign in", 
-	// 				dropdowncontent:htmltags.signintag,
-	// 				headline: "You are not logged in."
-	// 		});
-	// 	//If user is logged in
-	// 	} else {
-	// 		console.log("[INFO] Profile of ", user);
-	// 		res.render('index', {
-	// 				layout: false, 
-	// 				user: user, 
-	// 				dropdowncontent:htmltags.loggedintag,
-	// 				headline: "Your profile",
-	// 				content1: "<hr><h2>" + user + " </h2><p class=\"title1\"> " + "chris@beispiel.com</p><br><hr><br><br><br><br>",
-	// 				content2: htmltags.changeforms
-	// 		});
-	// 	}
-	// }
-
 
 
 //________________________________________________________
