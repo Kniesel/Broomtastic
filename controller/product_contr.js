@@ -1,7 +1,4 @@
 var SQLManager = require('../model/SQLManager.js')
-var Mailer = require('../helper/mailfordummies.js');
-var crypto = require('crypto');
-var passwordHash = require('password-hash');
 var express = require('express');
 var app = express();
 var database;

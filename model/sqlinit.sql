@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS shoppingowl;
+DROP VIEW IF EXISTS myshoppingowl;
 
 
 CREATE TABLE users (
@@ -17,6 +19,26 @@ CREATE TABLE products (
 	description VARCHAR(200)
 );
 
+CREATE TABLE shoppingowl (
+	fk_username VARCHAR(20),
+	fk_productid SERIAL,
+	quantity INT NOT NULL,
+	PRIMARY KEY (fk_username, fk_productid),
+	FOREIGN KEY (fk_username) REFERENCES users(pk_username),
+	FOREIGN KEY (fk_productid) REFERENCES products(pk_productid)
+);
+
+
+CREATE VIEW myshoppingowl AS 
+SELECT 
+	fk_username,
+	fk_productid,
+	productname,
+	quantity,
+	price * quantity AS "totalprice"
+FROM shoppingowl
+LEFT OUTER JOIN products
+	ON shoppingowl.fk_productid = products.pk_productid;
 
 
 INSERT INTO users (pk_username, password, email) VALUES ("Doctor", "sha1$79bbc02a$1$2d906b452703267bf88c1d1dbdd6c4473270a5db", "anja.bergmann@edu.fh-joanneum.at");
@@ -43,3 +65,9 @@ INSERT INTO products (productname, category, price) VALUES ("Broomtastic 5000", 
 INSERT INTO products (productname, category, price) VALUES ("Broomtastic Kids", "Brooms", 900);
 INSERT INTO products (productname, category, price) VALUES ("Broomtastic Senior", "Brooms", 900);
 INSERT INTO products (productname, category, price) VALUES ("Broomtastic Traveller", "Brooms", 1400);
+
+
+
+INSERT INTO shoppingowl (fk_username,fk_productid,quantity) VALUES ("Doctor", 1, 100);
+INSERT INTO shoppingowl (fk_username,fk_productid,quantity) VALUES ("Doctor", 2, 2);
+INSERT INTO shoppingowl (fk_username,fk_productid,quantity) VALUES ("Neville", 6, 3);
