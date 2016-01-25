@@ -17,7 +17,7 @@ module.exports = {
 		dropdowncontent = htmltags.loggedintag;
 		headline = "Your profile";
 		content1 = "<hr><h2>" + user + " </h2><p class=\"title1\"> " + "chris@beispiel.com</p><br><hr><br><br><br><br>";
-		content2 = htmltags.deleteUserForm;
+		content2 = htmltags.changeUsernameForm + htmltags.changePasswordForm + htmltags.changeEmailForm + htmltags.deleteUserForm;
 
 		this.renderPage(res);
 	},

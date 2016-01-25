@@ -357,12 +357,9 @@ startup = function(){
 
 	//change username
 	app.post('/changeUsername', function(req, res){
-		var user = req.body.username;
+		var username = req.body.username;
 		var newusername = req.body.newusername;
 		var password = req.body.password;
-		console.log("[DEBUG] CHANGEUSERNAME: ", user);
-		console.log("[DEBUG] CHANGEUSERNAME: ", newusername);
-		console.log("[DEBUG] CHANGEUSERNAME: ", password);
 		//Input validation
 		if (!newusername || newusername.length < 4 || newusername.length > 20){
 			res.render('index', {
@@ -374,7 +371,7 @@ startup = function(){
 		} else {
 			console.log("[DEBUG] Password: ", password);
 			handlerController = new UserController.UserController();
-			handlerController.changeUsername(user, newusername, password, function (err){
+			handlerController.changeUsername(username, newusername, password, function (err){
 				if (err){
 					console.log("[ERROR] ", err);
 					res.render('index', {
