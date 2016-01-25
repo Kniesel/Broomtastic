@@ -153,12 +153,30 @@ footer {
 		}
 
 
+hr {
+	width: 60%;
+	height: 2px;
+	color: #0c1429;
+	background-color: #0c1429;
+	border-width: 0px;
+	margin-top: 2em;
+	margin-bottom:2em;
+}
+
 
 /*---styling fonts---*/
 h1 {
 	font-size: 2em;
 	text-align: center;
 	margin: 1em;
+	font-weight: normal;
+	font-family: Calibri, Arial;
+	}
+
+h2 {
+	font-size: 1.75em;
+	text-align: center;
+	margin: 0.5em;
 	font-weight: normal;
 	font-family: Calibri, Arial;
 	}

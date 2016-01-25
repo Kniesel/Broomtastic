@@ -12,6 +12,7 @@ var handlebars = require('express-handlebars');
 var htmltags = require('../helper/htmltags.js'); //contain some htmltags with text that are included in the pages
 var sess; //session; is set when user successfully logged in and is set to NULL if user loggs out
 var user; //username; is set when user successfully logged in and is set to NULL if user loggs out
+var routes = require('./routes.js');
 
 startup = function(){
 	console.log("Starting server ...")
@@ -330,27 +331,36 @@ startup = function(){
 
 
 	app.post('/profile', function(req, res){
-		//If user is not logged in
-		if (!user){
-			console.log("[INFO] User not logged in.");
-			res.render('index', {
-					layout: false, 
-					user: "Sign in", 
-					dropdowncontent:htmltags.signintag,
-					headline: "You are not logged in."
-			})
-		//If user is logged in
-		} else {
-			console.log("[INFO] Profile of ", user);
-			res.render('index', {
-					layout: false, 
-					user: user, 
-					dropdowncontent:htmltags.loggedintag,
-					headline: "Your profile",
-					content1: htmltags.changeforms
-			})
-		}
+		routes.profile(req, res, user);
 	});
+
+	app.get('/profile', function(req, res){
+		routes.profile(req, res, user);
+	});
+
+	// function profile(req, res){
+	// 	//If user is not logged in
+	// 	if (!user){
+	// 		console.log("[INFO] User not logged in.");
+	// 		res.render('index', {
+	// 				layout: false, 
+	// 				user: "Sign in", 
+	// 				dropdowncontent:htmltags.signintag,
+	// 				headline: "You are not logged in."
+	// 		});
+	// 	//If user is logged in
+	// 	} else {
+	// 		console.log("[INFO] Profile of ", user);
+	// 		res.render('index', {
+	// 				layout: false, 
+	// 				user: user, 
+	// 				dropdowncontent:htmltags.loggedintag,
+	// 				headline: "Your profile",
+	// 				content1: "<hr><h2>" + user + " </h2><p class=\"title1\"> " + "chris@beispiel.com</p><br><hr><br><br><br><br>",
+	// 				content2: htmltags.changeforms
+	// 		});
+	// 	}
+	// }
 
 
 
