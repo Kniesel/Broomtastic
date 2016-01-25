@@ -148,17 +148,6 @@ startup = function(){
 	})
 
 
-//________________________________________________________
-//
-// TEST
-//________________________________________________________
-
-	app.delete('/users', function(req, res){
-		console.log("[DEBUG] DELETE USER");
-		console.log(req);
-		res.send("Blub");
-	})
-
 
 
 //________________________________________________________
@@ -442,6 +431,7 @@ startup = function(){
 
 	//change email address
 	app.post('/changeEmail', function(req, res){
+		var user = req.body.username;
 		var password = req.body.password;
 		var email = req.body.email;
 		if (!email || email.length < 3){
@@ -486,6 +476,8 @@ startup = function(){
 
 	//Delete user
 	app.post('/deleteUser', function(req, res){
+		var user = req.body.username;
+		console.log("[DEBUG] Username: ", user);
 		var password = req.body.password;
 		handlerController = new UserController.UserController();
 		handlerController.delete(user, password, function(err){

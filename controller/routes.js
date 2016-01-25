@@ -9,30 +9,6 @@ var content2;
 
 module.exports = {
 
-	// profile: function (req, res, user){
-	// 	//If user is not logged in
-	// 	if (!user){
-	// 		console.log("[INFO] User not logged in.");
-	// 		res.render('index', {
-	// 				layout: false, 
-	// 				user: "Sign in", 
-	// 				dropdowncontent:htmltags.signintag,
-	// 				headline: "You are not logged in."
-	// 		});
-	// 	//If user is logged in
-	// 	} else {
-	// 		console.log("[INFO] Profile of ", user);
-	// 		res.render('index', {
-	// 				layout: false, 
-	// 				user: user, 
-	// 				dropdowncontent:htmltags.loggedintag,
-	// 				headline: "Your profile",
-	// 				content1: "<hr><h2>" + user + " </h2><p class=\"title1\"> " + "chris@beispiel.com</p><br><hr><br><br><br><br>",
-	// 				content2: htmltags.changeforms
-	// 		});
-	// 	}
-	// }
-
 
 	profile: function (req, res, user){
 		console.log("[INFO] Profile of ", user);
@@ -41,7 +17,7 @@ module.exports = {
 		dropdowncontent = htmltags.loggedintag;
 		headline = "Your profile";
 		content1 = "<hr><h2>" + user + " </h2><p class=\"title1\"> " + "chris@beispiel.com</p><br><hr><br><br><br><br>";
-		content2 = htmltags.changeforms;
+		content2 = htmltags.deleteUserForm;
 
 		this.renderPage(res);
 	},
