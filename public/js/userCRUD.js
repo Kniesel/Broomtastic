@@ -9,7 +9,7 @@ function changeUsername(){
 	} else if(!newusername){
 		document.getElementById("changeUsernameFeedback").innerHTML="Please enter your new Username.";
 	} else {
-		document.getElementById("changeUsernameButton").changeUsernameFeedback = true;
+		document.getElementById("changeUsernameButton").disabled = true;
 		var xhttp = new XMLHttpRequest();
 		xhttp.open("POST", "/changeUsername", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

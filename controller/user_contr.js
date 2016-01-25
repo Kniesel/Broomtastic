@@ -115,11 +115,15 @@ UserController.prototype.confirmEmail = function(token, username, callback) {
 //Change username
 UserController.prototype.changeUsername = function(username, newusername, password, callback) {
 	//Read user from db to check if password is correct
+	console.log("[DEBUG]: Username", username);
 	database.getUser(username, function (err, data){
 		if (err){
 			console.log("[ERROR] ", err);
 		} else {
-			if (passwordHash.verify(password, data.password)){
+			//If no user in db --> Should NOT happen!
+			if(!data){
+				err = "[ERR]User not found.";
+			}else if (passwordHash.verify(password, data.password)){
 				console.log("[INFO] Password correct.");
 				//change uusername only if password is correct
 				database.changeUsername(username, newusername, function (err, result){
