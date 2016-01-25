@@ -8,6 +8,20 @@ var ShoppingowlController = function(){
 }
 
 
+//Show all products in shopping owl
+ShoppingowlController.prototype.getShoppingOwl = function(username, callback) {
+	database.getMyShoppingowl(username, function(err, data){
+		if(err){
+			console.log("[ERROR] ", err);
+		} else {
+			console.log("[INFO] Data from shopping owl: ", data);
+		}
+		callback(err, data);
+	});
+};
+
+
+//Add product to shopping owl
 ShoppingowlController.prototype.addProduct = function(username, productid, quantity, callback) {
 	database.addProductToShoppingowl(username, productid, quantity, function(err, result){
 		if (err){
@@ -18,3 +32,6 @@ ShoppingowlController.prototype.addProduct = function(username, productid, quant
 		callback(err);
 	})
 };
+
+
+module.exports.ShoppingowlController = ShoppingowlController

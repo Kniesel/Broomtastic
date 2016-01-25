@@ -2,16 +2,14 @@
 Sollte der Fehler "Error: listen EADDRINUSE :::8888" auftauchen
 --> sicherstellen, dass der Server nicht schon gestartet ist ... :X
 
-
-> Links zu den Produkten hinzufügen
-> Ajax --> Vielleicht während Eingabe des Usernamens überprüfen, ob verfügbar ...? 
-> Restful Routing
+> Ajax (--> Shoppingowl?)
+> Restful Routing (--> Shoppingowl?)
 	-- post get delete update /destination/id.html bzw .json .txt oder whatever
 > E-Mail:
 	- User nicht in db schreiben, wenn E-Mail nicht gesendet werden konnte.
 	- E-Mail-erneut-senden-Möglichkeit einbauen
-> Warenkorb (nur, wenn noch Zeit ist)
-	- Tabelle mit fk auf user, fk auf product, menge
-	- Link von Shoppingeule auf Warenkorb
+> Warenkorb (Shopping owl)
+	- Link von Shoppingeule auf Warenkorb --> auf post-Umfrage umbauen ?username=nemo
 	- Bei den Producten: zum-Warenkorb-hinzufügen-Button
 	- Im Warenkorb: Product-aus-Warenkorb-entfernen-Button
+> Session-ID bei (jeder?) Anfrage überprüfen

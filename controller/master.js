@@ -13,6 +13,7 @@ var htmltags = require('../helper/htmltags.js'); //contain some htmltags with te
 var sess; //session; is set when user successfully logged in and is set to NULL if user loggs out
 var user; //username; is set when user successfully logged in and is set to NULL if user loggs out
 var routes = require('./routes.js');
+var ShoppingowlController = require('./shoppingowl_contr.js');
 
 startup = function(){
 	console.log("Starting server ...")
@@ -513,22 +514,71 @@ startup = function(){
 
 
 	app.get('/shoppingowl', function(req, res){
-		if (user){
-			res.render('index', {
-				layout: false, 
-				user: user, 
-				dropdowncontent:htmltags.loggedintag,
-				headline: "Shopping Owl ",
-			});
-		} else {
+		var username = req.query.username;
+		if(!username){
+			username = user;
+		}
+		if (!user){
 			res.render('index', {
 				layout: false, 
 				user: "Sign in", 
 				dropdowncontent:htmltags.signintag,
 				headline: "You are not logged in.",
 			});
+		} else if (user.toLowerCase() !== username.toLowerCase()){
+			res.render('index', {
+				layout: false, 
+				user: user, 
+				dropdowncontent:htmltags.loggedintag,
+				headline: "You are not logged in as " + username,
+			});
+		} else {
+			handlerController = new ShoppingowlController.ShoppingowlController();
+			handlerController.getShoppingOwl(username, function(err, data){
+				if(err){
+					res.render('index', {
+						layout: false, 
+						user: user, 
+						dropdowncontent:htmltags.loggedintag,
+						headline: "Error " + err,
+					});
+				} else {
+
+					var productdata = "<p><table class=\"tablecontent\"><tr class=\"tablehead\"><th class=\"tablehead\">Product</td><th class=\"tablehead\">Quantity</td><th class=\"tablehead\">Price</td></tr>";
+
+					for (var i in data){
+						productdata = productdata 
+							+ "<tr class=\"tablebody\"><td class=\"tablebody\">" 
+								+ data[i].productname
+							+ "</td><td class=\"tablebody\">"
+								+ data[i].quantity
+							+ "</td><td class=\"tablebody\">"
+								+ data[i].totalprice
+							+ "€</td></tr>";
+					}
+
+					productdata = productdata + "</table></p>"
+
+					res.render('index', {
+						layout: false, 
+						user: user, 
+						dropdowncontent:htmltags.loggedintag,
+						headline: "Products",
+						content1: productdata
+					});
+				}
+			});
 		}
 	});
+
+
+
+
+
+
+
+
+
 
 
 	//Redirects to home if user is not logged in

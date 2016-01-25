@@ -142,15 +142,15 @@ SQLManager.prototype.addProductToShoppingowl = function(username, productid, qua
 
 // delete product from shoppingowl
 SQLManager.prototype.deleteProductFromShoppingowl = function(username, productid, callback) {
-	var queryString = 'DELETE FROM shoppingowl WHERE pk_username = ? AND productid = ?';
+	var queryString = 'DELETE FROM shoppingowl WHERE pk_username = ? AND fk_productid = ?';
 	connection.query(queryString, [username, productid], function (err, result){
 		callback(err, result);
 	});
 };
 
 // get personal Shoppingowl via a view
-SQLManager.prototype.getMyShoppingowl = function(username, productid, productname, quantity, totalprice, callback) {
-	var queryString = 'SELECT (productname, quantity, totalprice) FROM myshoppingowl WHERE username = ?';
+SQLManager.prototype.getMyShoppingowl = function(username, callback) {
+	var queryString = 'SELECT productname, quantity, totalprice FROM myshoppingowl WHERE fk_username = ?';
 	connection.query(queryString, [username], function (err, result) {
 		callback(err, result);
 	});
@@ -158,7 +158,7 @@ SQLManager.prototype.getMyShoppingowl = function(username, productid, productnam
 
 // change quantity of a selected product in shoppingowl
 SQLManager.prototype.changeQuantity = function(username, productid, quantity, callback) {
-	var queryString = 'UPDATE shoppingowl SET quantity = ? WHERE pk_username = ? AND pk_productid = ?';
+	var queryString = 'UPDATE shoppingowl SET quantity = ? WHERE pk_username = ? AND fk_productid = ?';
 	connection.query(queryString, [quantity, username, productid], function (err, result){
 		callback(err, result);
 	});

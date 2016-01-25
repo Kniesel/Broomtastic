@@ -26,6 +26,8 @@ CREATE TABLE shoppingowl (
 	PRIMARY KEY (fk_username, fk_productid),
 	FOREIGN KEY (fk_username) REFERENCES users(pk_username),
 	FOREIGN KEY (fk_productid) REFERENCES products(pk_productid)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
 );
 
 
