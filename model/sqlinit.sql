@@ -42,8 +42,8 @@ LEFT OUTER JOIN products
 
 
 INSERT INTO users (pk_username, password, email) VALUES ("Doctor", "sha1$79bbc02a$1$2d906b452703267bf88c1d1dbdd6c4473270a5db", "anja.bergmann@edu.fh-joanneum.at");
-INSERT INTO users (pk_username, password, email) VALUES ("Neville", "sha1$42ef4224$1$2029d5dddffcae92827e323825a048e1d0c03bc5", "anja.bergmann@edu.fh-joanneum.at");
-INSERT INTO users (pk_username, password, email) VALUES ("Sheld0r", "sha1$da8573a6$1$5fd9187eb0127164f2b21e27f383571e8e914a9a", "anja.bergmann@edu.fh-joanneum.at");
+INSERT INTO users (pk_username, password, email) VALUES ("Neville", "sha1$b21521f6$1$ad33a5fb7ee44f721e0d06a16e611cdb7bd0a545", "anja.bergmann@edu.fh-joanneum.at");
+INSERT INTO users (pk_username, password, email) VALUES ("Sheld0r", "sha1$26281c49$1$e49e1ba6485ba3de6d3e4cef985e3a7d9a8a2469", "anja.bergmann@edu.fh-joanneum.at");
 
 
 
