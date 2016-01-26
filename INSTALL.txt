@@ -14,11 +14,18 @@ Anja Bergmann
 npm install
 
 	to install following node modules:
+		body-parser
+		crypto
 		express
+		express-handlebars
+		express-session
+		mysql
 		node-crud
-		redis
+		nodemailer
+		password-hash
 
-redis database
+install xampp
+import /model/sqlinit.sql to your mysql database (localhost/phpmyadmin)
 
 
 
@@ -28,7 +35,7 @@ redis database
 
 
 npm install
-start redis database
+start xampp mysql
 node server.js
 
 
