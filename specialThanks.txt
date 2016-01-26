@@ -6,4 +6,4 @@ google.at
 expressjs.com
 
 
-... and of course: Heli (for his help in difficultor not so difficult at all (t)error situations)
+... and of course: Heli (for his help in difficult or not so difficult at all (t)error situations)
