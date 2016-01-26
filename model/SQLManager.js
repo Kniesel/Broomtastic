@@ -126,6 +126,13 @@ SQLManager.prototype.getProductsByCategory = function(category, callback) {
 
 };
 
+SQLManager.prototype.getProductByName = function(product, callback) {
+	var queryString = 'SELECT * FROM products WHERE productname = ?';
+	connection.query(queryString, [product], function(err, result){
+		callback(err, result[0]);
+	});
+};
+
 
 //____________________________________________________________
 //
@@ -157,9 +164,9 @@ SQLManager.prototype.getMyShoppingowl = function(username, callback) {
 };
 
 // change quantity of a selected product in shoppingowl
-SQLManager.prototype.changeQuantity = function(username, productid, quantity, callback) {
-	var queryString = 'UPDATE shoppingowl SET quantity = ? WHERE pk_username = ? AND fk_productid = ?';
-	connection.query(queryString, [quantity, username, productid], function (err, result){
+SQLManager.prototype.increaseQuantity = function(username, productid, callback) {
+	var queryString = 'UPDATE shoppingowl SET quantity = (quantity + 1) WHERE fk_username = ? AND fk_productid = ?';
+	connection.query(queryString, [username, productid], function (err, result){
 		callback(err, result);
 	});
 };

@@ -8,15 +8,31 @@ var ShoppingowlController = function(){
 }
 
 //Add product to shopping owl
-ShoppingowlController.prototype.addProduct = function(username, productid, quantity, callback) {
-	database.addProductToShoppingowl(username, productid, quantity, function(err, result){
+ShoppingowlController.prototype.addProduct = function(username, product, callback) {
+	database.getProductByName(product, function(err, result){
 		if (err){
-			console.log("[ERROR] ", err);
+			callback(err);
 		} else {
-			console.log("[INFO] Added product to shopping owl.");
+			var productid = result.fk_productid;
+			database.addProductToShoppingowl(username, productid, 1, function(err, result){
+				if (err){
+					//If product is already in shopping owl --> increase quantity
+					if (err.message.substring(0, 12) === "ER_DUP_ENTRY"){
+							err = null;
+							database.increaseQuantity(username, productid, function(err, result){
+							callback(err);
+						});
+					} else {
+						console.log("[ERROR] Couldn't add product to owl: ", err);
+					}
+				} else {
+					console.log("[INFO] Added product to shopping owl.");
+				}
+				callback(err);
+			});
 		}
-		callback(err);
-	})
+	});
+	
 };
 
 //Show all products in shopping owl

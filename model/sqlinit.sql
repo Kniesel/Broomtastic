@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS products;
-DROP TABLE IF EXISTS shoppingowl;
 DROP VIEW IF EXISTS myshoppingowl;
+DROP TABLE IF EXISTS shoppingowl;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS users;
 
 
 CREATE TABLE users (
@@ -13,10 +13,9 @@ CREATE TABLE users (
 
 CREATE TABLE products (
 	pk_productid SERIAL PRIMARY KEY,
-	productname VARCHAR(50) NOT NULL,
+	productname VARCHAR(50) UNIQUE NOT NULL,
 	category VARCHAR (20) NOT NULL,
-	price INT NOT NULL,
-	description VARCHAR(200)
+	price INT NOT NULL
 );
 
 CREATE TABLE shoppingowl (
@@ -56,7 +55,7 @@ INSERT INTO products (productname, category, price) VALUES ("Flying for dummies"
 INSERT INTO products (productname, category, price) VALUES ("Quidditch in a nutshell", "Books", 120);
 INSERT INTO products (productname, category, price) VALUES ("Quidditch for dummies", "Books", 18);
 INSERT INTO products (productname, category, price) VALUES ("Quidditch through the ages", "Books", 20);
-INSERT INTO products (productname, category, price, description) VALUES ("Black Gloves", "Clothing", 420, "Made of high-quality dragon leather");
+INSERT INTO products (productname, category, price) VALUES ("Grey Gloves", "Clothing", 420);
 INSERT INTO products (productname, category, price) VALUES ("Shoes", "Clothing", 130);
 INSERT INTO products (productname, category, price) VALUES ("Black Gloves", "Clothing", 170);
 INSERT INTO products (productname, category, price) VALUES ("Golden Jacket", "Clothing", 90);

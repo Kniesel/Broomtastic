@@ -184,7 +184,7 @@ startup = function(){
 
 					for (var i in data){
 						productdata = productdata 
-							+ "<tr class=\"tablebody\"><td class=\"tablebody\" id=\"owl" 
+							+ "<tr class=\"tablebody\"><td class=\"tablebody\" id=\"productowl" 
 							+ i + "\">" 
 								+ data[i].productname
 							+ "</td><td class=\"tablebody\">"
@@ -193,8 +193,7 @@ startup = function(){
 								+ data[i].price
 							+ "€</td><td class=\"tablebody\">" 
 							+ "<input class=\"inputforms\" type=\"button\" value=\"Add\" onclick=addToOwl(this) id=\"owl" 
-							+ i + "\">"
-							"</td></tr>";
+							+ i + "\"></td></tr>";
 					}
 
 					productdata = productdata + "</table></p>"
@@ -226,7 +225,7 @@ startup = function(){
 
 					for (var i in data){
 						productdata = productdata 
-							+ "<tr class=\"tablebody\"><td class=\"tablebody\" id=\"owl" 
+							+ "<tr class=\"tablebody\"><td class=\"tablebody\" id=\"productowl" 
 							+ i + "\">" 
 								+ data[i].productname
 							+ "</td><td class=\"tablebody\">"
@@ -235,8 +234,7 @@ startup = function(){
 								+ data[i].price
 							+ "€</td><td class=\"tablebody\">" 
 							+ "<input class=\"inputforms\" type=\"button\" value=\"Add\" onclick=addToOwl(this) id=\"owl" 
-							+ i + "\">"
-							"</td></tr>";
+							+ i + "\"></td></tr>";
 					}
 
 					productdata = productdata + "</table></p>"
@@ -477,7 +475,7 @@ startup = function(){
 
 					for (var i in data){
 						productdata = productdata 
-							+ "<tr class=\"tablebody\"><td class=\"tablebody\" id=\"owl" 
+							+ "<tr class=\"tablebody\"><td class=\"tablebody\" id=\"productowl" 
 							+ i + "\">" 
 								+ data[i].productname
 							+ "</td><td class=\"tablebody\">"
@@ -486,8 +484,7 @@ startup = function(){
 								+ data[i].totalprice
 							+ "€</td><td class=\"tablebody\">" 
 							+ "<input class=\"inputforms\" type=\"button\" value=\"Delete\" onclick=deleteFromOwl(this) id=\"owl" 
-							+ i + "\">"
-							"</td></tr>";
+							+ i + "\"></td></tr>";
 					}
 
 					productdata = productdata + "</table></p>"
@@ -505,6 +502,43 @@ startup = function(){
 	});
 
 
+	app.del('/deleteFromOwl', function(req, res){
+		var username = req.query.user;
+		var product = req.query.product;
+		if(username !== user){
+			//another user in url than logged in
+			res.end("ERROR");
+		} else {
+			console.log("[DEBUG] Delete from owl");
+			handlerController = new ShoppingowlController.ShoppingowlController();
+			handlerController.addProduct(username, product, function(err, data){
+				if(err){
+					res.end("ERROR");
+				} else {
+					res.end("DELETED");
+				}
+			});
+		}
+	})
+
+	app.get('/addToOwl', function(req, res){
+		var username = req.query.user;
+		var product = req.query.product;
+		//another user in url than logged in
+		if(username !== user){
+			res.end("ERROR");
+		} else {
+			console.log("[DEBUG] Add to owl");
+			handlerController = new ShoppingowlController.ShoppingowlController();
+			handlerController.addProduct(username, product, function(err, data){
+				if(err){
+					res.end("ERROR");
+				} else {
+					res.end("ADDED");
+				}
+			});
+		}
+	})
 
 
 
