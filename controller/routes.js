@@ -20,6 +20,7 @@ module.exports = {
 //________________________________________________________
 
 	index: function(req, res, user){
+		this.resetVariables();
 		username = user;
 		dropdowncontent = htmltags.loggedintag;
 		headline = "Welcome to the Broomtastic Webshop!";
@@ -44,6 +45,46 @@ module.exports = {
 		content2 = htmltags.changeUsernameForm + htmltags.changePasswordForm + htmltags.changeEmailForm + htmltags.deleteUserForm;
 
 		this.renderPage(res);
+	},
+
+//________________________________________________________
+//
+// Confirmed email page
+//________________________________________________________
+
+	confirmEmail: function(req, res){
+		var token = req.query.token;
+		var username = req.query.user;
+		console.log("[INFO] Token: ", token);
+		console.log("[INFO] Username: ", username);
+		handlerController = new UserController.UserController();
+		handlerController.confirmEmail(token, username, function(err){
+			res.render('index', {
+					layout: false, 
+					user: "Sign in", 
+					dropdowncontent:htmltags.signintag, 
+					feedback:"Error: " + err,
+					headline: "Thank you for confirming your email address. You may now log in.",
+			})
+		});
+	},
+
+//________________________________________________________
+//
+// Login
+//________________________________________________________
+
+
+	login: function(user, password, callback){
+		handlerController = new UserController.UserController();
+		handlerController.login(user, password, function(err, loggedin){
+			if (loggedin){
+				callback(true); //sucessfully logged in;
+			} else {
+				console.log("[DEBUG] Error: ", err);
+				callback(false, err);
+			}
+		});
 	},
 
 
@@ -131,37 +172,121 @@ module.exports = {
 
 //________________________________________________________
 //
+// Change Account
+//________________________________________________________
+
+	changeUsername: function(req, res, user, callback){
+
+		var username = req.body.username;
+		var newusername = req.body.newusername;
+		var password = req.body.password;
+		//Input validation
+		dropdowncontent = htmltags.loggedintag;
+		if (!newusername || newusername.length < 4 || newusername.length > 20){
+			headline = "ERROR: Username has to have between 4 and 20 characters."
+			this.renderPage(res);
+		} else {
+			console.log("[DEBUG] Password: ", password);
+			handlerController = new UserController.UserController();
+			handlerController.changeUsername(username, newusername, password, function (err){
+				if (err){
+					console.log("[ERROR] ", err);
+					callback(user); //username not changed
+				} else {
+					console.log("[INFO] Successfully changed user information.");
+					callback(newusername); //username changed
+				}
+			});
+		}
+},
+
+
+	changePassword: function(req, res, user){
+
+		var password = req.body.password;
+		var newpassword = req.body.newpassword;
+		if (!newpassword || newpassword.length < 4){
+			res.render('index', {
+				layout: false, 
+				user: user, 
+				dropdowncontent:htmltags.loggedintag,
+				headline: "Your new password has to have at least 4 characters."
+			});
+		} else {
+			handlerController = new UserController.UserController();
+			handlerController.changePassword(user, password, newpassword, function(err){
+				if (err){
+					console.log("[ERROR] ", err);
+					res.render('index', {
+						layout: false, 
+						user: user, 
+						dropdowncontent:htmltags.loggedintag,
+						headline: "ERROR: "+ err
+					});
+				} else {
+					console.log("[INFO] Successfully changed user information.");
+					res.render('index', {
+						layout: false, 
+						user: user, 
+						dropdowncontent:htmltags.loggedintag,
+						headline: "Password successfully changed!",
+					});
+				}
+			});
+		}
+	},
+
+
+	changeEmail: function(req, res, user, callback){
+
+		var password = req.body.password;
+		var email = req.body.email;
+		if (!email || email.length < 3){
+			res.render('index', {
+				layout: false, 
+				user: user, 
+				dropdowncontent:htmltags.loggedintag,
+				headline: "Please enter a valid email address."
+			});
+		} else {
+			handlerController = new UserController.UserController();
+			handlerController.changeEmail(user, password, email, function(err){
+				if (err){
+					console.log("[ERROR] ", err);
+					callback(false);
+				} else {
+					console.log("[INFO] Successfully changed user information.");
+					user = null;
+					callback(true);
+				}
+			});
+		}
+	},
+
+
+//________________________________________________________
+//
 // Delete User
 //________________________________________________________
 
 
-	deleteUser: function(req, res){
+	deleteUser: function(req, res, callback){
 
 		username = req.body.username;
 		var password = req.body.password;
 		handlerController = new UserController.UserController();
 		handlerController.delete(username, password, function(err){
-			var deleted = false;
 			if (err){
 				dropdowncontent = htmltags.loggedintag;
 				headline = "ERROR " + err;
+				callback(false); //user not deleted
 			} else {
-				deleted = true;
 				username = "Sign in"; 
 				dropdowncontent = htmltags.signintag;
 				headline = "Account successfully deleted.";
-				deleted = true;
+				callback(true); //user deleted
 			}
-			res.render('index', {
-				layout: false, 
-				user: username, 
-				dropdowncontent:dropdowncontent,
-				headline: headline,
-			});
 		});
-		if (delete = true){
-			//Logout
-		}
 	},
 
 
@@ -170,9 +295,8 @@ module.exports = {
 // Products
 //________________________________________________________
 
-	products: function(req, res, user){
+	products: function(req, res, category, user){
 		this.resetVariables();
-		var category = req.body.category;
 		console.log("[INFO] Category: ", category);
 
 		username = user;
@@ -293,7 +417,7 @@ module.exports = {
 
 						productdata = productdata + "</table></p>";
 
-						headline = "Products";
+						headline = "Your Shopping Owl";
 						content1 = productdata;
 					}
 					res.render('index', {
@@ -340,6 +464,4 @@ module.exports = {
 			content2: content2
 		});
 	}
-
-
 }

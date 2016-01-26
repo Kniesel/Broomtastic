@@ -8,11 +8,19 @@ function changeUsername(){
 		document.getElementById("changeUsernameFeedback").innerHTML="Please enter your password.";
 	} else if(!newusername){
 		document.getElementById("changeUsernameFeedback").innerHTML="Please enter your new Username.";
+	} else if(newusername.length < 4 || newusername.length > 20){
+		document.getElementById("changeUsernameFeedback").innerHTML="Your new username has to have between 4 and 20 characters."
 	} else {
-		document.getElementById("changeUsernameButton").disabled = true;
 		var xhttp = new XMLHttpRequest();
 		xhttp.open("POST", "/changeUsername", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.onreadystatechange = function() {
+			document.getElementById("changeUsernameButton").disabled = true;
+			if (xhttp.readyState == 4 && xhttp.status == 200){
+				document.getElementById("changeUsernameButton").disabled = false;
+				document.getElementById("changeUsernameFeedback").innerHTML = "Changed Username";
+			}
+		}
 		xhttp.send(data);
 	}
 }

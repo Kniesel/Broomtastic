@@ -5,15 +5,12 @@ var registration = require ('../public/js/myscript.js');
 var express = require('express');
 var session = require('express-session');
 var app = express();
-var UserController = require ('./user_contr.js');
-var ProductController = require ('./product_contr.js');
 var bodyParser = require ('body-parser');
 var handlebars = require('express-handlebars');
 var htmltags = require('../helper/htmltags.js'); //contain some htmltags with text that are included in the pages
 var sess; //session; is set when user successfully logged in and is set to NULL if user loggs out
 var user; //username; is set when user successfully logged in and is set to NULL if user loggs out
 var routes = require('./routes.js');
-var ShoppingowlController = require('./shoppingowl_contr.js');
 
 startup = function(){
 	console.log("Starting server ...")
@@ -34,7 +31,7 @@ startup = function(){
 //________________________________________________________
 
 	app.get('/home', function(req, res){
-		if (user){
+		if (req.session.id === sess){
 			routes.index(req, res, user);
 		} else {
 			routes.notloggedin(req, res);
@@ -50,14 +47,22 @@ startup = function(){
 
 	//Go to registration page
 	app.get('/register', function(req, res){
-		routes.registration(req, res);
+		if (req.session.id !== sess){
+			routes.registration(req, res);
+		} else {
+			res.redirect('/');
+		}
 	});
 
 
 	//Submit of registration form
 	app.post('/register', function(req, res){
-		routes.register(req, res);
-	})
+		if (req.session.id !== sess){
+			routes.register(req, res);
+		} else {
+			res.redirect('/');
+		}
+	});
 
 
 //________________________________________________________
@@ -67,42 +72,21 @@ startup = function(){
 
 
 	app.post('/login', function(req, res){
-
-		var password = req.body.password;
-		var username = req.body.username;
-
-		handlerController = new UserController.UserController();
-		handlerController.login(username, password, function(err, loggedin){
-			if (loggedin){
-				sess = req.session; //stores session if user is logged in
-				user = username; //stores username if user is logged in
-				console.log("[INFO] Session: ", sess);
-
-				//if user is logged in, username is written on dropdownmenu 
-				//and dropdownmenu contains only logout button
-				res.render('index', {
-					layout: false, 
-					user: user, 
-					dropdowncontent:htmltags.loggedintag, 
-					feedback:"Login successful.",
-					headline: "You are logged in as " + user + "."
-				});
-				
-			//if user is not logged in, "Sign in" is written on dropdownmenu
-			//and dropdownmenu contains login form and register button
+		routes.login(req.body.username, req.body.password, function(result, err){
+			if (result){
+				sess = req.session.id; //stores session if user is logged in
+				user = req.body.username; //stores username if user is logged in
+				res.redirect('/');
 			} else {
-				console.log("[DEBUG] Error: ", err);
 				res.render('index', {
 					layout: false, 
 					user: "Sign in", 
 					dropdowncontent:htmltags.signintag, 
-					feedback:"Error: " + err,
-					headline: "Error: " + err
-				});
+					headline:"Error: " + err,
+				})
 			}
 		});
 	});
-
 
 
 //________________________________________________________
@@ -111,9 +95,30 @@ startup = function(){
 //________________________________________________________
 
 
-	//Get products
+	//Get products via post request
 	app.post('/products', function(req, res){
-		routes.products(req, res, user);
+		if (req.session.id === sess){
+			var category = req.body.category;
+			if(!category){
+				category = "all";
+			}
+			routes.products(req, res, category, user);
+		} else {
+			routes.notloggedin(req, res);
+		}
+	});
+
+	//Get products via get request
+	app.get('/products', function(req, res){
+		if (req.session.id === sess){
+			var category = req.query.category;
+			if(!category){
+				category = "all";
+			}
+			routes.products(req, res, category, user);
+		} else {
+			routes.notloggedin(req, res);
+		}
 	});
 
 
@@ -140,20 +145,7 @@ startup = function(){
 //________________________________________________________
 
 	app.get('/confirm-e-mail', function(req, res){
-		var token = req.query.token;
-		var username = req.query.user;
-		console.log("[INFO] Token: ", token);
-		console.log("[INFO] Username: ", username);
-		handlerController = new UserController.UserController();
-		handlerController.confirmEmail(token, username, function(err){
-			res.render('index', {
-					layout: false, 
-					user: "Sign in", 
-					dropdowncontent:htmltags.signintag, 
-					feedback:"Error: " + err,
-					headline: "Thank you for confirming your email address. You may now log in.",
-			})
-		});
+		routes.confirmEmail(req, res);
 	})
 
 
@@ -188,115 +180,25 @@ startup = function(){
 
 	//change username
 	app.post('/changeUsername', function(req, res){
-		var username = req.body.username;
-		var newusername = req.body.newusername;
-		var password = req.body.password;
-		//Input validation
-		if (!newusername || newusername.length < 4 || newusername.length > 20){
-			res.render('index', {
-				layout: false, 
-				user: user, 
-				dropdowncontent:htmltags.loggedintag,
-				headline: "ERROR: Username has to have between 4 and 20 characters."
-			});
-		} else {
-			console.log("[DEBUG] Password: ", password);
-			handlerController = new UserController.UserController();
-			handlerController.changeUsername(username, newusername, password, function (err){
-				if (err){
-					console.log("[ERROR] ", err);
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag,
-						headline: "ERROR: "+ err
-					});
-				} else {
-					console.log("[INFO] Successfully changed user information.");
-					user = newusername;
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag,
-						headline: "Username successfully changed!",
-					});
-				}
-			});
-		}
+		routes.changeUsername(req, res, user, function(result){
+			user = result;
+		});
 	});
 
 	//change password
 	app.post('/changePassword', function(req, res){
-		var password = req.body.password;
-		var newpassword = req.body.newpassword;
-		if (!newpassword || newpassword.length < 4){
-			res.render('index', {
-					layout: false, 
-					user: user, 
-					dropdowncontent:htmltags.loggedintag,
-					headline: "Your new password has to have at least 4 characters."
-				});
-		} else {
-			handlerController = new UserController.UserController();
-			handlerController.changePassword(user, password, newpassword, function(err){
-				if (err){
-					console.log("[ERROR] ", err);
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag,
-						headline: "ERROR: "+ err
-					});
-				} else {
-					console.log("[INFO] Successfully changed user information.");
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag,
-						headline: "Password successfully changed!",
-					});
-				}
-			});
-		}
+		routes.changePassword(req, res, user);
 	});
 
 
 	//change email address
 	app.post('/changeEmail', function(req, res){
-		var user = req.body.username;
-		var password = req.body.password;
-		var email = req.body.email;
-		if (!email || email.length < 3){
-			res.render('index', {
-				layout: false, 
-				user: user, 
-				dropdowncontent:htmltags.loggedintag,
-				headline: "Please enter a valid email address."
-			});
-		} else {
-			handlerController = new UserController.UserController();
-			handlerController.changeEmail(user, password, email, function(err){
-				if (err){
-					console.log("[ERROR] ", err);
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag,
-						headline: "ERROR: "+ err
-					});
-				} else {
-					console.log("[INFO] Successfully changed user information.");
-					user = null;
-					res.render('index', {
-						layout: false, 
-						user: "Sign in", 
-						dropdowncontent:htmltags.signintag,
-						headline: "Email address successfully changed!",
-						content1: "<p> You have to confirm your new email address before you can log in again.</p>"
-					});
-				}
-			});
-		}
+		routes.changeEmail(req, res, user, function(result){
+			if (result){
+				user = null;
+				sess = null;
+			}
+		});
 	});
 
 
@@ -307,12 +209,15 @@ startup = function(){
 
 
 	//Delete user
-	//BUG: User still logged in after deleting account
 	app.post('/deleteUser', function(req, res){
-		routes.deleteUser(req, res);
+		routes.deleteUser(req, res, function(deleted){
+			if(deleted){
+				user = null;
+				sess = null;
+				routes.notloggedin(req, res);
+			}
+		});
 	});
-
-
 
 
 //________________________________________________________
@@ -324,22 +229,6 @@ startup = function(){
 	app.get('/shoppingowl', function(req, res){
 		routes.getShoppingOwl(req, res, user);
 	});
-
-
-
-
-
-
-
-
-
-	//Redirects to home if user is not logged in
-	function loggedIn(req, res, next){
-		if (user){
-			return next();
-		}
-		res.redirect('/');
-	}
 
 
 
