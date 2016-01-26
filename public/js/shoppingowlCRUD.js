@@ -1,7 +1,7 @@
 function addToOwl(trigger){
-	var id = trigger.id;
-	var product = document.getElementById("product"+id).innerHTML;
-	var username = document.getElementById("dropdownuser").innerHTML;
+	var id = trigger.id; //Get id of button which triggered the function
+	var product = document.getElementById("product"+id).innerHTML; //Get the product name
+	var username = document.getElementById("dropdownuser").innerHTML; //Get the username
 	trigger.disabled = true;
 
 	var xhttp = new XMLHttpRequest();
@@ -18,8 +18,8 @@ function addToOwl(trigger){
 
 function deleteFromOwl(trigger){
 	var id = trigger.id; //Get id of button which triggered the function
-	var product = document.getElementById("product"+id).innerHTML; //Get the id of the product
-	var username = document.getElementById("dropdownuser").innerHTML;
+	var product = document.getElementById("product"+id).innerHTML; //Get the product name
+	var username = document.getElementById("dropdownuser").innerHTML; //Get the username
 	trigger.disabled = true;
 
 	var xhttp = new XMLHttpRequest();
@@ -29,6 +29,7 @@ function deleteFromOwl(trigger){
 		if (xhttp.readyState == 4 && xhttp.status == 200){
 			trigger.value = xhttp.responseText;
 			trigger.disabled = false;
+			document.getElementById("column" + id).innerHTML = "";
 		}
 	}
 	xhttp.send();

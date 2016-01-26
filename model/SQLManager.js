@@ -149,7 +149,7 @@ SQLManager.prototype.addProductToShoppingowl = function(username, productid, qua
 
 // delete product from shoppingowl
 SQLManager.prototype.deleteProductFromShoppingowl = function(username, productid, callback) {
-	var queryString = 'DELETE FROM shoppingowl WHERE pk_username = ? AND fk_productid = ?';
+	var queryString = 'DELETE FROM shoppingowl WHERE fk_username = ? AND fk_productid = ?';
 	connection.query(queryString, [username, productid], function (err, result){
 		callback(err, result);
 	});

@@ -13,7 +13,7 @@ ShoppingowlController.prototype.addProduct = function(username, product, callbac
 		if (err){
 			callback(err);
 		} else {
-			var productid = result.fk_productid;
+			var productid = result.pk_productid;
 			database.addProductToShoppingowl(username, productid, 1, function(err, result){
 				if (err){
 					//If product is already in shopping owl --> increase quantity
@@ -40,35 +40,29 @@ ShoppingowlController.prototype.getShoppingOwl = function(username, callback) {
 	database.getMyShoppingowl(username, function(err, data){
 		if(err){
 			console.log("[ERROR] ", err);
-		} else {
-			console.log("[INFO] Data from shopping owl: ", data);
 		}
 		callback(err, data);
 	});
 };
 
-//Change quantity of a selected product in shopping owl
-ShoppingowlController.prototype.updateProduct = function(username, productid, quantity, callback) {
-	database.changeQuantity(username, productid, quantity, function(err, result){
-		if (err){
-			console.log("[ERROR] ", err);
-		} else {
-			console.log("[INFO] Changed quantity of a product in shopping owl.");
-		}
-		callback(err);
-	})
-};
 
 //Delete product from shopping owl
-ShoppingowlController.prototype.deleteProduct = function(username, productid, callback) {
-	database.deleteProductFromShoppingowl(username, productid, function(err, result){
+ShoppingowlController.prototype.deleteProduct = function(username, product, callback) {
+	database.getProductByName(product, function(err, result){
 		if (err){
-			console.log("[ERROR] ", err);
+			callback(err);
 		} else {
-			console.log("[INFO] Deleted product from shopping owl.");
+			var productid = result.pk_productid;
+			database.deleteProductFromShoppingowl(username, productid, function(err, result){
+				if (err){
+					console.log("[ERROR] ", err);
+				} else {
+					console.log("[INFO] Deleted product from shopping owl.");
+				}
+				callback(err);
+			});
 		}
-		callback(err);
-	})
+	});
 };
 
 

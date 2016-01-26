@@ -475,7 +475,7 @@ startup = function(){
 
 					for (var i in data){
 						productdata = productdata 
-							+ "<tr class=\"tablebody\"><td class=\"tablebody\" id=\"productowl" 
+							+ "<tr class=\"tablebody\" id=\"columnowl" + i + "\"><td class=\"tablebody\" id=\"productowl" 
 							+ i + "\">" 
 								+ data[i].productname
 							+ "</td><td class=\"tablebody\">"
@@ -511,7 +511,7 @@ startup = function(){
 		} else {
 			console.log("[DEBUG] Delete from owl");
 			handlerController = new ShoppingowlController.ShoppingowlController();
-			handlerController.addProduct(username, product, function(err, data){
+			handlerController.deleteProduct(username, product, function(err, data){
 				if(err){
 					res.end("ERROR");
 				} else {
@@ -528,12 +528,13 @@ startup = function(){
 		if(username !== user){
 			res.end("ERROR");
 		} else {
-			console.log("[DEBUG] Add to owl");
 			handlerController = new ShoppingowlController.ShoppingowlController();
 			handlerController.addProduct(username, product, function(err, data){
 				if(err){
+					console.log("[ERROR] Couldn't add product to shopping owl: ", err);
 					res.end("ERROR");
 				} else {
+					console.log("[INFO] Added product to shopping owl.");
 					res.end("ADDED");
 				}
 			});
