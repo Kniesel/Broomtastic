@@ -91,7 +91,7 @@ function changePassword(){
 	}
 }
 
-//TODO not finished
+
 function changeEmail(){
 	var username = document.getElementById("dropdownuser").innerHTML;
 	var password = document.getElementById("changeEmailPassword").value;
@@ -102,11 +102,19 @@ function changeEmail(){
 		document.getElementById("changeEmailFeedback").innerHTML="Please enter your password."
 	} else if(!email){
 		document.getElementById("changeEmailFeedback").innerHTML="Please enter your new email address."
-	}else {
+	} else {
+		document.getElementById("changeEmailFeedback").innerHTML = "Sending registration email ... <br><br> This might take a minute. Please be patient. :)";
 		document.getElementById("changeEmailButton").disabled = true;
 		var xhttp = new XMLHttpRequest();
 		xhttp.open("POST", "/changeEmail", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.onreadystatechange = function() {
+			document.getElementById("changeEmailButton").disabled = true;
+			if (xhttp.readyState == 4 && xhttp.status == 200){
+				document.getElementById("changeEmailFeedback").innerHTML = xhttp.responseText;
+				document.getElementById("changeEmailButton").disabled = false;
+			}
+		}
 		xhttp.send(data);
 	}
 

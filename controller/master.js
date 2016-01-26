@@ -356,13 +356,14 @@ startup = function(){
 
 	//change password
 	app.post('/changePassword', function(req, res){
+		var username = req.body.username;
 		var password = req.body.password;
 		var newpassword = req.body.newpassword;
 		if (!newpassword || newpassword.length < 4){
 			res.send("Your new password has to have at least 4 characters.");
 		} else {
 			handlerController = new UserController.UserController();
-			handlerController.changePassword(user, password, newpassword, function(err){
+			handlerController.changePassword(username, password, newpassword, function(err){
 				if (err){
 					console.log("[ERROR] Couldn't change password: ", err);
 					res.end(err);
@@ -377,36 +378,25 @@ startup = function(){
 
 	//change email address
 	app.post('/changeEmail', function(req, res){
+		var username = req.body.username;
 		var password = req.body.password;
 		var email = req.body.email;
+		if (!password){
+			res.end("Please enter your password.");
+		}
 		if (!email || email.length < 3){
-			res.render('index', {
-				layout: false, 
-				user: user, 
-				dropdowncontent:htmltags.loggedintag,
-				headline: "Please enter a valid email address."
-			});
+			res.end("Please enter a valid email address.");
 		} else {
 			handlerController = new UserController.UserController();
-			handlerController.changeEmail(user, password, email, function(err){
+			handlerController.changeEmail(username, password, email, function(err){
 				if (err){
-					console.log("[ERROR] ", err);
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag,
-						headline: "ERROR: "+ err
-					});
+					console.log("[ERROR] Couldn't change email address: ", err);
+					res.end("Couldn't change email address: " + err);
 				} else {
 					console.log("[INFO] Successfully changed user information.");
 					user = null;
-					res.render('index', {
-						layout: false, 
-						user: "Sign in", 
-						dropdowncontent:htmltags.signintag,
-						headline: "Email address successfully changed!",
-						content1: "<p> You have to confirm your new email address before you can log in again.</p>"
-					});
+					sess = null;
+					res.end("Email address successfully changed!<br><br>You have to confirm your new email address before you can log in again.");
 				}
 			});
 		}

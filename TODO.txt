@@ -5,12 +5,6 @@ Sollte der Fehler "Error: listen EADDRINUSE :::8888" auftauchen
 > Ajax (--> Shoppingowl, Registerform, Products?)
 > Restful Routing (--> Shoppingowl?)
 	-- post get delete update /destination/id.html bzw .json .txt oder whatever
-> E-Mail:
-	- User nicht in db schreiben, wenn E-Mail nicht gesendet werden konnte.
-	- E-Mail-erneut-senden-Möglichkeit einbauen
 > Warenkorb (Shopping owl)
-	- Link von Shoppingeule auf Warenkorb --> auf post-Umfrage umbauen ?username=nemo
 	- Bei den Producten: zum-Warenkorb-hinzufügen-Button
 	- Im Warenkorb: Product-aus-Warenkorb-entfernen-Button
-> Session-ID bei (jeder?) Anfrage überprüfen
-> Zeug von master.js nach routes.js auslagern (--> damit master.js nicht so überfüllt)
