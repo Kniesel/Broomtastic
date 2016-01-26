@@ -29,7 +29,7 @@ function deleteFromOwl(trigger){
 		if (xhttp.readyState == 4 && xhttp.status == 200){
 			trigger.value = xhttp.responseText;
 			trigger.disabled = false;
-			document.getElementById("column" + id).innerHTML = "";
+			document.getElementById("column" + id).innerHTML = ""; //deletes deleted colums (huebscher beinahe-Satz ... :b)
 		}
 	}
 	xhttp.send();
