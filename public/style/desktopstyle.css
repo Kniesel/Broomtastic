@@ -210,7 +210,7 @@ p{
 
 .feedback{
 	text-align: center;
-	color: red;
+	font-style: italic;
 }
 
 .boldtext{

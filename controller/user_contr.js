@@ -237,6 +237,7 @@ UserController.prototype.delete = function(username, password, callback) {
 				});
 			} else { //If user is in db but password is incorrect
 				console.log("[INFO] Password is incorrect. :(");
+				err = "Password is incorrect.";
 			}
 		}
 		callback(err);

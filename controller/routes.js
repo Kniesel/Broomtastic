@@ -192,9 +192,11 @@ module.exports = {
 				if (err){
 					console.log("[ERROR] ", err);
 					callback(user); //username not changed
+					res.end(err);
 				} else {
 					console.log("[INFO] Successfully changed user information.");
 					callback(newusername); //username changed
+					res.end("Username changed.");
 				}
 			});
 		}

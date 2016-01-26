@@ -18,7 +18,7 @@ function changeUsername(){
 			document.getElementById("changeUsernameButton").disabled = true;
 			if (xhttp.readyState == 4 && xhttp.status == 200){
 				document.getElementById("changeUsernameButton").disabled = false;
-				document.getElementById("changeUsernameFeedback").innerHTML = "Changed Username";
+				document.getElementById("changeUsernameFeedback").innerHTML=xhttp.responseText;
 			}
 		}
 		xhttp.send(data);
