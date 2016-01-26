@@ -193,8 +193,7 @@ startup = function(){
 								+ data[i].price
 							+ "€</td><td class=\"tablebody\">" 
 							+ "<input class=\"inputforms\" type=\"button\" value=\"Add\" onclick=addToOwl(this) id=\"owl" 
-							+ i + "\">"
-							"</td></tr>";
+							+ i + "\"></td></tr>";
 					}
 
 					productdata = productdata + "</table></p>"
@@ -235,8 +234,7 @@ startup = function(){
 								+ data[i].price
 							+ "€</td><td class=\"tablebody\">" 
 							+ "<input class=\"inputforms\" type=\"button\" value=\"Add\" onclick=addToOwl(this) id=\"owl" 
-							+ i + "\">"
-							"</td></tr>";
+							+ i + "\"></td></tr>";
 					}
 
 					productdata = productdata + "</table></p>"
@@ -486,8 +484,7 @@ startup = function(){
 								+ data[i].totalprice
 							+ "€</td><td class=\"tablebody\">" 
 							+ "<input class=\"inputforms\" type=\"button\" value=\"Delete\" onclick=deleteFromOwl(this) id=\"owl" 
-							+ i + "\">"
-							"</td></tr>";
+							+ i + "\"></td></tr>";
 					}
 
 					productdata = productdata + "</table></p>"
