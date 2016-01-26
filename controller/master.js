@@ -167,6 +167,7 @@ startup = function(){
 		
 		handlerController = new ProductController.ProductController();
 
+		//show all products
 		if (category === "all"){
 			handlerController.getAllProducts(function(err, data){
 				if (err){
@@ -179,17 +180,21 @@ startup = function(){
 					});
 				} else {
 
-					var productdata = "<p><table class=\"tablecontent\"><tr class=\"tablehead\"><th class=\"tablehead\">Product</td><th class=\"tablehead\">Category</td><th class=\"tablehead\">Price</td></tr>";
+					var productdata = "<p><table class=\"tablecontent\"><tr class=\"tablehead\"><th class=\"tablehead\">Product</td><th class=\"tablehead\">Category</td><th class=\"tablehead\">Price</td><th class=\"tablehead\">Add product to ShoppingOwl</td></tr>";
 
 					for (var i in data){
 						productdata = productdata 
-							+ "<tr class=\"tablebody\"><td class=\"tablebody\">" 
+							+ "<tr class=\"tablebody\"><td class=\"tablebody\" id=\"owl" 
+							+ i + "\">" 
 								+ data[i].productname
 							+ "</td><td class=\"tablebody\">"
 								+ data[i].category
 							+ "</td><td class=\"tablebody\">"
 								+ data[i].price
-							+ "€</td></tr>";
+							+ "€</td><td class=\"tablebody\">" 
+							+ "<input class=\"inputforms\" type=\"button\" value=\"Add\" onclick=addToOwl(this) id=\"owl" 
+							+ i + "\">"
+							"</td></tr>";
 					}
 
 					productdata = productdata + "</table></p>"
@@ -217,17 +222,21 @@ startup = function(){
 					});
 				} else {
 
-					var productdata = "<p><table class=\"tablecontent\"><tr class=\"tablehead\"><th class=\"tablehead\">Product</td><th class=\"tablehead\">Category</td><th class=\"tablehead\">Price</td></tr>";
+					var productdata = "<p><table class=\"tablecontent\"><tr class=\"tablehead\"><th class=\"tablehead\">Product</td><th class=\"tablehead\">Category</td><th class=\"tablehead\">Price</td><th class=\"tablehead\">Add product to ShoppingOwl</td></tr>";
 
 					for (var i in data){
 						productdata = productdata 
-							+ "<tr class=\"tablebody\"><td class=\"tablebody\">" 
+							+ "<tr class=\"tablebody\"><td class=\"tablebody\" id=\"owl" 
+							+ i + "\">" 
 								+ data[i].productname
 							+ "</td><td class=\"tablebody\">"
 								+ data[i].category
 							+ "</td><td class=\"tablebody\">"
 								+ data[i].price
-							+ "€</td></tr>";
+							+ "€</td><td class=\"tablebody\">" 
+							+ "<input class=\"inputforms\" type=\"button\" value=\"Add\" onclick=addToOwl(this) id=\"owl" 
+							+ i + "\">"
+							"</td></tr>";
 					}
 
 					productdata = productdata + "</table></p>"
@@ -464,17 +473,21 @@ startup = function(){
 					});
 				} else {
 
-					var productdata = "<p><table class=\"tablecontent\"><tr class=\"tablehead\"><th class=\"tablehead\">Product</td><th class=\"tablehead\">Quantity</td><th class=\"tablehead\">Price</td></tr>";
+					var productdata = "<p><table class=\"tablecontent\"><tr class=\"tablehead\"><th class=\"tablehead\">Product</td><th class=\"tablehead\">Quantity</td><th class=\"tablehead\">Price</td><th class=\"tablehead\">Delete product</td></tr>";
 
 					for (var i in data){
 						productdata = productdata 
-							+ "<tr class=\"tablebody\"><td class=\"tablebody\">" 
+							+ "<tr class=\"tablebody\"><td class=\"tablebody\" id=\"owl" 
+							+ i + "\">" 
 								+ data[i].productname
 							+ "</td><td class=\"tablebody\">"
 								+ data[i].quantity
 							+ "</td><td class=\"tablebody\">"
 								+ data[i].totalprice
-							+ "€</td></tr>";
+							+ "€</td><td class=\"tablebody\">" 
+							+ "<input class=\"inputforms\" type=\"button\" value=\"Delete\" onclick=deleteFromOwl(this) id=\"owl" 
+							+ i + "\">"
+							"</td></tr>";
 					}
 
 					productdata = productdata + "</table></p>"
