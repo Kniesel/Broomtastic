@@ -2,19 +2,15 @@ var SQLManager = require('../model/SQLManager.js');
 
 module.exports = {
 
-	//before each test
-	setUp: function(callback){
-		this.productid = '20';
-		this.productname = 'Testproduct';
-		this.category = 'Balls'
-		this.price = '500';
-		callback();
-	},
+	// //before each test
+	// setUp: function(callback){
+	// 	callback();
+	// },
 
-	//after each test (after test.done())
-	tearDown: function(callback){
-		callback();
-	},
+	// //after each test (after test.done())
+	// tearDown: function(callback){
+	// 	callback();
+	// },
 
 // tests if all products are returned
 	testGetAll: function(test){
