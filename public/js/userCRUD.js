@@ -49,18 +49,18 @@ function changeUsername(){
 		xhttp.onreadystatechange = function() {
 			document.getElementById("changeUsernameButton").disabled = true;
 			if (xhttp.readyState == 4 && xhttp.status == 200){
-				document.getElementById("changeUsernameButton").disabled = false;
 				document.getElementById("changeUsernameFeedback").innerHTML = xhttp.responseText;
 				if (xhttp.responseText === "Successfully changed username."){
 					document.getElementById("dropdownuser").innerHTML = newusername;
 				}
+				document.getElementById("changeUsernameButton").disabled = false;
 			}
 		}
 		xhttp.send(data);
 	}
 }
 
-//TODO not finished
+
 function changePassword(){
 	var username = document.getElementById("dropdownuser").innerHTML;
 	var password = document.getElementById("changePasswordPassword").value;
@@ -77,10 +77,16 @@ function changePassword(){
 	} else if (newpassword !== newpassword2){
 		document.getElementById("changePasswordFeedback").innerHTML="Your entered passwords do not match.";
 	} else {
-		document.getElementById("changePasswordButton").disabled = true;
 		var xhttp = new XMLHttpRequest();
 		xhttp.open("POST", "/changePassword", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.onreadystatechange = function() {
+			document.getElementById("changePasswordButton").disabled = true;
+			if (xhttp.readyState == 4 && xhttp.status == 200){
+				document.getElementById("changePasswordFeedback").innerHTML = xhttp.responseText;
+				document.getElementById("changePasswordButton").disabled = false;
+			}
+		}
 		xhttp.send(data);
 	}
 }

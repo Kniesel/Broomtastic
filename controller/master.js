@@ -359,31 +359,16 @@ startup = function(){
 		var password = req.body.password;
 		var newpassword = req.body.newpassword;
 		if (!newpassword || newpassword.length < 4){
-			res.render('index', {
-					layout: false, 
-					user: user, 
-					dropdowncontent:htmltags.loggedintag,
-					headline: "Your new password has to have at least 4 characters."
-				});
+			res.send("Your new password has to have at least 4 characters.");
 		} else {
 			handlerController = new UserController.UserController();
 			handlerController.changePassword(user, password, newpassword, function(err){
 				if (err){
-					console.log("[ERROR] ", err);
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag,
-						headline: "ERROR: "+ err
-					});
+					console.log("[ERROR] Couldn't change password: ", err);
+					res.end(err);
 				} else {
-					console.log("[INFO] Successfully changed user information.");
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag,
-						headline: "Password successfully changed!",
-					});
+					console.log("[INFO] Successfully changed password of ", user);
+					res.end("Password successfully changed!");
 				}
 			});
 		}

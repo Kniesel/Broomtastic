@@ -113,7 +113,6 @@ UserController.prototype.changeUsername = function(username, newusername, passwo
 	//Read user from db to check if password is correct
 	database.getUser(username, function (err, data){
 		if (err){
-			console.log("[ERROR] ", err);
 			callback(err);
 		} else {
 			//If no user with this username in db --> Should NOT happen!
@@ -132,7 +131,6 @@ UserController.prototype.changeUsername = function(username, newusername, passwo
 						if (err.message.substring(0, 12) === "ER_DUP_ENTRY"){
 							err = "Username already taken.";
 						}
-						console.log("[ERROR] Couldn't change username: ", err);
 					}
 					callback(err);
 				});
@@ -150,7 +148,7 @@ UserController.prototype.changePassword = function(username, password, newpasswo
 			console.log("[ERROR] ", err);
 		} else {
 			if (passwordHash.verify(password, data.password)){
-				console.log("[INFO] Password correct.");
+				console.log("[INFO] Changing passowrd: Password correct.");
 				//change password only if password is correct
 				//hash new password
 				var hashedPassword = passwordHash.generate(newpassword);
