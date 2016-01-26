@@ -2,7 +2,7 @@
 Sollte der Fehler "Error: listen EADDRINUSE :::8888" auftauchen
 --> sicherstellen, dass der Server nicht schon gestartet ist ... :X
 
-> Ajax (--> Shoppingowl?)
+> Ajax (--> Shoppingowl, Registerform, Products?)
 > Restful Routing (--> Shoppingowl?)
 	-- post get delete update /destination/id.html bzw .json .txt oder whatever
 > E-Mail:
@@ -13,3 +13,4 @@ Sollte der Fehler "Error: listen EADDRINUSE :::8888" auftauchen
 	- Bei den Producten: zum-Warenkorb-hinzufügen-Button
 	- Im Warenkorb: Product-aus-Warenkorb-entfernen-Button
 > Session-ID bei (jeder?) Anfrage überprüfen
+> Zeug von master.js nach routes.js auslagern (--> damit master.js nicht so überfüllt)

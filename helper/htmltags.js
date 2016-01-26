@@ -9,8 +9,6 @@ module.exports = {
 
 	'productfilter':'<p class=\"title1\">FILTER BY</p><p class=\"title1 title2\">Category</p><form action=\"/products\" method=\"post\" class=\"filtercontent\" name=\"tabledata\"> <select name=\"category\"><option value=\"all\">Show all categories</option> <option>Balls</option> <option>Books</option> <option>Brooms</option> <option>Clothing</option></select><input type=\"submit\" value=\"Okay\"></form> ',
 
-	'notworking':'<p id=\"notworking\"> </p>',
-
 	'changeUsernameForm':'<p class=\"title1\">Change Username</p><br><p id=\"changeUsernameFeedback\"></p><input class=\"registerinput\" type=\"text\" id=\"changeUsernameUsername\" placeholder=\"username\" required><br><input class=\"registerinput\" type=\"password\" id=\"changeUsernamePassword\" placeholder=\"password\" required><br><input class=\"registerinput\" type=\"button\" id=\"changeUsernameButton\" value=\"Submit\" onclick=changeUsername()><br><br>',
 
 	'changePasswordForm':'<p class=\"title1\">Change Password</p><br><p id=\"changePasswordFeedback\"></p><input class=\"registerinput\" type=\"password\" id=\"changePasswordPassword\" placeholder=\"Current password\" required><br><input class=\"registerinput\" type=\"password\" id=\"changePasswordNewPassword\" placeholder=\"New password\" required><br><input class=\"registerinput\" type=\"password\" id=\"changePasswordNewPassword2\" placeholder=\"Repeat new password\" required><br><input class=\"registerinput\" type=\"button\" id=\"changePasswordButton\" value=\"Submit\" onclick=changePassword()><br><br>',

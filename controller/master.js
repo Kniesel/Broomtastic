@@ -28,34 +28,18 @@ startup = function(){
 	app.set('view engine', '.hbs');
 
 
-
 //________________________________________________________
 //
 // Index page
 //________________________________________________________
 
 	app.get('/home', function(req, res){
-		//if user is logged in
 		if (user){
-			res.render('index', {
-				layout: false, 
-				user: user, 
-				dropdowncontent:htmltags.loggedintag,
-				headline: "Welcome to the Broomtastic Webshop!",
-				content1: htmltags.productfilter,
-				content2: htmltags.notworking
-			});
+			routes.index(req, res, user);
 		} else {
-			res.render('index',{
-				layout: false,
-				user: "Sign in",
-				dropdowncontent:htmltags.signintag,
-				headline: "Welcome to the Broomtastic Webshop!",
-				content1: "<p>Please sign in to see our products.</p>"
-			});
+			routes.notloggedin(req, res);
 		}
 	});
-
 
 
 //________________________________________________________
@@ -66,89 +50,14 @@ startup = function(){
 
 	//Go to registration page
 	app.get('/register', function(req, res){
-		res.render('index', {
-					layout: false, 
-					user: "Sign in", 
-					dropdowncontent:htmltags.signintag, 
-					feedback:"",
-					headline: "Give us all your information to join us!",
-					content1: htmltags.registerform
-		});
+		routes.registration(req, res);
 	});
-
 
 
 	//Submit of registration form
 	app.post('/register', function(req, res){
-		console.log("Cookies: ", req.cookies);
-		var username = req.body.username;
-		var password = req.body.password;
-		var password2 = req.body.password2;
-		var email = req.body.email;
-
-		//Userinput validation
-		if(!username || username.length < 4 || username.length > 20){
-			res.render('index', {
-				layout: false, 
-				user: "Sign in", 
-				dropdowncontent:htmltags.signintag, 
-				headline: "Error: Your username has to have between 4 and 20 characters.",
-				content1: htmltags.registerform
-			});
-		//Userinput validation
-		} else if (!password || password.length < 4){
-			res.render('index', {
-				layout: false, 
-				user: "Sign in", 
-				dropdowncontent:htmltags.signintag, 
-				headline: "Error: Your password has to have at least 4 characters.",
-				content1: htmltags.registerform
-			});
-		//Userinput validation
-		} else if (!email){
-			res.render('index', {
-				layout: false, 
-				user: "Sign in", 
-				dropdowncontent:htmltags.signintag, 
-				headline: "Error: You have to enter a valid email address.",
-				content1: htmltags.registerform
-			});
-		} else if (password === password2){
-			handlerController = new UserController.UserController();
-			handlerController.register(username, password, email, function(err){
-				if (err){
-					console.log("[ERROR] ", err);
-					res.render('index', {
-						layout: false, 
-						user: "Sign in", 
-						dropdowncontent:htmltags.signintag, 
-						feedback:"",
-						headline: "Error: " + err,
-						content1: htmltags.registerform
-					});
-				} else {
-					res.render('index', {
-						layout: false, 
-						user: "Sign in", 
-						dropdowncontent:htmltags.signintag, 
-						feedback:"",
-						headline: "You are registered now.",
-						content1: "<p>We sent you a registration email. Please confirm your email address by clicking on the link in the email to log in.</p>"
-					});
-				}
-			});
-		} else {
-			res.render('index', {
-				layout: false, 
-				user: "Sign in", 
-				dropdowncontent:htmltags.signintag, 
-				feedback:"",
-				headline: "Your entered passwords do not match."
-			});
-		}
+		routes.register(req, res);
 	})
-
-
 
 
 //________________________________________________________
@@ -158,6 +67,7 @@ startup = function(){
 
 
 	app.post('/login', function(req, res){
+
 		var password = req.body.password;
 		var username = req.body.username;
 
@@ -203,87 +113,7 @@ startup = function(){
 
 	//Get products
 	app.post('/products', function(req, res){
-		var category = req.body.category;
-		console.log("[INFO] Category: ", category);
-		
-		handlerController = new ProductController.ProductController();
-
-		if (category === "all"){
-			handlerController.getAllProducts(function(err, data){
-				if (err){
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag, 
-						feedback:"Error: " + err,
-						headline: "Error: " + err
-					});
-				} else {
-
-					var productdata = "<p><table class=\"tablecontent\"><tr class=\"tablehead\"><th class=\"tablehead\">Product</td><th class=\"tablehead\">Category</td><th class=\"tablehead\">Price</td></tr>";
-
-					for (var i in data){
-						productdata = productdata 
-							+ "<tr class=\"tablebody\"><td class=\"tablebody\">" 
-								+ data[i].productname
-							+ "</td><td class=\"tablebody\">"
-								+ data[i].category
-							+ "</td><td class=\"tablebody\">"
-								+ data[i].price
-							+ "€</td></tr>";
-					}
-
-					productdata = productdata + "</table></p>"
-
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag,
-						headline: "Products",
-						content1: htmltags.productfilter,
-						content2: productdata
-					});
-				}
-			});
-		//If a specific categroy is selected
-		} else {
-			handlerController.getProductsByCategory(category, function (err, data){
-				if (err){
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag, 
-						feedback:"Error: " + err,
-						headline: "Error: " + err
-					});
-				} else {
-
-					var productdata = "<p><table class=\"tablecontent\"><tr class=\"tablehead\"><th class=\"tablehead\">Product</td><th class=\"tablehead\">Category</td><th class=\"tablehead\">Price</td></tr>";
-
-					for (var i in data){
-						productdata = productdata 
-							+ "<tr class=\"tablebody\"><td class=\"tablebody\">" 
-								+ data[i].productname
-							+ "</td><td class=\"tablebody\">"
-								+ data[i].category
-							+ "</td><td class=\"tablebody\">"
-								+ data[i].price
-							+ "€</td></tr>";
-					}
-
-					productdata = productdata + "</table></p>"
-
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag,
-						headline: "Products",
-						content1: htmltags.productfilter,
-						content2: productdata
-					});
-				}
-			});
-		}
+		routes.products(req, res, user);
 	});
 
 
@@ -477,32 +307,10 @@ startup = function(){
 
 
 	//Delete user
+	//BUG: User still logged in after deleting account
 	app.post('/deleteUser', function(req, res){
-		var user = req.body.username;
-		console.log("[DEBUG] Username: ", user);
-		var password = req.body.password;
-		handlerController = new UserController.UserController();
-		handlerController.delete(user, password, function(err){
-			if (err){
-				res.render('index', {
-					layout: false, 
-					user: user, 
-					dropdowncontent:htmltags.loggedintag,
-					headline: "ERROR " + err,
-				});
-			} else {
-				user = null;
-				res.render('index', {
-					layout: false, 
-					user: "Sign in", 
-					dropdowncontent:htmltags.signintag,
-					headline: "Account successfully deleted.",
-				});
-			}
-		});
+		routes.deleteUser(req, res);
 	});
-
-
 
 
 
@@ -514,64 +322,8 @@ startup = function(){
 
 
 	app.get('/shoppingowl', function(req, res){
-		var username = req.query.username;
-		if(!username){
-			username = user;
-		}
-		if (!user){
-			res.render('index', {
-				layout: false, 
-				user: "Sign in", 
-				dropdowncontent:htmltags.signintag,
-				headline: "You are not logged in.",
-			});
-		} else if (user.toLowerCase() !== username.toLowerCase()){
-			res.render('index', {
-				layout: false, 
-				user: user, 
-				dropdowncontent:htmltags.loggedintag,
-				headline: "You are not logged in as " + username,
-			});
-		} else {
-			handlerController = new ShoppingowlController.ShoppingowlController();
-			handlerController.getShoppingOwl(username, function(err, data){
-				if(err){
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag,
-						headline: "Error " + err,
-					});
-				} else {
-
-					var productdata = "<p><table class=\"tablecontent\"><tr class=\"tablehead\"><th class=\"tablehead\">Product</td><th class=\"tablehead\">Quantity</td><th class=\"tablehead\">Price</td></tr>";
-
-					for (var i in data){
-						productdata = productdata 
-							+ "<tr class=\"tablebody\"><td class=\"tablebody\">" 
-								+ data[i].productname
-							+ "</td><td class=\"tablebody\">"
-								+ data[i].quantity
-							+ "</td><td class=\"tablebody\">"
-								+ data[i].totalprice
-							+ "€</td></tr>";
-					}
-
-					productdata = productdata + "</table></p>"
-
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag,
-						headline: "Products",
-						content1: productdata
-					});
-				}
-			});
-		}
+		routes.getShoppingOwl(req, res, user);
 	});
-
-
 
 
 
@@ -612,8 +364,6 @@ startup = function(){
 		console.error(err.stack);
 		res.status(500).send('Suddenly a wild error appears');
 	});
-
-
 
 
 
