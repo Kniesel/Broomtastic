@@ -176,7 +176,6 @@ module.exports = {
 //________________________________________________________
 
 	changeUsername: function(req, res, user, callback){
-
 		var username = req.body.username;
 		var newusername = req.body.newusername;
 		var password = req.body.password;
@@ -185,8 +184,8 @@ module.exports = {
 		if (!newusername || newusername.length < 4 || newusername.length > 20){
 			headline = "ERROR: Username has to have between 4 and 20 characters."
 			this.renderPage(res);
+			res.end("Username has to have between 4 and 20 characters.");
 		} else {
-			console.log("[DEBUG] Password: ", password);
 			handlerController = new UserController.UserController();
 			handlerController.changeUsername(username, newusername, password, function (err){
 				if (err){

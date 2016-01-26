@@ -1,3 +1,34 @@
+function register(){
+	var username = document.getElementById("registername").value;
+	var password = document.getElementById("registerpassword").value;
+	var password2 = document.getElementById("registerpassword2").value;
+	var email = document.getElementById("registeremail").value;
+	var data = "username=" + username + "&password=" + password + "&password2=" + password2 + "&email=" + email;
+
+	document.getElementById("registerFeedback").innerHTML = "Register ... ";
+
+	if(!username || !password || !password2 || !email){
+		document.getElementById("registerFeedback").innerHTML = "Please fill in ALL fields.";
+	} else if (username.length < 4 || username.length > 20){
+		document.getElementById("registerFeedback").innerHTML = "Your username has to have between 4 and 20 characters.";
+	} else if (password !== password2){
+		document.getElementById("registerFeedback").innerHTML = "Your entered passwords don't match.";
+	} else {
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("POST", "/register", true);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.onreadystatechange = function(){
+			document.getElementById("registerButton").disabled = true;
+			if(xhttp.readyState == 4 && xhttp.status == 200){
+				document.getElementById("registerButton").disabled = false;
+				document.getElementById("registerFeedback").innerHTML = xhttp.responseText;
+			}
+		}
+		xhttp.send(data);
+	}
+}
+
+
 function changeUsername(){
 	var username = document.getElementById("dropdownuser").innerHTML;
 	var password = document.getElementById("changeUsernamePassword").value;
@@ -5,11 +36,11 @@ function changeUsername(){
 	var data = "username="+username+"&password="+password+"&newusername="+newusername;
 
 	if (!password){
-		document.getElementById("changeUsernameFeedback").innerHTML="Please enter your password.";
+		document.getElementById("changeUsernameFeedback").innerHTML = "Please enter your password.";
 	} else if(!newusername){
-		document.getElementById("changeUsernameFeedback").innerHTML="Please enter your new Username.";
+		document.getElementById("changeUsernameFeedback").innerHTML = "Please enter your new Username.";
 	} else if(newusername.length < 4 || newusername.length > 20){
-		document.getElementById("changeUsernameFeedback").innerHTML="Your new username has to have between 4 and 20 characters."
+		document.getElementById("changeUsernameFeedback").innerHTML = "Your new username has to have between 4 and 20 characters."
 	} else {
 		var xhttp = new XMLHttpRequest();
 		xhttp.open("POST", "/changeUsername", true);
@@ -18,15 +49,14 @@ function changeUsername(){
 			document.getElementById("changeUsernameButton").disabled = true;
 			if (xhttp.readyState == 4 && xhttp.status == 200){
 				document.getElementById("changeUsernameButton").disabled = false;
-				document.getElementById("changeUsernameFeedback").innerHTML=xhttp.responseText;
+				document.getElementById("changeUsernameFeedback").innerHTML = xhttp.responseText;
 			}
 		}
 		xhttp.send(data);
 	}
 }
 
-
-
+//TODO not finished
 function changePassword(){
 	var username = document.getElementById("dropdownuser").innerHTML;
 	var password = document.getElementById("changePasswordPassword").value;
@@ -51,7 +81,7 @@ function changePassword(){
 	}
 }
 
-
+//TODO not finished
 function changeEmail(){
 	var username = document.getElementById("dropdownuser").innerHTML;
 	var password = document.getElementById("changeEmailPassword").value;
@@ -72,7 +102,7 @@ function changeEmail(){
 
 }
 
-
+//TODO not finished
 function deleteUser(){
 	var username = document.getElementById("dropdownuser").innerHTML;
 	var password = document.getElementById("deletePassword").value;
