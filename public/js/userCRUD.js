@@ -5,7 +5,7 @@ function register(){
 	var email = document.getElementById("registeremail").value;
 	var data = "username=" + username + "&password=" + password + "&password2=" + password2 + "&email=" + email;
 
-	document.getElementById("registerFeedback").innerHTML = "Register ... ";
+	document.getElementById("registerFeedback").innerHTML = "Validating input ... ";
 
 	if(!username || !password || !password2 || !email){
 		document.getElementById("registerFeedback").innerHTML = "Please fill in ALL fields.";
@@ -14,14 +14,15 @@ function register(){
 	} else if (password !== password2){
 		document.getElementById("registerFeedback").innerHTML = "Your entered passwords don't match.";
 	} else {
+		document.getElementById("registerFeedback").innerHTML = "Registration running ... <br><br> This might take a minute. Please be patient. :)";
+		document.getElementById("registerButton").disabled = true;
 		var xhttp = new XMLHttpRequest();
 		xhttp.open("POST", "/register", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhttp.onreadystatechange = function(){
-			document.getElementById("registerButton").disabled = true;
 			if(xhttp.readyState == 4 && xhttp.status == 200){
-				document.getElementById("registerButton").disabled = false;
 				document.getElementById("registerFeedback").innerHTML = xhttp.responseText;
+				document.getElementById("registerButton").disabled = false;
 			}
 		}
 		xhttp.send(data);

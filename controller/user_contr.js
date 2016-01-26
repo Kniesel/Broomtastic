@@ -32,19 +32,23 @@ UserController.prototype.register = function(username, password, email, callback
 	//write user into database
 	database.setUser(username, hashedPassword, email, token, function (err, data){
 		if (err){
-			console.log("[ERROR] Couldn't write user into db. ", err);
 			if (err.message.substring(0, 12) === "ER_DUP_ENTRY"){
+				//Easy understandable error message
 				err = "This username is already taken.";
+				callback(err);
 			}
 		} else {
-			console.log("[INFO] Entered user into db.");
-
 			//Send registration email
 			this.email = email;
 			mailer = new Mailer();
-			mailer.sendMail(email, token, username);
+			mailer.sendMail(email, token, username, function (err, info){
+				if (err){
+					err = "Registration failed. Weren't able to send registration email.";
+					database.deleteUser(username, function(err, result){});
+				}
+				callback(err);
+			});
 		}
-		callback(err);
 
 	});
 }

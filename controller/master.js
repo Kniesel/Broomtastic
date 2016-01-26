@@ -92,16 +92,20 @@ startup = function(){
 		//Userinput validation
 		} else if (!email){
 			res.end("Error: You have to enter a valid email address.");
+		//Userinput validation
 		} else if (password !== password2){
 			res.end("Your entered passwords do not match.");
+		//If userinput is valid ...
 		} else {
 			handlerController = new UserController.UserController();
-			handlerController.register(username, password, email, function(err){
+			//... try to write user into db
+			handlerController.register(username, password, email, function(err, info){
 				if (err){
-					console.log("[ERROR] ", err);
+					console.log("[ERROR] Registration failed: ", err);
 					res.end(err);
 				} else {
-					res.end("You are registered now. <p>We sent you a registration email. Please confirm your email address by clicking on the link in the email to log in.</p>")
+					console.log("[INFO] Entered user into db.");
+					res.end("You are registered now. <br> We sent you a registration email. Please confirm your email address by clicking on the link in the email to log in.")
 				}
 			});
 		}

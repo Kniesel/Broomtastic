@@ -12,7 +12,7 @@ var Mailer = function(){
 	);
 }
 
-Mailer.prototype.sendMail = function(email, token, username){
+Mailer.prototype.sendMail = function(email, token, username, callback){
 	//send mail
 	this.transporter.sendMail(
 		{
@@ -24,10 +24,11 @@ Mailer.prototype.sendMail = function(email, token, username){
 			text: 'To confirm your e-mail address click on the following link: http://' + config.host + ':' + config.port + '/confirm-e-mail?token=' + token + '&user=' + username		
 		}, function (err, info){
 			if (!err) {
-				console.log("[INFO] Message id: ", info.messageId)
+				console.log("[INFO] Successfully sent registration email.");
 			} else {
-				console.log("[ERROR] Couldn't send email: ", err)
+				console.log("[ERROR] Couldn't send registration email: ", err);
 			}
+			callback(err, info);
 		}
 	);
 }
