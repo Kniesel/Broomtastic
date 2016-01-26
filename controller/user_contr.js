@@ -64,25 +64,18 @@ UserController.prototype.login = function(username, password, callback) {
 
 	database.getUser(username, function (err, data){
 		loggedin = false;
-		if (err){
-			console.log("[ERROR] ", error);
-		} else {
-			console.log("[DEBUG] Login - data: ", data);
+		if (!err) {
 			if (!data){
-				console.log("[INFO] No user with this username in db.");
-				err = "Sorry, but there is no user with username " + username + " in our database.";
+				err = "Well, how shall I put it? Sorry, but our (of course unabused) house-elves couldn't find anyone with the username " + username + " in our database.";
 			} else {
 				if (passwordHash.verify(password, data.password)){
-					console.log("[INFO] Password is correct.");
 					if (data.token){
-						console.log("[INFO] Email not confirmed.");
-						err = "Email address not yet confirmed.";
+						err = "It seems you didn't yet confirm your email address. Please confirm it to make sure our delivery owl will find you once you've ordered something.";
 					} else {
 						loggedin = true;
 					}
 				} else {
-					console.log("[INFO] Password is incorrect. :(");
-						err = "Password is incorrect.";
+					err = "I'm afraid that wasn't the right password.";
 				}
 			}
 		}
@@ -95,7 +88,6 @@ UserController.prototype.login = function(username, password, callback) {
 //
 // CONFIRM EMAIL 
 //____________________________________________________________
-
 
 UserController.prototype.confirmEmail = function(token, username, callback) {
 	database.confirmEmail(token, username, function (err, data){
@@ -119,29 +111,34 @@ UserController.prototype.confirmEmail = function(token, username, callback) {
 //Change username
 UserController.prototype.changeUsername = function(username, newusername, password, callback) {
 	//Read user from db to check if password is correct
-	console.log("[DEBUG]: Username", username);
 	database.getUser(username, function (err, data){
 		if (err){
 			console.log("[ERROR] ", err);
+			callback(err);
 		} else {
 			//If no user with this username in db --> Should NOT happen!
 			if(!data){
-				err = "[ERR]User not found.";
-			}else if (passwordHash.verify(password, data.password)){
-				console.log("[INFO] Password correct.");
-				//change uusername only if password is correct
+				err = "User not found.";
+				callback(err);
+			//Check if password is correct
+			} else if (!passwordHash.verify(password, data.password)){
+				err = "Password is incorrect.";
+			//If password is correct: Try to change username
+				callback(err);
+			} else {
+				console.log("[INFO] Changing Username: Password correct.");
 				database.changeUsername(username, newusername, function (err, result){
 					if (err){
-						console.log("[ERROR] ", err);
+						if (err.message.substring(0, 12) === "ER_DUP_ENTRY"){
+							err = "Username already taken.";
+						}
+						console.log("[ERROR] Couldn't change username: ", err);
 					}
+					callback(err);
 				});
-			} else {
-				console.log("[ERROR] Password is incorrect.");
-				err = "Password is incorrect.";
 			}
 		}
-		callback(err);
-	});
+});
 
 };
 

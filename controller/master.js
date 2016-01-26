@@ -127,6 +127,7 @@ startup = function(){
 			if (loggedin){
 				sess = req.session.id; //stores session id if user is logged in
 				user = username; //stores username if user is logged in
+				console.log("[INFO] User logged in.");
 				console.log("[INFO] Session: ", sess);
 
 				//if user is logged in, username is written on dropdownmenu 
@@ -134,26 +135,23 @@ startup = function(){
 				res.render('index', {
 					layout: false, 
 					user: user, 
-					dropdowncontent:htmltags.loggedintag, 
-					feedback:"Login successful.",
+					dropdowncontent:htmltags.loggedintag,
 					headline: "You are logged in as " + user + "."
 				});
 				
 			//if user is not logged in, "Sign in" is written on dropdownmenu
 			//and dropdownmenu contains login form and register button
 			} else {
-				console.log("[DEBUG] Error: ", err);
+				console.log("[ERROR] User failed to log in: ", err);
 				res.render('index', {
 					layout: false, 
 					user: "Sign in", 
-					dropdowncontent:htmltags.signintag, 
-					feedback:"Error: " + err,
-					headline: "Error: " + err
+					dropdowncontent:htmltags.signintag,
+					headline: err
 				});
 			}
 		});
 	});
-
 
 
 //________________________________________________________
@@ -248,7 +246,6 @@ startup = function(){
 	});
 
 
-
 //________________________________________________________
 //
 // User Logout
@@ -262,7 +259,6 @@ startup = function(){
 		user = null;
 		res.redirect("/");
 	});
-
 
 
 //________________________________________________________
@@ -296,14 +292,9 @@ startup = function(){
 
 	app.post('/profile', function(req, res){
 		//If user is not logged in
-		if (!user){
+		if (req.session.id !== sess){
 			console.log("[INFO] User not logged in.");
-			res.render('index', {
-					layout: false, 
-					user: "Sign in", 
-					dropdowncontent:htmltags.signintag,
-					headline: "You are not logged in."
-			})
+			res.redirect('/');
 		//If user is logged in
 		} else {
 			console.log("[INFO] Profile of ", user);
@@ -312,8 +303,23 @@ startup = function(){
 					user: user, 
 					dropdowncontent:htmltags.loggedintag,
 					headline: "Your profile",
-					content1: htmltags.changeforms
-			})
+					content1: htmltags.changeUsernameForm + htmltags.changePasswordForm + htmltags.changeEmailForm + htmltags.deleteUserForm
+			});
+		}
+	});
+
+	app.get('/profile', function(req, res){
+		if(req.session.id != sess){
+			res.redirect('/');
+		} else {
+			console.log("[INFO] Profile of ", user);
+			res.render('index', {
+				layout: false, 
+				user: user, 
+				dropdowncontent:htmltags.loggedintag,
+				headline: "Your profile",
+				content1: htmltags.changeUsernameForm + htmltags.changePasswordForm + htmltags.changeEmailForm + htmltags.deleteUserForm
+			});
 		}
 	});
 
@@ -327,37 +333,22 @@ startup = function(){
 
 	//change username
 	app.post('/changeUsername', function(req, res){
-		var newusername = req.body.username;
+		var username = req.body.username;
+		var newusername = req.body.newusername;
 		var password = req.body.password;
 		//Input validation
 		if (!newusername || newusername.length < 4 || newusername.length > 20){
-			res.render('index', {
-				layout: false, 
-				user: user, 
-				dropdowncontent:htmltags.loggedintag,
-				headline: "ERROR: Username has to have between 4 and 20 characters."
-			});
+			res.send("Your username has to have between 4 and 20 characters.");
 		} else {
-			console.log("[DEBUG] Password: ", password);
 			handlerController = new UserController.UserController();
-			handlerController.changeUsername(user, newusername, password, function (err){
+			handlerController.changeUsername(username, newusername, password, function (err){
 				if (err){
-					console.log("[ERROR] ", err);
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag,
-						headline: "ERROR: "+ err
-					});
+					console.log("[ERROR] Couldn't change username: ", err);
+					res.end("Couldn't change username: " + err);
 				} else {
-					console.log("[INFO] Successfully changed user information.");
+					console.log("[INFO] Successfully changed username from ", user, " to ", newusername);
 					user = newusername;
-					res.render('index', {
-						layout: false, 
-						user: user, 
-						dropdowncontent:htmltags.loggedintag,
-						headline: "Username successfully changed!",
-					});
+					res.end("Successfully changed username.");
 				}
 			});
 		}

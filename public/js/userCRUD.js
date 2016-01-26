@@ -51,6 +51,9 @@ function changeUsername(){
 			if (xhttp.readyState == 4 && xhttp.status == 200){
 				document.getElementById("changeUsernameButton").disabled = false;
 				document.getElementById("changeUsernameFeedback").innerHTML = xhttp.responseText;
+				if (xhttp.responseText === "Successfully changed username."){
+					document.getElementById("dropdownuser").innerHTML = newusername;
+				}
 			}
 		}
 		xhttp.send(data);
