@@ -415,20 +415,13 @@ startup = function(){
 		handlerController = new UserController.UserController();
 		handlerController.delete(user, password, function(err){
 			if (err){
-				res.render('index', {
-					layout: false, 
-					user: user, 
-					dropdowncontent:htmltags.loggedintag,
-					headline: "ERROR " + err,
-				});
+				console.log("[ERROR] Couldn't delete account: ", err);
+				res.end("Couldn't delete account: " + err);
 			} else {
+				console.log("[INFO] Deleted account of ", user);
 				user = null;
-				res.render('index', {
-					layout: false, 
-					user: "Sign in", 
-					dropdowncontent:htmltags.signintag,
-					headline: "Account successfully deleted.",
-				});
+				sess = null;
+				res.end("Account successfully deleted.")
 			}
 		});
 	})
@@ -502,17 +495,20 @@ startup = function(){
 
 
 
+//________________________________________________________
+//
+// Redirects to home if user is not logged in
+//________________________________________________________
 
 
 
 	//Redirects to home if user is not logged in
 	function loggedIn(req, res, next){
-		if (user){
+		if (sess = req.session.id){
 			return next();
 		}
 		res.redirect('/');
 	}
-
 
 
 //________________________________________________________

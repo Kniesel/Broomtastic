@@ -222,26 +222,17 @@ UserController.prototype.changeEmail = function(username, password, email, callb
 
 UserController.prototype.delete = function(username, password, callback) {
 	database.getUser(username, function (err, data){
-		if (err){
-			console.log("[ERROR] Error performing query: ", err);
-		} else {
+		if (!err) {
 			//If no user with this username in db 
 			if (!data){ 
 				console.log("[INFO] No user with this username in db.");
 			//If user is in db --> check password
 			} else if (passwordHash.verify(password, data.password)){
-				console.log("[INFO] Password is correct.");
+				console.log("[INFO] Deleting user: Password is correct.");
 				database.deleteUser(username, function(err, data){
-					//If error while deleting user
-					if (err){
-						console.log("[ERROR] Error deleting user: ", err);
-					//User successfully deleted
-					} else {
-						console.log("User deleted");
-					}
 				});
 			} else { //If user is in db but password is incorrect
-				console.log("[INFO] Password is incorrect. :(");
+				console.log("[INFO] Deleting user: Password is incorrect. :(");
 				err = "Password is incorrect.";
 			}
 		}

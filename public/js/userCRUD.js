@@ -120,7 +120,7 @@ function changeEmail(){
 
 }
 
-//TODO not finished
+
 function deleteUser(){
 	var username = document.getElementById("dropdownuser").innerHTML;
 	var password = document.getElementById("deletePassword").value;
@@ -133,6 +133,13 @@ function deleteUser(){
 		var xhttp = new XMLHttpRequest();
 		xhttp.open("POST", "/deleteUser", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.onreadystatechange = function() {
+			document.getElementById("deleteButton").disabled = true;
+			if (xhttp.readyState == 4 && xhttp.status == 200){
+				document.getElementById("deleteFeedback").innerHTML = xhttp.responseText;
+				document.getElementById("deleteButton").disabled = false;
+			}
+		}
 		xhttp.send(data);
 	}
 
