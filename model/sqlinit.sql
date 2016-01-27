@@ -12,7 +12,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE products (
-	pk_productid SERIAL PRIMARY KEY,
+	pk_productid BIGINT UNSIGNED PRIMARY KEY,
 	productname VARCHAR(50) UNIQUE NOT NULL,
 	category VARCHAR (20) NOT NULL,
 	price INT NOT NULL
@@ -20,7 +20,7 @@ CREATE TABLE products (
 
 CREATE TABLE shoppingowl (
 	fk_username VARCHAR(20),
-	fk_productid SERIAL,
+	fk_productid BIGINT UNSIGNED,
 	quantity INT NOT NULL,
 	PRIMARY KEY (fk_username, fk_productid),
 	FOREIGN KEY (fk_username) REFERENCES users(pk_username)	ON DELETE CASCADE ON UPDATE CASCADE,
@@ -46,24 +46,24 @@ INSERT INTO users (pk_username, password, email) VALUES ("Sheld0r", "sha1$26281c
 
 
 
-INSERT INTO products (productname, category, price) VALUES ("Snitch", "Balls", 100);
-INSERT INTO products (productname, category, price) VALUES ("Quaffle", "Balls", 50);
-INSERT INTO products (productname, category, price) VALUES ("Bludger", "Balls", 70);
-INSERT INTO products (productname, category, price) VALUES ("Bludger (Set of two)", "Balls", 135);
-INSERT INTO products (productname, category, price) VALUES ("How to Quidditch", "Books", 42);
-INSERT INTO products (productname, category, price) VALUES ("Flying for dummies", "Books", 18);
-INSERT INTO products (productname, category, price) VALUES ("Quidditch in a nutshell", "Books", 120);
-INSERT INTO products (productname, category, price) VALUES ("Quidditch for dummies", "Books", 18);
-INSERT INTO products (productname, category, price) VALUES ("Quidditch through the ages", "Books", 20);
-INSERT INTO products (productname, category, price) VALUES ("Grey Gloves", "Clothing", 420);
-INSERT INTO products (productname, category, price) VALUES ("Shoes", "Clothing", 130);
-INSERT INTO products (productname, category, price) VALUES ("Black Gloves", "Clothing", 170);
-INSERT INTO products (productname, category, price) VALUES ("Golden Jacket", "Clothing", 90);
-INSERT INTO products (productname, category, price) VALUES ("Red Jacket", "Clothing", 90);
-INSERT INTO products (productname, category, price) VALUES ("Broomtastic 5000", "Brooms", 5000);
-INSERT INTO products (productname, category, price) VALUES ("Broomtastic Kids", "Brooms", 900);
-INSERT INTO products (productname, category, price) VALUES ("Broomtastic Senior", "Brooms", 900);
-INSERT INTO products (productname, category, price) VALUES ("Broomtastic Traveller", "Brooms", 1400);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (1, "Snitch", "Balls", 100);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (2, "Quaffle", "Balls", 50);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (3, "Bludger", "Balls", 70);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (4, "Bludger (Set of two)", "Balls", 135);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (5, "How to Quidditch", "Books", 42);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (6, "Flying for dummies", "Books", 18);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (7, "Quidditch in a nutshell", "Books", 120);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (8, "Quidditch for dummies", "Books", 18);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (9, "Quidditch through the ages", "Books", 20);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (10, "Grey Gloves", "Clothing", 420);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (11, "Shoes", "Clothing", 130);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (12, "Black Gloves", "Clothing", 170);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (13, "Golden Jacket", "Clothing", 90);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (14, "Red Jacket", "Clothing", 90);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (15, "Broomtastic 5000", "Brooms", 5000);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (16, "Broomtastic Kids", "Brooms", 900);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (17, "Broomtastic Senior", "Brooms", 900);
+INSERT INTO products (pk_productid, productname, category, price) VALUES (18, "Broomtastic Traveller", "Brooms", 1400);
 
 
 
