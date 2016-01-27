@@ -18,7 +18,6 @@ ShoppingowlController.prototype.addProduct = function(username, product, callbac
 				if (err){
 					//If product is already in shopping owl --> increase quantity
 					if (err.message.substring(0, 12) === "ER_DUP_ENTRY"){
-							console.log("[DEBUG] Katze Miau ", err);
 							err = null;
 							database.increaseQuantity(username, productid, function(err, result){
 							callback(err);
