@@ -52,6 +52,7 @@ function changeUsername(){
 				document.getElementById("changeUsernameFeedback").innerHTML = xhttp.responseText;
 				if (xhttp.responseText === "Successfully changed username."){
 					document.getElementById("dropdownuser").innerHTML = newusername;
+					document.getElementById("profilepageusername").innerHTML = newusername;
 				}
 				document.getElementById("changeUsernameButton").disabled = false;
 			}
