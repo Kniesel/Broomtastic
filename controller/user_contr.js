@@ -101,6 +101,23 @@ UserController.prototype.confirmEmail = function(token, username, callback) {
 };
 
 
+//____________________________________________________________
+//
+// FETCH EMAIL (can be seen on profile page) 
+//____________________________________________________________
+
+UserController.prototype.fetchEmail = function(username, callback) {
+	database.getUser(username, function (err, data){
+		if (err){
+			console.log("[ERROR] Couldn't fetch email address from database: ", err);
+		} else {
+			console.log("[INFO] Email address: ", data.email);
+		}
+		callback(err, data.email);
+	});
+};
+
+
 
 //____________________________________________________________
 //

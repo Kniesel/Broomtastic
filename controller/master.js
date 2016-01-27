@@ -304,13 +304,23 @@ startup = function(){
 			res.redirect('/');
 		//If user is logged in
 		} else {
-			console.log("[INFO] Profile of ", user);
-			res.render('index', {
-					layout: false, 
-					user: user, 
-					dropdowncontent:htmltags.loggedintag,
-					headline: "Your profile",
-					content1: htmltags.changeUsernameForm + htmltags.changePasswordForm + htmltags.changeEmailForm + htmltags.deleteUserForm
+			var email;
+			handlerController = new UserController.UserController();
+			handlerController.fetchEmail(user, function(err, email){
+				if (err){
+					email = "Couldn't fetch email address from databse.";
+				} else {
+					email = email;
+				}
+				console.log("[INFO] Profile of ", user);
+				res.render('index', {
+						layout: false, 
+						user: user, 
+						dropdowncontent:htmltags.loggedintag,
+						headline: "Your profile",
+						content1: "<hr><h2>" + user + " </h2><p class=\"title1\"> " + email + "</p><br><hr><br><br><br><br>",
+						content2: htmltags.changeUsernameForm + htmltags.changePasswordForm + htmltags.changeEmailForm + htmltags.deleteUserForm
+				});
 			});
 		}
 	});
