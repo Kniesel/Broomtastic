@@ -318,7 +318,7 @@ startup = function(){
 						user: user, 
 						dropdowncontent:htmltags.loggedintag,
 						headline: "Your profile",
-						content1: "<hr><h2 id=\"profilepageusername\">" + user + " </h2><p class=\"title1\"> " + email + "</p><br><hr><br><br><br><br>",
+						content1: "<hr><h2 id=\"profilepageusername\">" + user + " </h2><p class=\"title1\" id=\"profilepageemail\"> " + email + "</p><br><hr><br><br><br><br>",
 						content2: htmltags.changeUsernameForm + htmltags.changePasswordForm + htmltags.changeEmailForm + htmltags.deleteUserForm
 				});
 			});

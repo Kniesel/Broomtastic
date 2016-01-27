@@ -112,6 +112,9 @@ function changeEmail(){
 		xhttp.onreadystatechange = function() {
 			document.getElementById("changeEmailButton").disabled = true;
 			if (xhttp.readyState == 4 && xhttp.status == 200){
+				if (xhttp.responseText === "Email address successfully changed!<br><br>You have to confirm your new email address before you can log in again."){
+					document.getElementById("profilepageemail").innerHTML = email;
+				}
 				document.getElementById("changeEmailFeedback").innerHTML = xhttp.responseText;
 				document.getElementById("changeEmailButton").disabled = false;
 			}
